@@ -56,18 +56,32 @@ class EmbeddingService:
         # Updated for compatibility with different versions of the OpenAI SDK
         try:
             # On Render, remove any proxy settings that might be automatically added
-            # This avoids the 'proxies' parameter error
             openai_kwargs = {'api_key': api_key}
             
-            # Explicitly avoid using any proxy settings
-            # This is important for compatibility on different environments
-            if 'http_proxy' in os.environ:
-                logger.info("HTTP proxy detected in environment, but not using it for OpenAI client")
-            if 'https_proxy' in os.environ:
-                logger.info("HTTPS proxy detected in environment, but not using it for OpenAI client")
+            # Save original proxy environment variables if they exist
+            original_http_proxy = os.environ.pop('http_proxy', None)
+            original_https_proxy = os.environ.pop('https_proxy', None)
+            original_HTTP_PROXY = os.environ.pop('HTTP_PROXY', None)
+            original_HTTPS_PROXY = os.environ.pop('HTTPS_PROXY', None)
             
-            self.client = OpenAI(**openai_kwargs)
-            logger.info(f"Successfully initialized OpenAI client")
+            # Log proxy detection
+            if any([original_http_proxy, original_https_proxy, original_HTTP_PROXY, original_HTTPS_PROXY]):
+                logger.info("Proxy settings detected in environment. Temporarily removing for OpenAI client initialization.")
+            
+            try:
+                # Initialize without any proxy settings in environment
+                self.client = OpenAI(**openai_kwargs)
+                logger.info(f"Successfully initialized OpenAI client")
+            finally:
+                # Restore original proxy environment variables
+                if original_http_proxy:
+                    os.environ['http_proxy'] = original_http_proxy
+                if original_https_proxy:
+                    os.environ['https_proxy'] = original_https_proxy
+                if original_HTTP_PROXY:
+                    os.environ['HTTP_PROXY'] = original_HTTP_PROXY
+                if original_HTTPS_PROXY:
+                    os.environ['HTTPS_PROXY'] = original_HTTPS_PROXY
         except Exception as e:
             logger.error(f"Error initializing OpenAI client: {e}")
             raise
