@@ -42,8 +42,22 @@ if ALLOW_CORS:
         allow_headers=["*"],
     )
 
+# Log important startup information
+logger.info(f"Starting RAG API on {API_HOST}:{API_PORT}")
+logger.info(f"DEBUG mode: {DEBUG}")
+logger.info(f"CORS enabled: {ALLOW_CORS}, origins: {CORS_ORIGINS}")
+logger.info(f"Using vector DB type: {os.getenv('VECTOR_DB_TYPE', 'chroma')}")
+logger.info(f"Storage directories: Documents={DOCUMENTS_DIR}")
+
 # Initialize RAG agent
-rag_agent = RAGAgent()
+try:
+    rag_agent = RAGAgent()
+    logger.info("Successfully initialized RAG agent")
+except Exception as e:
+    logger.error(f"Failed to initialize RAG agent: {e}")
+    logger.exception("Detailed error:")
+    # We'll still define rag_agent to avoid NameErrors, but mark it as failed
+    rag_agent = None
 
 # Maximum file size: 50MB
 MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB in bytes
@@ -86,6 +100,13 @@ async def query(request: QueryRequest):
     """
     Process a query using the RAG system.
     """
+    # Check if RAG agent was successfully initialized
+    if rag_agent is None:
+        raise HTTPException(
+            status_code=503, 
+            detail="RAG system is not available. Check server logs for initialization errors."
+        )
+        
     try:
         answer = rag_agent.query(request.query, request.filters)
         return {"answer": answer}
@@ -104,6 +125,13 @@ async def upload_document(
     """
     Upload a document to the RAG system.
     """
+    # Check if RAG agent was successfully initialized
+    if rag_agent is None:
+        raise HTTPException(
+            status_code=503, 
+            detail="RAG system is not available. Check server logs for initialization errors."
+        )
+        
     try:
         # Check file size
         if file.size > MAX_FILE_SIZE:
@@ -174,6 +202,19 @@ async def monitor_system():
     
     Returns detailed status and metrics about all components.
     """
+    # Check if RAG agent was successfully initialized
+    if rag_agent is None:
+        return {
+            "status": "critical",
+            "components": {
+                "rag_agent": {
+                    "status": "failed",
+                    "error": "RAG agent failed to initialize. Check server logs."
+                }
+            },
+            "metrics": {}
+        }
+        
     try:
         # Check vector store statistics
         vector_store = rag_agent.retriever.vector_store
@@ -231,7 +272,42 @@ async def health_check():
     """
     Health check endpoint.
     """
-    return {"status": "ok", "version": "0.1.0"}
+    status = "ok"
+    message = "System is healthy"
+    details = {}
+    
+    # Check RAG agent status
+    if rag_agent is None:
+        status = "degraded"
+        message = "RAG agent failed to initialize"
+        details["rag_agent"] = "failed"
+    else:
+        details["rag_agent"] = "ok"
+    
+    # Check for environment variables
+    if not os.getenv("OPENAI_API_KEY"):
+        status = "degraded"
+        message = "OpenAI API key is missing"
+        details["openai_api"] = "missing key"
+    else:
+        details["openai_api"] = "configured"
+    
+    # Check data directories
+    if not os.path.exists(DOCUMENTS_DIR):
+        status = "degraded"
+        message = "Documents directory does not exist"
+        details["documents_dir"] = "missing"
+    else:
+        details["documents_dir"] = "ok"
+    
+    # Return the health status
+    return {
+        "status": status,
+        "message": message,
+        "version": "0.1.0",
+        "port": API_PORT,
+        "details": details
+    }
 
 
 # Additional error handling for deployment
@@ -247,10 +323,13 @@ async def generic_exception_handler(request: Request, exc: Exception):
 if __name__ == "__main__":
     import uvicorn
     
+    # Get port from environment (Render sets this) or use configured API_PORT
+    port = int(os.getenv("PORT", API_PORT))
+    
     uvicorn.run(
         "app.main:app",
         host=API_HOST,
-        port=API_PORT,
+        port=port,
         log_level="info",
         reload=DEBUG,
         workers=1,
