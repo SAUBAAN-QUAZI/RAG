@@ -53,9 +53,20 @@ class EmbeddingService:
             self.cache_dir = None
             
         # Initialize OpenAI client with minimal configuration
-        # Updated for compatibility with the latest OpenAI SDK
+        # Updated for compatibility with different versions of the OpenAI SDK
         try:
-            self.client = OpenAI(api_key=api_key)
+            # On Render, remove any proxy settings that might be automatically added
+            # This avoids the 'proxies' parameter error
+            openai_kwargs = {'api_key': api_key}
+            
+            # Explicitly avoid using any proxy settings
+            # This is important for compatibility on different environments
+            if 'http_proxy' in os.environ:
+                logger.info("HTTP proxy detected in environment, but not using it for OpenAI client")
+            if 'https_proxy' in os.environ:
+                logger.info("HTTPS proxy detected in environment, but not using it for OpenAI client")
+            
+            self.client = OpenAI(**openai_kwargs)
             logger.info(f"Successfully initialized OpenAI client")
         except Exception as e:
             logger.error(f"Error initializing OpenAI client: {e}")

@@ -50,8 +50,15 @@ class RAGAgent:
         self.temperature = temperature
         self.max_tokens = max_tokens
         
-        # Initialize OpenAI client
-        self.client = OpenAI(api_key=api_key)
+        # Initialize OpenAI client with compatibility for different environments
+        try:
+            # Use a simple initialization without any proxy settings
+            openai_kwargs = {'api_key': api_key}
+            self.client = OpenAI(**openai_kwargs)
+            logger.info(f"Successfully initialized OpenAI client for RAG agent")
+        except Exception as e:
+            logger.error(f"Error initializing OpenAI client in RAG agent: {e}")
+            raise
         
         logger.info(f"Initialized RAGAgent with model={model}, "
                    f"temperature={temperature}, max_tokens={max_tokens}")
