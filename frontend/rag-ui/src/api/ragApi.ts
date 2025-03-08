@@ -16,7 +16,7 @@ const api = axios.create({
  */
 export interface QueryRequest {
   query: string;
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
 }
 
 /**

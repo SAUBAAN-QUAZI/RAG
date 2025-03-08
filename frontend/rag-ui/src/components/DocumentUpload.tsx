@@ -120,23 +120,36 @@ const DocumentUpload: React.FC = () => {
       setTitle('');
       setAuthor('');
       setDescription('');
-    } catch (error: any) {
+    } catch (error) {
       console.error('Upload error:', error);
       
+      // Define proper error types
+      interface ServerError {
+        response?: {
+          data: unknown;
+          status: number;
+          headers: unknown;
+        };
+        request?: unknown;
+        message?: string;
+      }
+      
       // Enhanced error logging
-      if (error.response) {
+      const serverError = error as ServerError;
+      
+      if (serverError.response) {
         // The request was made and the server responded with a status code
-        console.error('Server response:', error.response.data);
-        console.error('Status code:', error.response.status);
-        console.error('Headers:', error.response.headers);
+        console.error('Server response:', serverError.response.data);
+        console.error('Status code:', serverError.response.status);
+        console.error('Headers:', serverError.response.headers);
         
         setMessage({
-          text: `Server error: ${error.response.status} - ${JSON.stringify(error.response.data)}`,
+          text: `Server error: ${serverError.response.status} - ${JSON.stringify(serverError.response.data)}`,
           type: 'error',
         });
-      } else if (error.request) {
+      } else if (serverError.request) {
         // The request was made but no response was received
-        console.error('No response received:', error.request);
+        console.error('No response received:', serverError.request);
         setMessage({
           text: 'No response received from server. The document may be too large or server is busy. Try a smaller file or try again later.',
           type: 'error',
@@ -144,7 +157,7 @@ const DocumentUpload: React.FC = () => {
       } else {
         // Something happened in setting up the request
         setMessage({
-          text: `Error: ${error.message || 'Failed to upload document'}`,
+          text: `Error: ${serverError.message || 'Failed to upload document'}`,
           type: 'error',
         });
       }
