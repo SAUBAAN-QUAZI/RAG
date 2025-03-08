@@ -52,8 +52,14 @@ class EmbeddingService:
             self.use_cache = False
             self.cache_dir = None
             
-        # Initialize OpenAI client
-        self.client = OpenAI(api_key=api_key)
+        # Initialize OpenAI client with minimal configuration
+        # Updated for compatibility with the latest OpenAI SDK
+        try:
+            self.client = OpenAI(api_key=api_key)
+            logger.info(f"Successfully initialized OpenAI client")
+        except Exception as e:
+            logger.error(f"Error initializing OpenAI client: {e}")
+            raise
         
         logger.info(f"Initialized EmbeddingService with model={model}, use_cache={use_cache}")
     
@@ -71,16 +77,20 @@ class EmbeddingService:
         if not texts:
             return []
 
-        response = self.client.embeddings.create(
-            input=texts,
-            model=self.model,
-        )
-        
-        # Extract embeddings from the response
-        embeddings = [data.embedding for data in response.data]
-        
-        logger.info(f"Generated {len(embeddings)} embeddings using {self.model}")
-        return embeddings
+        try:
+            response = self.client.embeddings.create(
+                input=texts,
+                model=self.model,
+            )
+            
+            # Extract embeddings from the response
+            embeddings = [data.embedding for data in response.data]
+            
+            logger.info(f"Generated {len(embeddings)} embeddings using {self.model}")
+            return embeddings
+        except Exception as e:
+            logger.error(f"Error generating embeddings: {e}")
+            raise
     
     def _get_cache_path(self, text_hash: str) -> Path:
         """

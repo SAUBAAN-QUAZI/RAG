@@ -7,7 +7,12 @@ This module coordinates embedding and search to retrieve relevant documents.
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 
-from rag.config import SIMILARITY_THRESHOLD, TOP_K_RESULTS, VECTORS_DIR
+from rag.config import (
+    SIMILARITY_THRESHOLD,
+    TOP_K_RESULTS,
+    VECTORS_DIR,
+    VECTOR_DB_TYPE
+)
 from rag.document_processing.document import DocumentChunk
 from rag.embedding.service import EmbeddingService
 from rag.utils import logger
@@ -22,7 +27,7 @@ class Retriever:
     def __init__(
         self,
         embedding_service: Optional[EmbeddingService] = None,
-        vector_store_type: str = "chroma",
+        vector_store_type: Optional[str] = None,
         collection_name: str = "rag_collection",
         persist_directory: Union[str, Path] = VECTORS_DIR,
         top_k: int = TOP_K_RESULTS,
@@ -33,7 +38,7 @@ class Retriever:
         
         Args:
             embedding_service: Service for generating embeddings
-            vector_store_type: Type of vector store to use
+            vector_store_type: Type of vector store to use (defaults to config VECTOR_DB_TYPE)
             collection_name: Name of the collection to use
             persist_directory: Directory to persist the vector store
             top_k: Number of results to return
@@ -44,6 +49,10 @@ class Retriever:
             self.embedding_service = EmbeddingService()
         else:
             self.embedding_service = embedding_service
+        
+        # Use config value if no vector_store_type provided    
+        vector_store_type = vector_store_type or VECTOR_DB_TYPE
+        logger.info(f"Initializing vector store of type: {vector_store_type}")
             
         # Create vector store
         self.vector_store = get_vector_store(
@@ -112,11 +121,17 @@ class Retriever:
             filter_dict=filter_dict,
         )
         
-        # Filter by similarity threshold
-        filtered_results = [
-            result for result in results
-            if result.get("similarity", 0) >= self.similarity_threshold
-        ]
+        # Always log the raw results for debugging
+        logger.info(f"Retrieved {len(results)} raw results from vector store")
+        
+        # DEBUGGING: Print out the first result's content preview if available
+        if results and len(results) > 0:
+            first_result = results[0]
+            content_preview = first_result.get("content", "")[:100] if first_result.get("content") else "No content"
+            logger.info(f"First result preview: {content_preview}...")
+        
+        # Skip similarity filtering - just use all results
+        filtered_results = results
         
         logger.info(f"Retrieved {len(filtered_results)} documents for query")
         return filtered_results
@@ -141,17 +156,40 @@ class Retriever:
         # Retrieve relevant chunks
         results = self.retrieve(query=query, top_k=top_k, filter_dict=filter_dict)
         
+        # Debug log the raw results
+        logger.info(f"Raw results count: {len(results)}")
+        for i, result in enumerate(results):
+            chunk_id = result.get("chunk_id", "unknown")
+            similarity = result.get("similarity", 0)
+            content_preview = result.get("content", "")[:50] if result.get("content") else "No content"
+            logger.info(f"Result {i+1}: chunk_id={chunk_id}, similarity={similarity:.4f}, preview={content_preview}...")
+        
+        # TEMPORARY FIX: Even if results are empty, create a fallback response
         if not results:
-            logger.warning("No relevant context found for query")
-            return ""
+            # Force a search with increased top_k and no filtering
+            logger.warning("No results found. Attempting broader search...")
+            # Search vector store directly with increased top_k
+            query_embedding = self.embedding_service.embed_query(query)
+            direct_results = self.vector_store.search(
+                query_embedding=query_embedding,
+                top_k=10,  # Increased from default
+                filter_dict=None,  # No filtering
+            )
+            
+            if direct_results:
+                logger.info(f"Direct search found {len(direct_results)} results")
+                results = direct_results
+            else:
+                logger.warning("No relevant context found for query even with broad search")
+                return ""
             
         # Format chunks with metadata
         formatted_chunks = []
         
         for i, result in enumerate(results):
-            content = result["content"]
-            metadata = result["metadata"]
-            similarity = result["similarity"]
+            content = result.get("content", "No content available")
+            metadata = result.get("metadata", {})
+            similarity = result.get("similarity", 0)
             
             # Include relevant metadata in context
             source = metadata.get("source", "Unknown")
@@ -171,5 +209,6 @@ class Retriever:
             
         # Combine chunks into a single context string
         context = "\n\n".join(formatted_chunks)
+        logger.info(f"Created context with {len(formatted_chunks)} chunks, total length: {len(context)} characters")
         
         return context 

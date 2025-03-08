@@ -125,31 +125,71 @@ class ChromaStore(VectorStore):
         Returns:
             List of dictionaries containing chunk information and similarity scores
         """
-        # Search collection
-        results = self.collection.query(
-            query_embeddings=[query_embedding],
-            n_results=top_k,
-            where=filter_dict,
-            include=["documents", "metadatas", "distances"],
-        )
-        
-        # Format results
-        formatted_results = []
-        
-        if not results["ids"] or not results["ids"][0]:
+        try:
+            # Log search parameters
+            logger.info(f"Searching vector store with top_k={top_k}, filters={filter_dict}")
+            
+            # Check if collection has any embeddings
+            collection_stats = self.get_collection_stats()
+            logger.info(f"Collection stats: {collection_stats}")
+            
+            # Ensure top_k is a reasonable value
+            if top_k <= 0:
+                top_k = 5
+                logger.warning(f"Invalid top_k value, using default: {top_k}")
+            
+            # DEBUGGING: Try a simple query first
+            try:
+                # Search collection with minimal parameters
+                simple_results = self.collection.query(
+                    query_embeddings=[query_embedding],
+                    n_results=top_k,
+                    include=["documents", "metadatas", "distances"],
+                )
+                
+                logger.info(f"Simple query returned: {len(simple_results.get('ids', [[]])[0])} results")
+                
+                # If simple query works but filter doesn't, the issue is with the filter
+                if filter_dict:
+                    logger.info(f"Testing filter validity: {filter_dict}")
+                
+                # Using the simple_results to proceed
+                results = simple_results
+            except Exception as e:
+                logger.exception(f"Error in simple query: {str(e)}")
+                return []
+            
+            # Format results
+            formatted_results = []
+            
+            if not results["ids"] or not results["ids"][0]:
+                logger.warning("Search returned no results")
+                return []
+            
+            # Log raw search results details
+            logger.info(f"Search returned {len(results['ids'][0])} matches")
+            if results['distances'] and results['distances'][0]:
+                logger.info(f"Distance range: min={min(results['distances'][0]):.4f}, max={max(results['distances'][0]):.4f}")
+                
+            for i, result_id in enumerate(results["ids"][0]):
+                # Convert distance to similarity score (1.0 = identical, 0.0 = completely different)
+                similarity = 1.0 - results["distances"][0][i]
+                
+                formatted_result = {
+                    "chunk_id": result_id,
+                    "content": results["documents"][0][i],
+                    "metadata": results["metadatas"][0][i],
+                    "similarity": similarity,
+                }
+                formatted_results.append(formatted_result)
+                
+            logger.info(f"Found {len(formatted_results)} results for query")
+            return formatted_results
+            
+        except Exception as e:
+            logger.exception(f"Error during vector search: {str(e)}")
+            # Return empty results in case of error
             return []
-            
-        for i, result_id in enumerate(results["ids"][0]):
-            formatted_result = {
-                "chunk_id": result_id,
-                "content": results["documents"][0][i],
-                "metadata": results["metadatas"][0][i],
-                "similarity": 1.0 - results["distances"][0][i],  # Convert distance to similarity
-            }
-            formatted_results.append(formatted_result)
-            
-        logger.info(f"Found {len(formatted_results)} results for query")
-        return formatted_results
     
     def save(self, file_path: str = None) -> None:
         """

@@ -74,8 +74,8 @@ class TokenTextSplitter(TextSplitter):
     
     def __init__(
         self,
-        chunk_size: int = CHUNK_SIZE,
-        chunk_overlap: int = CHUNK_OVERLAP,
+        chunk_size: Optional[int] = None,
+        chunk_overlap: Optional[int] = None,
         encoding_name: str = "cl100k_base",  # Default for GPT-4, GPT-3.5-Turbo
     ):
         """
@@ -86,9 +86,18 @@ class TokenTextSplitter(TextSplitter):
             chunk_overlap: Number of tokens to overlap between chunks
             encoding_name: Name of the tiktoken encoding to use
         """
-        self.chunk_size = chunk_size
-        self.chunk_overlap = chunk_overlap
+        # Use defaults from config if not specified
+        self.chunk_size = chunk_size if chunk_size is not None else CHUNK_SIZE
+        self.chunk_overlap = chunk_overlap if chunk_overlap is not None else CHUNK_OVERLAP
         self.encoding_name = encoding_name
+        
+        # Ensure chunk_size and chunk_overlap are valid
+        if self.chunk_size <= 0:
+            raise ValueError(f"chunk_size must be positive, got {self.chunk_size}")
+        if self.chunk_overlap < 0:
+            raise ValueError(f"chunk_overlap must be non-negative, got {self.chunk_overlap}")
+        if self.chunk_overlap >= self.chunk_size:
+            raise ValueError(f"chunk_overlap must be less than chunk_size, got {self.chunk_overlap} >= {self.chunk_size}")
         
         # Load the tokenizer
         try:
@@ -97,8 +106,8 @@ class TokenTextSplitter(TextSplitter):
             logger.error(f"Error loading tokenizer: {e}")
             raise
             
-        logger.info(f"Initialized TokenTextSplitter with chunk_size={chunk_size}, "
-                   f"chunk_overlap={chunk_overlap}, encoding={encoding_name}")
+        logger.info(f"Initialized TokenTextSplitter with chunk_size={self.chunk_size}, "
+                   f"chunk_overlap={self.chunk_overlap}, encoding={encoding_name}")
     
     def split_text(self, text: str) -> List[str]:
         """
@@ -113,6 +122,14 @@ class TokenTextSplitter(TextSplitter):
         if not text:
             return []
             
+        # Safety check - ensure chunk_size and chunk_overlap are integers
+        # This is a fallback in case the __init__ safeguards somehow failed
+        chunk_size = self.chunk_size if isinstance(self.chunk_size, int) else CHUNK_SIZE
+        chunk_overlap = self.chunk_overlap if isinstance(self.chunk_overlap, int) else CHUNK_OVERLAP
+        
+        # Extra logging to debug
+        logger.info(f"Using chunk_size={chunk_size}, chunk_overlap={chunk_overlap} for splitting")
+            
         # Encode the text
         tokens = self.tokenizer.encode(text)
         
@@ -121,7 +138,7 @@ class TokenTextSplitter(TextSplitter):
         i = 0
         while i < len(tokens):
             # Get chunk tokens
-            chunk_end = min(i + self.chunk_size, len(tokens))
+            chunk_end = min(i + chunk_size, len(tokens))
             chunk_tokens = tokens[i:chunk_end]
             
             # Decode chunk
@@ -129,7 +146,7 @@ class TokenTextSplitter(TextSplitter):
             chunks.append(chunk_text)
             
             # Move to next chunk, considering overlap
-            i += self.chunk_size - self.chunk_overlap
+            i += chunk_size - chunk_overlap
             
         logger.info(f"Split text into {len(chunks)} chunks")
         return chunks
@@ -145,8 +162,8 @@ class SentenceTextSplitter(TextSplitter):
     
     def __init__(
         self,
-        chunk_size: int = CHUNK_SIZE,
-        chunk_overlap: int = CHUNK_OVERLAP,
+        chunk_size: Optional[int] = None,
+        chunk_overlap: Optional[int] = None,
         encoding_name: str = "cl100k_base",
         separator: str = ".",
     ):
@@ -159,10 +176,19 @@ class SentenceTextSplitter(TextSplitter):
             encoding_name: Name of the tiktoken encoding to use
             separator: Sentence separator character
         """
-        self.chunk_size = chunk_size
-        self.chunk_overlap = chunk_overlap
+        # Use defaults from config if not specified
+        self.chunk_size = chunk_size if chunk_size is not None else CHUNK_SIZE
+        self.chunk_overlap = chunk_overlap if chunk_overlap is not None else CHUNK_OVERLAP
         self.encoding_name = encoding_name
         self.separator = separator
+        
+        # Ensure chunk_size and chunk_overlap are valid
+        if self.chunk_size <= 0:
+            raise ValueError(f"chunk_size must be positive, got {self.chunk_size}")
+        if self.chunk_overlap < 0:
+            raise ValueError(f"chunk_overlap must be non-negative, got {self.chunk_overlap}")
+        if self.chunk_overlap >= self.chunk_size:
+            raise ValueError(f"chunk_overlap must be less than chunk_size, got {self.chunk_overlap} >= {self.chunk_size}")
         
         # Load the tokenizer
         try:
@@ -171,8 +197,8 @@ class SentenceTextSplitter(TextSplitter):
             logger.error(f"Error loading tokenizer: {e}")
             raise
             
-        logger.info(f"Initialized SentenceTextSplitter with chunk_size={chunk_size}, "
-                   f"chunk_overlap={chunk_overlap}, encoding={encoding_name}")
+        logger.info(f"Initialized SentenceTextSplitter with chunk_size={self.chunk_size}, "
+                   f"chunk_overlap={self.chunk_overlap}, encoding={encoding_name}")
     
     def split_text(self, text: str) -> List[str]:
         """
@@ -186,6 +212,14 @@ class SentenceTextSplitter(TextSplitter):
         """
         if not text:
             return []
+            
+        # Safety check - ensure chunk_size and chunk_overlap are integers
+        # This is a fallback in case the __init__ safeguards somehow failed
+        chunk_size = self.chunk_size if isinstance(self.chunk_size, int) else CHUNK_SIZE
+        chunk_overlap = self.chunk_overlap if isinstance(self.chunk_overlap, int) else CHUNK_OVERLAP
+        
+        # Extra logging to debug
+        logger.info(f"Using chunk_size={chunk_size}, chunk_overlap={chunk_overlap} for splitting")
             
         # Split text into sentences
         sentences = [s.strip() + self.separator for s in text.split(self.separator) if s.strip()]
@@ -201,12 +235,12 @@ class SentenceTextSplitter(TextSplitter):
             sentence_token_count = len(sentence_tokens)
             
             # Check if adding this sentence would exceed chunk size
-            if current_token_count + sentence_token_count > self.chunk_size and current_chunk:
+            if current_token_count + sentence_token_count > chunk_size and current_chunk:
                 # Save current chunk
                 chunks.append("".join(current_chunk))
                 
                 # Start new chunk with overlap
-                if self.chunk_overlap > 0:
+                if chunk_overlap > 0:
                     # Calculate how many sentences to keep for overlap
                     overlap_token_count = 0
                     overlap_sentences = []
@@ -215,7 +249,7 @@ class SentenceTextSplitter(TextSplitter):
                         s_tokens = self.tokenizer.encode(s)
                         s_token_count = len(s_tokens)
                         
-                        if overlap_token_count + s_token_count <= self.chunk_overlap:
+                        if overlap_token_count + s_token_count <= chunk_overlap:
                             overlap_sentences.insert(0, s)
                             overlap_token_count += s_token_count
                         else:
@@ -242,8 +276,8 @@ class SentenceTextSplitter(TextSplitter):
 
 def get_text_splitter(
     splitter_type: str = "token",
-    chunk_size: int = CHUNK_SIZE,
-    chunk_overlap: int = CHUNK_OVERLAP,
+    chunk_size: Optional[int] = None,
+    chunk_overlap: Optional[int] = None,
 ) -> TextSplitter:
     """
     Get a text splitter instance.
@@ -259,6 +293,12 @@ def get_text_splitter(
     Raises:
         ValueError: If the splitter type is not supported
     """
+    # Use defaults from config if not specified
+    if chunk_size is None:
+        chunk_size = CHUNK_SIZE
+    if chunk_overlap is None:
+        chunk_overlap = CHUNK_OVERLAP
+
     if splitter_type == "token":
         return TokenTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     elif splitter_type == "sentence":

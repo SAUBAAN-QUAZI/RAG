@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 
-from rag.config import CHUNKS_DIR, DOCUMENTS_DIR
+from rag.config import CHUNKS_DIR, DOCUMENTS_DIR, CHUNK_SIZE, CHUNK_OVERLAP
 from rag.document_processing.document import Document, DocumentChunk
 from rag.document_processing.loaders import load_document
 from rag.document_processing.splitters import get_text_splitter
@@ -25,8 +25,8 @@ class DocumentProcessor:
         documents_dir: Union[str, Path] = DOCUMENTS_DIR,
         chunks_dir: Union[str, Path] = CHUNKS_DIR,
         splitter_type: str = "token",
-        chunk_size: int = None,
-        chunk_overlap: int = None,
+        chunk_size: Optional[int] = None,
+        chunk_overlap: Optional[int] = None,
     ):
         """
         Initialize a DocumentProcessor.
@@ -44,7 +44,13 @@ class DocumentProcessor:
         # Create directories if they don't exist
         self.documents_dir.mkdir(parents=True, exist_ok=True)
         self.chunks_dir.mkdir(parents=True, exist_ok=True)
-        
+
+        # Use configuration defaults if not specified
+        if chunk_size is None:
+            chunk_size = CHUNK_SIZE
+        if chunk_overlap is None:
+            chunk_overlap = CHUNK_OVERLAP
+            
         # Initialize text splitter
         self.text_splitter = get_text_splitter(
             splitter_type=splitter_type,
@@ -52,7 +58,7 @@ class DocumentProcessor:
             chunk_overlap=chunk_overlap,
         )
         
-        logger.info(f"Initialized DocumentProcessor with splitter_type={splitter_type}")
+        logger.info(f"Initialized DocumentProcessor with splitter_type={splitter_type}, chunk_size={chunk_size}, chunk_overlap={chunk_overlap}")
     
     def process_file(
         self,
@@ -172,8 +178,8 @@ class DocumentProcessor:
 def process_document(
     file_path: Union[str, Path],
     splitter_type: str = "token",
-    chunk_size: int = None,
-    chunk_overlap: int = None,
+    chunk_size: Optional[int] = None,
+    chunk_overlap: Optional[int] = None,
     save_results: bool = True,
     **metadata
 ) -> Dict[str, Union[Document, List[DocumentChunk]]]:
@@ -191,6 +197,12 @@ def process_document(
     Returns:
         Dict containing the processed document and chunks
     """
+    # Use configuration defaults if not specified
+    if chunk_size is None:
+        chunk_size = CHUNK_SIZE
+    if chunk_overlap is None:
+        chunk_overlap = CHUNK_OVERLAP
+        
     processor = DocumentProcessor(
         splitter_type=splitter_type,
         chunk_size=chunk_size,

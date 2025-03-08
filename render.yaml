@@ -1,0 +1,28 @@
+services:
+  # Backend service
+  - type: web
+    name: rag-backend
+    env: python
+    region: oregon # Choose the appropriate region
+    plan: free # Using free tier
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1
+    envVars:
+      - key: RENDER
+        value: true
+      - key: OPENAI_API_KEY
+        sync: false # This will be set manually through the Render dashboard
+      - key: STORAGE_ROOT
+        value: /tmp
+      - key: VECTOR_DB_TYPE
+        value: chroma # Keep using ChromaDB initially
+      - key: CHUNK_SIZE
+        value: 1000
+      - key: CHUNK_OVERLAP
+        value: 200
+      - key: EMBEDDING_MODEL
+        value: text-embedding-3-small
+      - key: ALLOW_CORS
+        value: true
+      - key: CORS_ORIGINS
+        value: "https://your-frontend-url.vercel.app,http://localhost:3000" 
