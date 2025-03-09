@@ -17,6 +17,7 @@ from openai import OpenAI
 from rag.config import EMBEDDING_MODEL, OPENAI_API_KEY
 from rag.document_processing.document import DocumentChunk
 from rag.utils import get_text_hash, logger, retry_with_exponential_backoff, save_json
+from rag.utils.openai_helper import create_openai_client
 
 
 class EmbeddingService:
@@ -55,33 +56,9 @@ class EmbeddingService:
         # Initialize OpenAI client with minimal configuration
         # Updated for compatibility with different versions of the OpenAI SDK
         try:
-            # On Render, remove any proxy settings that might be automatically added
-            openai_kwargs = {'api_key': api_key}
-            
-            # Save original proxy environment variables if they exist
-            original_http_proxy = os.environ.pop('http_proxy', None)
-            original_https_proxy = os.environ.pop('https_proxy', None)
-            original_HTTP_PROXY = os.environ.pop('HTTP_PROXY', None)
-            original_HTTPS_PROXY = os.environ.pop('HTTPS_PROXY', None)
-            
-            # Log proxy detection
-            if any([original_http_proxy, original_https_proxy, original_HTTP_PROXY, original_HTTPS_PROXY]):
-                logger.info("Proxy settings detected in environment. Temporarily removing for OpenAI client initialization.")
-            
-            try:
-                # Initialize without any proxy settings in environment
-                self.client = OpenAI(**openai_kwargs)
-                logger.info(f"Successfully initialized OpenAI client")
-            finally:
-                # Restore original proxy environment variables
-                if original_http_proxy:
-                    os.environ['http_proxy'] = original_http_proxy
-                if original_https_proxy:
-                    os.environ['https_proxy'] = original_https_proxy
-                if original_HTTP_PROXY:
-                    os.environ['HTTP_PROXY'] = original_HTTP_PROXY
-                if original_HTTPS_PROXY:
-                    os.environ['HTTPS_PROXY'] = original_HTTPS_PROXY
+            # Use our safe initialization helper
+            self.client = create_openai_client(api_key)
+            logger.info(f"Successfully initialized OpenAI client")
         except Exception as e:
             logger.error(f"Error initializing OpenAI client: {e}")
             raise

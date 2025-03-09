@@ -1,13 +1,8 @@
 """
-Utility Module (Legacy Import)
-----------------------------
-This file provides backward compatibility for imports from the old location.
-All new code should import from rag.utils.* directly.
+Utility Module
+-------------
+Common utility functions used across the RAG system.
 """
-
-# Re-export everything from the new module structure
-from rag.utils.utils import *
-from rag.utils.openai_helper import create_openai_client
 
 import hashlib
 import json
