@@ -254,14 +254,35 @@ class EmbeddingService:
         Returns:
             Dictionary mapping chunk IDs to embeddings
         """
-        texts = [chunk.content for chunk in chunks]
+        # Debug logging to track chunk IDs
         chunk_ids = [chunk.chunk_id for chunk in chunks]
+        logger.info(f"Embedding {len(chunks)} chunks with IDs: {chunk_ids[:3]}... (showing first 3)")
         
-        # Get embeddings
+        # Extract texts, preserving order to match with IDs
+        texts = [chunk.content for chunk in chunks]
+        
+        # Generate embeddings
+        logger.info(f"Generating embeddings for {len(texts)} texts")
         embeddings = self.get_embeddings(texts)
+        logger.info(f"Generated {len(embeddings)} embeddings")
         
-        # Map chunk IDs to embeddings
-        return dict(zip(chunk_ids, embeddings))
+        # Create ID to embedding mapping, with validation
+        id_to_embedding = {}
+        for i, (chunk_id, embedding) in enumerate(zip(chunk_ids, embeddings)):
+            if embedding is None:
+                logger.warning(f"No embedding generated for chunk {chunk_id} at position {i}")
+                continue
+            # Ensure chunk_id is a string
+            id_to_embedding[str(chunk_id)] = embedding
+            
+        logger.info(f"Created mapping for {len(id_to_embedding)}/{len(chunks)} chunks to embeddings")
+        
+        # Quick validation of mapping completeness
+        missing_ids = set(str(cid) for cid in chunk_ids) - set(id_to_embedding.keys())
+        if missing_ids:
+            logger.warning(f"Missing embeddings for {len(missing_ids)} chunks: {list(missing_ids)[:5]}...")
+            
+        return id_to_embedding
     
     def embed_query(self, query: str) -> List[float]:
         """
@@ -273,4 +294,16 @@ class EmbeddingService:
         Returns:
             Embedding vector
         """
-        return self.get_embedding(query) 
+        return self.get_embedding(query)
+        
+    def embed_text(self, text: str) -> List[float]:
+        """
+        Alias for get_embedding method for compatibility with cross-encoder.
+        
+        Args:
+            text: Text to embed
+            
+        Returns:
+            Embedding vector
+        """
+        return self.get_embedding(text) 

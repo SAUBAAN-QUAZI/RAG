@@ -1,0 +1,5 @@
+{
+  "collection_name": "test_collection_1741979581",
+  "vector_size": 3072,
+  "embedding_model": "text-embedding-3-large"
+}

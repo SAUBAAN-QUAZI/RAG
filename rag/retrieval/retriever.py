@@ -11,6 +11,8 @@ from collections import Counter
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import os
+import time
 
 from rag.config import (
     SIMILARITY_THRESHOLD,
@@ -305,30 +307,40 @@ class Retriever:
             
         logger.info(f"Adding {len(chunks)} chunks to retrieval system")
         
-        # Generate embeddings for chunks
-        embeddings = self.embedding_service.embed_chunks(chunks)
+        # Generate embeddings
+        chunk_embeddings = self.embedding_service.embed_chunks(chunks)
+        
+        # Debug mode: dump information about chunks and embeddings
+        if os.environ.get("RAG_DEBUG", "").lower() in ("1", "true", "yes"):
+            from rag.utils.utils import debug_chunk_embeddings
+            debug_dir = Path("data/debug") / f"retriever_debug_{int(time.time())}"
+            debug_chunk_embeddings(chunks, chunk_embeddings, debug_dir)
         
         # Add embeddings to vector store
-        self.vector_store.add_embeddings(embeddings, chunks)
-        
-        # Store chunks for keyword search if enabled
-        if self.enable_hybrid_search and self.keyword_searcher is not None:
-            # Convert chunks to dictionary format for keyword searcher
-            chunk_dicts = []
-            for chunk in chunks:
-                chunk_dict = {
-                    "content": chunk.content,
-                    "metadata": chunk.metadata,
-                    "chunk_id": chunk.metadata.get("chunk_id", str(uuid.uuid4()))
-                }
-                chunk_dicts.append(chunk_dict)
+        try:
+            logger.debug(f"Adding embeddings to vector store: {len(chunk_embeddings)} embeddings")
+            self.vector_store.add_embeddings(chunk_embeddings, chunks)
+        except Exception as e:
+            logger.error(f"Error adding embeddings to vector store: {str(e)}")
             
-            # Add to tracker for all chunks
-            self.all_chunks.extend(chunk_dicts)
-            
-            # Update keyword searcher
-            self.keyword_searcher.add_documents(self.all_chunks)
-        
+        # Add chunks to keyword searcher for hybrid search
+        if self.enable_hybrid_search:
+            try:
+                # Prepare documents for keyword search
+                documents = []
+                for chunk in chunks:
+                    doc = {
+                        "chunk_id": chunk.chunk_id,
+                        "content": chunk.content,
+                        "metadata": chunk.metadata
+                    }
+                    documents.append(doc)
+                    
+                self.keyword_searcher.add_documents(documents)
+                logger.info(f"Successfully added {len(documents)} documents to keyword searcher")
+            except Exception as e:
+                logger.error(f"Error adding documents to keyword searcher: {str(e)}")
+                
         logger.info(f"Added {len(chunks)} chunks to retrieval system")
     
     def retrieve(

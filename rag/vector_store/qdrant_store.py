@@ -43,7 +43,7 @@ class QdrantStore(VectorStore):
         url: Optional[str] = None,
         api_key: Optional[str] = None,
         local_path: Optional[Union[str, Path]] = None,  # Kept for compatibility
-        vector_size: int = 1536,  # Default for OpenAI embeddings
+        vector_size: Optional[int] = None,  # Now optional
         distance_metric: str = "Cosine",  # Cosine, Euclid, or Dot
         optimize_index: bool = True,
         search_params: Optional[Dict[str, Any]] = None,
@@ -56,15 +56,27 @@ class QdrantStore(VectorStore):
             url: URL of Qdrant service
             api_key: API key for Qdrant service
             local_path: Not used in cloud-only version
-            vector_size: Size of embedding vectors
+            vector_size: Size of embedding vectors (automatically determined if None)
             distance_metric: Distance metric for similarity calculation
             optimize_index: Whether to optimize the index for performance
             search_params: Optional parameters for search customization
         """
         self.collection_name = collection_name
-        self.vector_size = vector_size
         self.distance_metric = distance_metric
         self.optimize_index = optimize_index
+        
+        # Determine vector size based on the embedding model
+        self.embedding_model = EMBEDDING_MODEL
+        if vector_size is None:
+            # OpenAI's text-embedding-3-small has 1536 dimensions
+            # OpenAI's text-embedding-3-large has 3072 dimensions
+            if "large" in self.embedding_model:
+                self.vector_size = 3072
+            else:
+                self.vector_size = 1536
+            logger.info(f"Automatically set vector_size to {self.vector_size} based on model {self.embedding_model}")
+        else:
+            self.vector_size = vector_size
         
         # Default optimized search parameters
         self.default_search_params = {
@@ -133,48 +145,58 @@ class QdrantStore(VectorStore):
     
     def _string_id_to_uuid(self, string_id: str) -> str:
         """
-        Convert a string ID to a UUID for Qdrant compatibility.
+        Convert a string ID to a UUID format acceptable by Qdrant.
         
         Args:
-            string_id: String ID
+            string_id: String ID to convert
             
         Returns:
-            UUID string generated from the string ID
+            UUID string
         """
-        # Check if we already have this ID mapped
-        if string_id in self.id_mapping:
-            return self.id_mapping[string_id]
+        # Check if the string is already a valid UUID
+        try:
+            if isinstance(string_id, uuid.UUID):
+                return str(string_id)
+                
+            # If it's a string in UUID format, parse and return it
+            if len(string_id) == 36 and string_id.count('-') == 4:
+                parsed_uuid = uuid.UUID(string_id)
+                return str(parsed_uuid)
+        except (ValueError, AttributeError):
+            # Not a valid UUID, will generate a new one based on the string
+            pass
             
         # Generate a deterministic UUID from the string ID
-        try:
-            # Try to use the string as a UUID if it's already in that format
-            uuid_obj = uuid.UUID(string_id)
-            uuid_str = str(uuid_obj)
-        except ValueError:
-            # Otherwise, create a namespace UUID
-            # Use a fixed namespace and the string ID to generate a deterministic UUID
-            namespace = uuid.UUID('6ba7b810-9dad-11d1-80b4-00c04fd430c8')  # UUID namespace for URLs
-            uuid_str = str(uuid.uuid5(namespace, string_id))
-            
-        # Store the mapping
-        self.id_mapping[string_id] = uuid_str
-        return uuid_str
+        # This ensures we always get the same UUID for the same string ID
+        namespace = uuid.NAMESPACE_DNS
+        generated_uuid = uuid.uuid5(namespace, string_id)
+        
+        logger.debug(f"Converted string ID '{string_id}' to UUID '{generated_uuid}'")
+        return str(generated_uuid)
     
     def _uuid_to_string_id(self, uuid_str: str) -> Optional[str]:
         """
-        Convert a UUID back to the original string ID.
+        Retrieve the original string ID corresponding to a UUID.
         
         Args:
             uuid_str: UUID string
             
         Returns:
-            Original string ID or None if not found
+            Original string ID if found, else None
         """
-        # Search the mapping for the UUID
-        for string_id, mapped_uuid in self.id_mapping.items():
-            if mapped_uuid == uuid_str:
-                return string_id
-        return None
+        # First check our mapping
+        original_id = self.id_mapping.get(str(uuid_str))
+        if original_id:
+            return original_id
+            
+        # For backward compatibility, try to convert directly
+        # This will only work if the UUID was derived from a string ID
+        # using our deterministic approach
+        try:
+            return str(uuid_str)
+        except (ValueError, TypeError):
+            logger.warning(f"Failed to retrieve original ID for UUID {uuid_str}")
+            return None
     
     def _make_request(
         self,
@@ -401,42 +423,75 @@ class QdrantStore(VectorStore):
             embeddings: Dictionary mapping chunk IDs to embedding vectors
             chunks: List of document chunks
         """
-        if not embeddings or not chunks:
-            logger.warning("No embeddings or chunks to add")
+        if not embeddings:
+            logger.warning("No embeddings provided to add_embeddings")
+            return
+        
+        if not chunks:
+            logger.warning("No chunks provided to add_embeddings")
             return
             
-        logger.info(f"Adding {len(chunks)} embeddings to Qdrant collection")
+        # Debug: Log embedding keys and chunk IDs to identify mismatches
+        embedding_ids = list(embeddings.keys())
+        chunk_ids = [str(chunk.chunk_id) for chunk in chunks]
         
-        # Prepare points
+        logger.info(f"Adding {len(embeddings)} embeddings to Qdrant collection")
+        logger.debug(f"Embedding IDs (first 3): {embedding_ids[:3]}")
+        logger.debug(f"Chunk IDs (first 3): {chunk_ids[:3]}")
+        
+        # Create ID mapping for debugging
+        embedding_id_set = set(embedding_ids)
+        chunk_id_set = set(chunk_ids)
+        
+        missing_in_embeddings = chunk_id_set - embedding_id_set
+        if missing_in_embeddings:
+            logger.warning(f"Found {len(missing_in_embeddings)} chunks without corresponding embeddings")
+            logger.debug(f"Sample missing IDs: {list(missing_in_embeddings)[:5]}")
+        
+        # Build points with metadata
         points = []
+        added_count = 0
         
         for chunk in chunks:
-            # Get chunk ID
-            chunk_id = chunk.metadata.get("chunk_id", str(uuid.uuid4()))
+            # Ensure chunk_id is a string for consistent lookup
+            chunk_id_str = str(chunk.chunk_id)
             
-            # Skip if embedding not available
-            if chunk_id not in embeddings:
-                logger.warning(f"No embedding found for chunk {chunk_id}")
+            # Check if embedding exists for this chunk
+            if chunk_id_str not in embeddings:
+                logger.warning(f"No embedding found for chunk {chunk_id_str}")
                 continue
                 
-            # Convert string ID to UUID for Qdrant compatibility
-            qdrant_id = self._string_id_to_uuid(chunk_id)
+            # Get embedding for this chunk
+            embedding = embeddings[chunk_id_str]
             
-            # Store the original ID in metadata for retrieval
-            metadata = {**chunk.metadata, "original_id": chunk_id}
+            # Convert string ID to UUID for Qdrant
+            point_id = self._string_id_to_uuid(chunk_id_str)
             
-            # Prepare point
-            points.append({
-                "id": qdrant_id,
-                "vector": embeddings[chunk_id],
+            # Store UUID to original ID mapping for retrieval
+            self.id_mapping[str(point_id)] = chunk_id_str
+            
+            # Create point with payload
+            point = {
+                "id": point_id,
+                "vector": embedding,
                 "payload": {
+                    "chunk_id": chunk_id_str,
                     "content": chunk.content,
-                    **metadata,  # Include original ID in metadata
+                    "doc_id": chunk.metadata.get("doc_id", ""),
+                    "metadata": chunk.metadata
                 }
-            })
+            }
             
-        # Add to collection in batches with optimized batch size
+            points.append(point)
+            added_count += 1
+        
+        # Log the results
+        logger.info(f"Prepared {added_count} points for insertion to Qdrant")
+        
+        # Insert points in batches for better performance
         batch_size = 100  # Optimal batch size for performance
+        inserted_count = 0
+        
         for i in range(0, len(points), batch_size):
             batch = points[i:i + batch_size]
             try:
@@ -446,6 +501,7 @@ class QdrantStore(VectorStore):
                     data={"points": batch},
                     timeout=self.upload_timeout  # Use longer timeout for uploads
                 )
+                inserted_count += len(batch)
                 logger.info(f"Added batch of {len(batch)} points to Qdrant")
             except Exception as e:
                 logger.error(f"Error adding batch to Qdrant: {str(e)}")
@@ -464,7 +520,7 @@ class QdrantStore(VectorStore):
             except Exception as e:
                 logger.warning(f"Error optimizing index: {str(e)}")
             
-        logger.info(f"Added {len(points)} embeddings to Qdrant collection")
+        logger.info(f"Added {inserted_count} embeddings to Qdrant collection")
     
     def search(
         self,

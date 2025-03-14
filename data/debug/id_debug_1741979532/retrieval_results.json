@@ -1,0 +1,132 @@
+{
+  "query": "What is this document about?",
+  "result_count": 3,
+  "results": [
+    {
+      "chunk_id": "87b40be9-a199-5966-b1f7-561acf8a9d29",
+      "content": "arXiv:2501.09223v1  [cs.CL]  16 Jan 2025Foundations of\nLarge Language Models\nTong Xiao and Jingbo Zhu\nJanuary 17, 2025\nNLP Lab, Northeastern University & NiuTrans Research\n\nCopyright \u00a9 2021-2025 Tong Xiao and Jingbo Zhu\nNATURAL LANGUAGE PROCESSING LAB, NORTHEASTERN UNIVERSITY\n&\nNIUTRANS RESEARCH\nLicensed under the Creative Commons Attribution-NonComme rcial 4.0 Unported License (the\n\u201cLicense\u201d). You may not use this \ufb01le except in compliance wit h the License. You may ob-\ntain a copy of the License at http://creativecommons.org/licenses/by-nc/4.0 . Unless\nrequired by applicable law or agreed to in writing, software distributed under the License is dis-\ntributed on an \u201c AS IS \u201dBASIS ,WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND , either\nexpress or implied. See the License for the speci\ufb01c language governing permissions and limita-\ntions under the License.\nJanuary 17, 2025\n\nPreface\nLarge language models originated from natural language pro cessing, but they have undoubtedly\nbecome one of the most revolutionary technological advance ments in the \ufb01eld of arti\ufb01cial intelli-\ngence in recent years. An important insight brought by large language models is that knowledge\nof the world and languages can be acquired through large-sca le language modeling tasks, and\nin this way, we can create a universal model that handles dive rse problems. This discovery has\nprofoundly impacted the research methodologies in natural language processing and many related\ndisciplines. We have shifted from training specialized sys tems from scratch using a large amount\nof labeled data to a new paradigm of using large-scale pre-tr aining to obtain foundation models,\nwhich are then \ufb01ne-tuned, aligned, and prompted.\nThis book aims to outline the basic concepts of large languag e models and introduce the\nrelated techniques. As the title suggests, the book focuses more on the foundational aspects of\nlarge language models rather than providing comprehensive coverage of all cutting-edge methods.\nThe book consists of four chapters:\n\u2022 Chapter 1 introduces the basics of pre-training. This is th e foundation of large language\nmodels, and common pre-training methods and model architec tures will be discussed here.\n\u2022 Chapter 2 introduces generative models, which are the larg e language models we commonly\nrefer to today. After presenting the basic process of buildi ng these models, we will also\nexplore how to scale up model training and handle long texts.\n\u2022 Chapter 3 introduces prompting methods for large language models. We will discuss var-\nious prompting strategies, along with more advanced method s such as chain-of-thought\nreasoning and automatic prompt design.\n\u2022 Chapter 4 introduces alignment methods for large language models. This chapter focuses\non instruction \ufb01ne-tuning and alignment based on human feed back.\nIf readers have some background in machine learning and natu ral language processing, along\nwith a certain understanding of neural networks like Transf ormers, reading this book will be quite\neasy. However, even without this prior knowledge, it is stil l perfectly \ufb01ne, as we have made the\ncontent of each chapter as self-contained as possible, ensu ring that readers will not be burdened\nwith too much reading dif\ufb01culty.\nIn writing this book, we have gradually realized that it is mo re like a compilation of \"notes\" we\nhave taken while learning about large language models. Thro ugh this note-taking writing style, we\nhope to offer readers a \ufb02exible learning path. Whether they w ish to dive deep into a speci\ufb01c area\nor gain a comprehensive understanding of large language mod els, they will \ufb01nd the knowledge\nand insights they need within these \"notes\".\nWe would like to thank the students in our laboratory and all o ur friends who have shared\nwith us their views on large language models and helped with c orrections of errors in writing. In\nparticular, we wish to thank Weiqiao Shan, Yongyu Mu, Chengl ong Wang, Kaiyan Chang, Yuchun\nFan, Hang Zhou, Xinyu Liu, Huiwen Bao, Tong Zheng, Junhao Rua n, and Qing Yang.\nii\n\nNotation\navariable\narow vector or matrix\nf(a)function ofa\nmaxf(a)maximum value of f(a)\narg maxaf(a)value ofathat maximizes f(a)\nxinput token sequence to a model\nxjinput token at position j\nyoutput token sequence produced by a model\nyioutput token at position",
+      "metadata": {
+        "chunk_id": "ef61b505a78b1a55",
+        "doc_id": "14a707ea5ba52a62",
+        "metadata": {
+          "source": "C:\\Users\\sauba_xqr\\OneDrive\\Documents\\GitHub\\RAG\\LLM book.pdf",
+          "filename": "LLM book.pdf",
+          "file_type": "pdf",
+          "file_size": 2018896,
+          "file_size_mb": 1.93,
+          "file_hash": "8b8f659beda18f55ab82191bde2d0d8090ae73925b2c7ea3e8d9171857cc506a",
+          "creation_date": "2025-03-08T15:37:15.720779",
+          "modification_date": "2025-03-08T15:33:58.386863",
+          "processing_date": "2025-03-15T00:42:32.369283",
+          "Producer": "GPL Ghostscript 10.01.2",
+          "CreationDate": "D:20250116201348-05'00'",
+          "ModDate": "D:20250116201348-05'00'",
+          "Creator": "LaTeX with hyperref",
+          "Title": "",
+          "Subject": "",
+          "Author": "",
+          "Keywords": "",
+          "page_count": 231,
+          "page_size_sample": [
+            "595.0x842.0",
+            "595.0x842.0",
+            "595.0x842.0",
+            "595.0x842.0",
+            "595.0x842.0"
+          ],
+          "timestamp": "2025-03-15T00:42:32.371301",
+          "doc_id": "14a707ea5ba52a62",
+          "chunk_index": 0,
+          "total_chunks": 205
+        }
+      },
+      "similarity": 0.2829847757389065,
+      "source": "vector",
+      "reranked": true
+    },
+    {
+      "chunk_id": "b7e250e9-aab8-5912-a251-f62bc1301db3",
+      "content": "-\ning.\nWhat is the polarity of the text?\nPositive\nWhile it seems straightforward to use LLMs for classi\ufb01catio n problems, there are still issues\nthat have not been well addressed. For example, when dealing with a large number of categories,\nit remains challenging to effectively prompt LLMs. Note tha t if we face a very dif\ufb01cult classi\ufb01ca-\ntion problem and have a certain amount of labeled data, \ufb01ne-t uning LLMs or adopting \u201cBERT +\nclassi\ufb01er\u201d-like architectures is also desirable.\n3.1.4.2 Information Extraction\nMany NLP problems can be regarded as information extraction problems, involving the identi\ufb01-\ncation or extraction of speci\ufb01c pieces of information from u nstructured text. This information can\ninclude named entities, relationships, events, and other r elevant data points. The goal of infor-\nmation extraction is to transform raw data into a format that can be easily analyzed and used in\nvarious downstream applications.\nAs information extraction covers a wide range of problems, w e cannot discuss them all here.\nInstead, we start with the task of named entity recognition \u2014 a task that has long been a concern\nin NLP. Named entity recognition is a process that detects an d classi\ufb01es key information in text\ninto speci\ufb01c groups. These key pieces of information, known as named entities, typically include\nproper names and are categorized into distinct classes such as people, locations, organizations,\ndates, monetary values, and percentages. Consider \ufb01rst a si mple example of extracting person\nnames from a text3.\n3The text is from https://edition.cnn.com/travel\n\n3.1 General Prompt Design 109\nIdentifyallpersonnames intheprovided text.\nText:\nIs the UK really doing that badly or have travel trends shifte d, post-pandemic?\nFor Tom Jenkins, CEO of the European Tourism Organisation, i t\u2019s the latter. \u201cI\nthink the UK is doing perfectly well but we\u2019ll see more people going to Europe,\u201d\nhe says of 2024, adding that there\u2019s \u201callegedly a slight plat eau of American de-\nmand for the UK.\u201d\nThe person name identi\ufb01ed in the provided text is: Tom Jenkin s\nThen, we can extract all named entities.\nIdentifyandclassifyallnamed entitiesintheprovided textintocategories such\naspersonnames, locations, dates, andorganizations. Listeach entitywith itstype\nononeline.\nText:\nIs the UK really doing that badly or have travel trends shifte d, post-pandemic?\nFor Tom Jenkins, CEO of the European Tourism Organisation, i t\u2019s the latter. \u201cI\nthink the UK is doing perfectly well but we\u2019ll see more people going to Europe,\u201d\nhe says of 2024, adding that there\u2019s \u201callegedly a slight plat eau of American de-\nmand for the UK.\u201d\n1. Tom Jenkins - Person Name\n2. European Tourism Organisation - Organization\n3. UK - Location\n4. Europe - Location\n5. 2024 - Date\nGiven these identi\ufb01ed named entities, we can further proces s the text using other information\nextraction tasks. For example, we can identify the relation ships between these named entities (call\nitrelation extraction ). The corresponding prompt is shown as follows.\n\n110 Prompting\nGiven atextandalistofnamed entitiesidenti\ufb01edwithin it,analyze anddescribe\ntherelationships between these entities. Explain how each entityiscontextually\nrelated toothers.\nText:\nIs the UK really doing that badly or have travel trends shifte d, post-pandemic?\nFor Tom Jenkins, CEO of the European Tourism Organisation, i t\u2019s the latter. \u201cI\nthink the UK is doing perfectly well but we\u2019ll see more people going to Europe,\u201d\nhe says of 2024, adding that there\u2019s \u201callegedly a slight plat eau of American de-\nmand for the UK.\u201d\nNamed Entity:\nTom Jenkins, European Tourism Organisation, UK, Europe, 20 24\nTom Jenkins -European Tourism Organisation: Tom Jenkins istheCEO ofthe\nEuropean Tourism Organisation. This indicates aprofessional association where\nTom Jenkins likely hasasigni\ufb01cant roleindirecting theorganization\u2019s activities,\nespecially those related totourism inEurope.\n...\nIf LLMs have been \ufb01ne-tuned with instruction following for i nformation extraction tasks, it\nis relatively easy to perform various information extracti on tasks. For example, the following is a\nprompt template for information extraction.\nYouwillbeprovided with atext. Your taskisto{\u2217task-description \u2217}\nText: {",
+      "metadata": {
+        "chunk_id": "37fe7b390c24f771",
+        "doc_id": "14a707ea5ba52a62",
+        "metadata": {
+          "source": "C:\\Users\\sauba_xqr\\OneDrive\\Documents\\GitHub\\RAG\\LLM book.pdf",
+          "filename": "LLM book.pdf",
+          "file_type": "pdf",
+          "file_size": 2018896,
+          "file_size_mb": 1.93,
+          "file_hash": "8b8f659beda18f55ab82191bde2d0d8090ae73925b2c7ea3e8d9171857cc506a",
+          "creation_date": "2025-03-08T15:37:15.720779",
+          "modification_date": "2025-03-08T15:33:58.386863",
+          "processing_date": "2025-03-15T00:42:32.369283",
+          "Producer": "GPL Ghostscript 10.01.2",
+          "CreationDate": "D:20250116201348-05'00'",
+          "ModDate": "D:20250116201348-05'00'",
+          "Creator": "LaTeX with hyperref",
+          "Title": "",
+          "Subject": "",
+          "Author": "",
+          "Keywords": "",
+          "page_count": 231,
+          "page_size_sample": [
+            "595.0x842.0",
+            "595.0x842.0",
+            "595.0x842.0",
+            "595.0x842.0",
+            "595.0x842.0"
+          ],
+          "timestamp": "2025-03-15T00:42:32.371301",
+          "doc_id": "14a707ea5ba52a62",
+          "chunk_index": 92,
+          "total_chunks": 205
+        }
+      },
+      "similarity": 0.2632471288371554,
+      "source": "vector",
+      "reranked": true
+    },
+    {
+      "chunk_id": "c934a2ea-26a4-5b59-9526-6464a6d1e4a2",
+      "content": " it to follow this outline to complete the writing.\nIn computer science, decomposing complex problems is a comm only used strategy in software\nand hardware system design. A well-known example is the divi de-and-conquer paradigm, which\nis often used to design algorithms for computation problems that can be reduced to simpler, more\nmanageable problems. For example, consider a problem of det ermining whether a document\ndiscusses the risks of AI. We can instruct the LLM with the fol lowing prompt.\nYou are provided with a text. Please determine whether it dis cusses the risks of\nAI.\n{\u2217document \u2217}\nIf the document is long, the computation will be expensive. A lternatively, we can divide\nthe document into relatively short segments and perform the same task on each segment. These\nsegments can be processed in parallel to further reduce the c omputational cost. Next, we determine\n\n120 Prompting\nthe relevancy of each segment to the topic of AI risks. The \ufb01na l output is then generated using\nanother prompt.\nYour task is to determine whether a text discusses the risks o f AI. This text has\nbeen divided into segments, and you have obtained the releva ncy of each segment\nto the topic of AI risks. Based on this, please provide your \ufb01n al result.\nSegment 1: {\u2217relevancy-to-the-topic1 \u2217}\nSegment 2: {\u2217relevancy-to-the-topic2 \u2217}\nSegment 3: {\u2217relevancy-to-the-topic3 \u2217}\n...\nNow let us return to a more general discussion of problem deco mposition in prompting. While\nproblem decomposition can be applied to various NLP problem s, it has been more extensively\ndiscussed and tested in reasoning tasks recently. For compl ex reasoning tasks, we often need\na multi-step reasoning path to reach a correct conclusion. W e can use LLMs to achieve this in\nthree different ways. First, LLMs can directly reach the con clusion. In other words, they can\npredict without explicit reasoning processes, and there is a hidden and uninterpretable reasoning\nmechanism. Second, LLMs are prompted to generate a multi-st ep reasoning path that leads to the\nconclusion, like CoT. However, we run LLMs just once, and all intermediate steps in reasoning\nare generated in a single prediction. Third, we break down th e original problem into a number of\nsub-problems, which are either addressed in separate runs o f LLMs or tackled using other systems.\nHere we focus our attention on the third approach, which is cl osely related to problem decompo-\nsition. Note, however, that a more comprehensive discussio n could cover all these approaches,\nwhile the \ufb01rst two have been discussed to some extent in this c hapter.\nA general framework for problem decomposition involves two elements.\n\u2022Sub-problem Generation . This involves decomposing the input problem into a number o f\nsub-problems.\n\u2022Sub-problem Solving . This involves solving each sub-problem and deriving inter mediate\nand \ufb01nal conclusions through reasoning.\nThese two issues can be modeled in different ways, leading to various problem decomposition\nmethods. One approach is to treat them as separate steps in a t wo-step process. For example,\nconsider the blog writing task described at the beginning of this subsection. In the \ufb01rst step, we\ndecompose the entire problem into sub-problems all at once ( i.e., outline the blog). In the second\nstep, we solve the sub-problems either sequentially or in an other order (i.e., \ufb01ll in content for\neach section as needed). The \ufb01nal output of this process comb ines the results from solving each\nsub-problem. While this method is simple and straightforwa rd, it assumes that the problem is\ncompositional, making it more suitable for tasks like writi ng and code generation.\nHowever, many real-world problems require complex reasoni ng. One key characteristic of\nthese problems is that the reasoning steps may not be \ufb01xed. Th e reasoning path can vary for\ndifferent problems, and each step of reasoning may depend on the outcomes of prior steps. In\n\n3.2 Advanced Prompting Methods 121\nsuch cases, it is undesirable to use \ufb01xed sub-problem genera tion in advance. Instead, sub-problems\nshould be generated dynamically based on the input problem, and, if possible, generated on the\n\ufb02y during the reasoning process. This makes problem decompo sition more challenging compared\nwith designing divide-and-conquer algorithms. Ideally, w e would like to jointly design both the\nsystems for sub-problem generation and sub-problem solvin g. But",
+      "metadata": {
+        "chunk_id": "e452555ffdf2f0be",
+        "doc_id": "14a707ea5ba52a62",
+        "metadata": {
+          "source": "C:\\Users\\sauba_xqr\\OneDrive\\Documents\\GitHub\\RAG\\LLM book.pdf",
+          "filename": "LLM book.pdf",
+          "file_type": "pdf",
+          "file_size": 2018896,
+          "file_size_mb": 1.93,
+          "file_hash": "8b8f659beda18f55ab82191bde2d0d8090ae73925b2c7ea3e8d9171857cc506a",
+          "creation_date": "2025-03-08T15:37:15.720779",
+          "modification_date": "2025-03-08T15:33:58.386863",
+          "processing_date": "2025-03-15T00:42:32.369283",
+          "Producer": "GPL Ghostscript 10.01.2",
+          "CreationDate": "D:20250116201348-05'00'",
+          "ModDate": "D:20250116201348-05'00'",
+          "Creator": "LaTeX with hyperref",
+          "Title": "",
+          "Subject": "",
+          "Author": "",
+          "Keywords": "",
+          "page_count": 231,
+          "page_size_sample": [
+            "595.0x842.0",
+            "595.0x842.0",
+            "595.0x842.0",
+            "595.0x842.0",
+            "595.0x842.0"
+          ],
+          "timestamp": "2025-03-15T00:42:32.371301",
+          "doc_id": "14a707ea5ba52a62",
+          "chunk_index": 100,
+          "total_chunks": 205
+        }
+      },
+      "similarity": 0.2573294677577037,
+      "source": "vector",
+      "reranked": true
+    }
+  ]
+}
