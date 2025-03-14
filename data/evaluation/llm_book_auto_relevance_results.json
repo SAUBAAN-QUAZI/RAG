@@ -1,0 +1,160 @@
+{
+  "metrics": {
+    "precision": 0.5,
+    "recall": 1.0,
+    "f1": 0.6666666666666666,
+    "mrr": 1.0,
+    "ndcg": 1.0,
+    "latency": 0.786271333694458
+  },
+  "details": {
+    "per_query": {
+      "llm_definition query": {
+        "query": "What are large language models?",
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666,
+        "mrr": 1.0,
+        "ndcg": 1.0,
+        "latency": 0.6888327598571777,
+        "retrieved_ids": [
+          "72f80a0d0fe781a8",
+          "94fdcaccf6e4232e",
+          "86ebf89873b14c45",
+          "393d627c45da8706",
+          "01e5246396f56338",
+          "763b2f3380ad8dda",
+          "88035bb4a07f11ae",
+          "3eb0ec13b980aca6",
+          "81f6ca27534022fc",
+          "e944efc521b07286"
+        ],
+        "relevant_ids": [
+          "94fdcaccf6e4232e",
+          "86ebf89873b14c45",
+          "393d627c45da8706",
+          "01e5246396f56338",
+          "e944efc521b07286"
+        ],
+        "results_count": 10
+      },
+      "transformer_architecture query": {
+        "query": "How does the transformer architecture work?",
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666,
+        "mrr": 1.0,
+        "ndcg": 1.0,
+        "latency": 0.7180778980255127,
+        "retrieved_ids": [
+          "99df9d134f8a74ab",
+          "570656a5c1117373",
+          "45cfbd636699d0e7",
+          "1e0983597b61131c",
+          "0f5b1ae9206c1d0a",
+          "7e50577222aac10b",
+          "393d627c45da8706",
+          "cba032a57ada2df2",
+          "808ec4ed6117434d",
+          "410dad6170826ef7"
+        ],
+        "relevant_ids": [
+          "45cfbd636699d0e7",
+          "1e0983597b61131c",
+          "0f5b1ae9206c1d0a",
+          "7e50577222aac10b",
+          "cba032a57ada2df2"
+        ],
+        "results_count": 10
+      },
+      "llm_limitations query": {
+        "query": "What are the limitations of large language models?",
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666,
+        "mrr": 1.0,
+        "ndcg": 1.0,
+        "latency": 0.854623556137085,
+        "retrieved_ids": [
+          "2494b46ffd18db50",
+          "72f80a0d0fe781a8",
+          "94fdcaccf6e4232e",
+          "86ebf89873b14c45",
+          "393d627c45da8706",
+          "763b2f3380ad8dda",
+          "01e5246396f56338",
+          "88035bb4a07f11ae",
+          "81f6ca27534022fc",
+          "e944efc521b07286"
+        ],
+        "relevant_ids": [
+          "94fdcaccf6e4232e",
+          "86ebf89873b14c45",
+          "393d627c45da8706",
+          "763b2f3380ad8dda",
+          "e944efc521b07286"
+        ],
+        "results_count": 10
+      },
+      "attention_mechanism query": {
+        "query": "What is the attention mechanism in transformers?",
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666,
+        "mrr": 1.0,
+        "ndcg": 1.0,
+        "latency": 0.8171272277832031,
+        "retrieved_ids": [
+          "570656a5c1117373",
+          "45cfbd636699d0e7",
+          "0f5b1ae9206c1d0a",
+          "1e0983597b61131c",
+          "5737912b367745d7",
+          "7e50577222aac10b",
+          "328ea14a8bfea607",
+          "eef68698d6e2b7e9",
+          "a34dac1c314d6229",
+          "27a10ef37a61650d"
+        ],
+        "relevant_ids": [
+          "45cfbd636699d0e7",
+          "0f5b1ae9206c1d0a",
+          "1e0983597b61131c",
+          "7e50577222aac10b",
+          "a34dac1c314d6229"
+        ],
+        "results_count": 10
+      },
+      "llm_training query": {
+        "query": "How are large language models trained?",
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666,
+        "mrr": 1.0,
+        "ndcg": 1.0,
+        "latency": 0.8526952266693115,
+        "retrieved_ids": [
+          "72f80a0d0fe781a8",
+          "94fdcaccf6e4232e",
+          "98db8abcf5ce2d1d",
+          "86ebf89873b14c45",
+          "c6fd27f99b4727a7",
+          "393d627c45da8706",
+          "88035bb4a07f11ae",
+          "3eb0ec13b980aca6",
+          "81f6ca27534022fc",
+          "e944efc521b07286"
+        ],
+        "relevant_ids": [
+          "72f80a0d0fe781a8",
+          "94fdcaccf6e4232e",
+          "393d627c45da8706",
+          "3eb0ec13b980aca6",
+          "e944efc521b07286"
+        ],
+        "results_count": 10
+      }
+    }
+  },
+  "timestamp": "2025-03-14T14:05:57.949077"
+}

@@ -1,0 +1,89 @@
+{
+  "retrieval_cases": [
+    {
+      "query": "What are large language models?",
+      "relevant_chunk_ids": [],
+      "metadata_filters": null,
+      "description": "Basic LLM definition query"
+    },
+    {
+      "query": "How does the transformer architecture work?",
+      "relevant_chunk_ids": [],
+      "metadata_filters": null,
+      "description": "Transformer architecture explanation"
+    },
+    {
+      "query": "What is the attention mechanism?",
+      "relevant_chunk_ids": [],
+      "metadata_filters": null,
+      "description": "Attention mechanism explanation"
+    },
+    {
+      "query": "What are the applications of LLMs?",
+      "relevant_chunk_ids": [],
+      "metadata_filters": null,
+      "description": "LLM applications query"
+    },
+    {
+      "query": "What are the limitations of large language models?",
+      "relevant_chunk_ids": [],
+      "metadata_filters": null,
+      "description": "LLM limitations query"
+    },
+    {
+      "query": "How are LLMs trained?",
+      "relevant_chunk_ids": [],
+      "metadata_filters": null,
+      "description": "LLM training process"
+    },
+    {
+      "query": "What is prompt engineering?",
+      "relevant_chunk_ids": [],
+      "metadata_filters": null,
+      "description": "Prompt engineering query"
+    },
+    {
+      "query": "What is fine-tuning in the context of LLMs?",
+      "relevant_chunk_ids": [],
+      "metadata_filters": null,
+      "description": "Fine-tuning explanation"
+    },
+    {
+      "query": "What are embedding models?",
+      "relevant_chunk_ids": [],
+      "metadata_filters": null,
+      "description": "Embedding models explanation"
+    },
+    {
+      "query": "What is the difference between GPT-3 and GPT-4?",
+      "relevant_chunk_ids": [],
+      "metadata_filters": null,
+      "description": "GPT model comparison"
+    }
+  ],
+  "generation_cases": [],
+  "end_to_end_cases": [
+    {
+      "query": "What are large language models?",
+      "relevant_chunk_ids": [],
+      "expected_answer": "Large language models (LLMs) are advanced AI systems trained on vast amounts of text data that can generate human-like text, understand context, and perform various language tasks.",
+      "metadata_filters": null,
+      "description": "Basic LLM definition query"
+    },
+    {
+      "query": "How does the transformer architecture work?",
+      "relevant_chunk_ids": [],
+      "expected_answer": "The transformer architecture uses self-attention mechanisms to process input sequences in parallel, allowing it to capture long-range dependencies and relationships between words. It consists of encoder and decoder components with multiple layers of self-attention and feed-forward neural networks.",
+      "metadata_filters": null,
+      "description": "Transformer architecture explanation"
+    },
+    {
+      "query": "What are the limitations of large language models?",
+      "relevant_chunk_ids": [],
+      "expected_answer": "Limitations of LLMs include hallucinations (generating false information), lack of up-to-date knowledge beyond training data, potential biases from training data, high computational requirements, and difficulty with complex reasoning tasks.",
+      "metadata_filters": null,
+      "description": "LLM limitations query"
+    }
+  ],
+  "created_at": "2025-03-11T17:37:38.453787"
+}

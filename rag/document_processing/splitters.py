@@ -7,12 +7,19 @@ This module contains text splitters for dividing documents into chunks.
 import re
 from abc import ABC, abstractmethod
 from typing import Dict, List, Optional, Union
-
+import nltk
 import tiktoken
 
 from rag.config import CHUNK_SIZE, CHUNK_OVERLAP
 from rag.document_processing.document import Document, DocumentChunk
 from rag.utils import logger
+
+# Initialize NLTK resources if not already downloaded
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    logger.info("Downloading NLTK punkt tokenizer")
+    nltk.download('punkt', quiet=True)
 
 
 class TextSplitter(ABC):
@@ -274,6 +281,199 @@ class SentenceTextSplitter(TextSplitter):
         return chunks
 
 
+class SemanticTextSplitter(TextSplitter):
+    """
+    Split text into chunks based on semantic boundaries.
+    
+    This splitter tries to keep semantically related content together by
+    analyzing paragraph breaks, section headings, and content transitions.
+    It combines semantic understanding with token-based limits for better chunks.
+    """
+    
+    def __init__(
+        self,
+        chunk_size: Optional[int] = None,
+        chunk_overlap: Optional[int] = None,
+        encoding_name: str = "cl100k_base",
+        heading_pattern: str = r'^(#+\s+.*?|.*?\n[-=]+\n)',  # Markdown/RST-style headings
+        paragraph_break: str = "\n\n",
+    ):
+        """
+        Initialize a SemanticTextSplitter.
+        
+        Args:
+            chunk_size: Maximum number of tokens per chunk
+            chunk_overlap: Number of tokens to overlap between chunks
+            encoding_name: Name of the tiktoken encoding to use
+            heading_pattern: Regex pattern to identify section headings
+            paragraph_break: String that denotes paragraph breaks
+        """
+        # Use defaults from config if not specified
+        self.chunk_size = chunk_size if chunk_size is not None else CHUNK_SIZE
+        self.chunk_overlap = chunk_overlap if chunk_overlap is not None else CHUNK_OVERLAP
+        self.encoding_name = encoding_name
+        self.heading_pattern = re.compile(heading_pattern, re.MULTILINE)
+        self.paragraph_break = paragraph_break
+        
+        # Ensure chunk_size and chunk_overlap are valid
+        if self.chunk_size <= 0:
+            raise ValueError(f"chunk_size must be positive, got {self.chunk_size}")
+        if self.chunk_overlap < 0:
+            raise ValueError(f"chunk_overlap must be non-negative, got {self.chunk_overlap}")
+        if self.chunk_overlap >= self.chunk_size:
+            raise ValueError(f"chunk_overlap must be less than chunk_size, got {self.chunk_overlap} >= {self.chunk_size}")
+        
+        # Load tokenizer
+        try:
+            self.tokenizer = tiktoken.get_encoding(encoding_name)
+        except Exception as e:
+            logger.error(f"Error loading tokenizer: {e}")
+            raise
+            
+        logger.info(f"Initialized SemanticTextSplitter with chunk_size={self.chunk_size}, "
+                   f"chunk_overlap={self.chunk_overlap}, encoding={encoding_name}")
+    
+    def _find_section_boundaries(self, text: str) -> List[int]:
+        """
+        Find section boundaries based on headings and paragraph breaks.
+        
+        Args:
+            text: Text to analyze
+            
+        Returns:
+            List of section boundary indices
+        """
+        # Find all headings
+        heading_matches = list(self.heading_pattern.finditer(text))
+        heading_positions = [match.start() for match in heading_matches]
+        
+        # Find paragraph breaks
+        paragraph_positions = [m.start() for m in re.finditer(re.escape(self.paragraph_break), text)]
+        
+        # Combine and sort all boundary positions
+        boundaries = sorted(set([0] + heading_positions + paragraph_positions + [len(text)]))
+        return boundaries
+    
+    def split_text(self, text: str) -> List[str]:
+        """
+        Split text into chunks based on semantic boundaries.
+        
+        Args:
+            text: The text to split
+            
+        Returns:
+            List[str]: List of text chunks
+        """
+        if not text:
+            return []
+        
+        # Find section boundaries
+        boundaries = self._find_section_boundaries(text)
+        
+        # Split text into semantic sections
+        sections = []
+        for i in range(len(boundaries) - 1):
+            start = boundaries[i]
+            end = boundaries[i + 1]
+            section = text[start:end].strip()
+            if section:  # Skip empty sections
+                sections.append(section)
+        
+        # If no sections were found, fall back to simple paragraph splitting
+        if not sections:
+            sections = [p for p in text.split(self.paragraph_break) if p.strip()]
+            if not sections:
+                # Last resort: just return the whole text
+                return [text]
+        
+        # Process sections to respect token limits
+        chunks = []
+        current_chunk = []
+        current_chunk_tokens = 0
+        
+        for section in sections:
+            # Tokenize the section
+            section_tokens = self.tokenizer.encode(section)
+            section_token_count = len(section_tokens)
+            
+            # If section is too big on its own, recursively split it
+            if section_token_count > self.chunk_size:
+                # Use sentence tokenizer to break down large sections
+                sentences = nltk.sent_tokenize(section)
+                section_chunks = []
+                current_section_chunk = []
+                current_section_tokens = 0
+                
+                for sentence in sentences:
+                    sentence_tokens = self.tokenizer.encode(sentence)
+                    sentence_token_count = len(sentence_tokens)
+                    
+                    # If adding this sentence would exceed chunk size, start a new chunk
+                    if current_section_tokens + sentence_token_count > self.chunk_size and current_section_chunk:
+                        section_chunks.append(" ".join(current_section_chunk))
+                        current_section_chunk = [sentence]
+                        current_section_tokens = sentence_token_count
+                    else:
+                        current_section_chunk.append(sentence)
+                        current_section_tokens += sentence_token_count
+                
+                # Add the last section chunk if it has content
+                if current_section_chunk:
+                    section_chunks.append(" ".join(current_section_chunk))
+                
+                # Add these chunks to our result
+                chunks.extend(section_chunks)
+            
+            # If section fits in current chunk, add it
+            elif current_chunk_tokens + section_token_count <= self.chunk_size:
+                current_chunk.append(section)
+                current_chunk_tokens += section_token_count
+            
+            # Otherwise start a new chunk
+            else:
+                if current_chunk:
+                    chunks.append(self.paragraph_break.join(current_chunk))
+                current_chunk = [section]
+                current_chunk_tokens = section_token_count
+        
+        # Add the last chunk if it has content
+        if current_chunk:
+            chunks.append(self.paragraph_break.join(current_chunk))
+        
+        # Create overlap between chunks if specified
+        if self.chunk_overlap > 0 and len(chunks) > 1:
+            overlapped_chunks = []
+            
+            for i, chunk in enumerate(chunks):
+                if i == 0:
+                    # First chunk remains unchanged
+                    overlapped_chunks.append(chunk)
+                    continue
+                
+                # Get the end of the previous chunk for overlap
+                prev_chunk = chunks[i-1]
+                prev_tokens = self.tokenizer.encode(prev_chunk)
+                
+                if len(prev_tokens) <= self.chunk_overlap:
+                    # If previous chunk is smaller than overlap, just include all of it
+                    overlapped_chunks.append(f"{prev_chunk}{self.paragraph_break}{chunk}")
+                else:
+                    # Take the last chunk_overlap tokens from previous chunk
+                    overlap_tokens = prev_tokens[-self.chunk_overlap:]
+                    overlap_text = self.tokenizer.decode(overlap_tokens)
+                    
+                    # Add overlap to the beginning of current chunk
+                    if not chunk.startswith(overlap_text):
+                        overlapped_chunks.append(f"{overlap_text}{self.paragraph_break}{chunk}")
+                    else:
+                        overlapped_chunks.append(chunk)
+            
+            chunks = overlapped_chunks
+        
+        logger.info(f"Split text into {len(chunks)} semantic chunks")
+        return chunks
+
+
 def get_text_splitter(
     splitter_type: str = "token",
     chunk_size: Optional[int] = None,
@@ -283,7 +483,7 @@ def get_text_splitter(
     Get a text splitter instance.
     
     Args:
-        splitter_type: Type of splitter to use ('token' or 'sentence')
+        splitter_type: Type of splitter to use ('token', 'sentence', or 'semantic')
         chunk_size: Maximum number of tokens per chunk
         chunk_overlap: Number of tokens to overlap between chunks
         
@@ -303,5 +503,7 @@ def get_text_splitter(
         return TokenTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     elif splitter_type == "sentence":
         return SentenceTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+    elif splitter_type == "semantic":
+        return SemanticTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     else:
         raise ValueError(f"Unsupported splitter type: {splitter_type}") 

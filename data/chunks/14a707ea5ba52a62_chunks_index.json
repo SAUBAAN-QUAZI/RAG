@@ -1,0 +1,11 @@
+{
+  "doc_id": "14a707ea5ba52a62",
+  "total_chunks": 205,
+  "batch_count": 3,
+  "batch_size": 100,
+  "batches": [
+    "14a707ea5ba52a62_chunks_batch_0.json",
+    "14a707ea5ba52a62_chunks_batch_1.json",
+    "14a707ea5ba52a62_chunks_batch_2.json"
+  ]
+}

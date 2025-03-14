@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import config from '../config';
 
 // Create an axios instance with default config
@@ -10,6 +10,47 @@ const api = axios.create({
   // Add timeout to prevent hanging requests
   timeout: 30000, // 30 seconds
 });
+
+// Add request interceptor for logging
+api.interceptors.request.use(request => {
+  console.log(`API Request: ${request.method?.toUpperCase()} ${request.baseURL}${request.url}`);
+  return request;
+});
+
+// Add response interceptor for logging
+api.interceptors.response.use(
+  response => {
+    console.log(`API Response: ${response.status} ${response.statusText}`);
+    return response;
+  },
+  error => {
+    // Log the error details
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError;
+      
+      console.error('API Error:', {
+        message: axiosError.message,
+        code: axiosError.code,
+        status: axiosError.response?.status,
+        statusText: axiosError.response?.statusText,
+        url: axiosError.config?.url
+      });
+      
+      // Customize error message based on error type
+      if (!axiosError.response) {
+        error.message = 'Network error: Please check your connection and ensure the backend server is running.';
+      } else if (axiosError.response.status === 404) {
+        error.message = 'API endpoint not found. Please check the URL and server configuration.';
+      } else if (axiosError.response.status === 403) {
+        error.message = 'Access forbidden. You might need to authenticate or check permissions.';
+      } else if (axiosError.response.status >= 500) {
+        error.message = 'Server error. Please try again later or contact support.';
+      }
+    }
+    
+    return Promise.reject(error);
+  }
+);
 
 /**
  * Interface for query request
@@ -24,6 +65,24 @@ export interface QueryRequest {
  */
 export interface QueryResponse {
   answer: string;
+}
+
+/**
+ * Utility function to retry API calls
+ * @param fn Function to retry
+ * @param retries Number of retries
+ * @param delay Delay between retries in ms
+ */
+async function withRetry<T>(fn: () => Promise<T>, retries = 2, delay = 1000): Promise<T> {
+  try {
+    return await fn();
+  } catch (error) {
+    if (retries <= 0) throw error;
+    
+    console.log(`Retrying in ${delay}ms... (${retries} attempts left)`);
+    await new Promise(resolve => setTimeout(resolve, delay));
+    return withRetry(fn, retries - 1, delay * 1.5);
+  }
 }
 
 /**
@@ -55,63 +114,71 @@ export const ragApi = {
     file: File,
     metadata?: { title?: string; author?: string; description?: string }
   ): Promise<{ message: string }> {
-    // Create a FormData object
     const formData = new FormData();
-    
-    // Add the file to the form data
     formData.append('file', file);
-
-    // Add metadata if provided
+    
     if (metadata?.title) {
       formData.append('title', metadata.title);
     }
+    
     if (metadata?.author) {
       formData.append('author', metadata.author);
     }
+    
     if (metadata?.description) {
       formData.append('description', metadata.description);
     }
-
+    
     try {
-      // Log some debug information
-      console.log('Uploading file:', file.name, file.size, file.type);
-      console.log('API URL:', config.apiUrl);
-      
-      // Calculate a reasonable timeout based on file size
-      // Larger files need more time for processing
-      const fileSize = file.size;
-      const timeoutPerMB = 60000; // 60 seconds per MB
-      const baseTimeout = 30000; // 30 seconds base timeout
-      const calculatedTimeout = Math.max(
-        baseTimeout,
-        Math.min(300000, Math.ceil(fileSize / (1024 * 1024)) * timeoutPerMB) // Cap at 5 minutes
-      );
-      
-      console.log(`Setting timeout to ${calculatedTimeout}ms based on file size ${(fileSize / (1024 * 1024)).toFixed(2)}MB`);
-      
-      // Make the request with multipart/form-data
-      const response = await axios.post(`${config.apiUrl}/documents`, formData, {
+      const response = await api.post('/documents', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-        },
-        // Use dynamic timeout based on file size
-        timeout: calculatedTimeout,
-        // Add progress tracking
-        onUploadProgress: (progressEvent) => {
-          const percentCompleted = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1));
-          console.log(`Upload progress: ${percentCompleted}%`);
         },
       });
       
       return response.data;
     } catch (error) {
-      console.error('Upload error:', error);
+      console.error('Error uploading document:', error);
+      throw error;
+    }
+  },
+  
+  async uploadMultipleDocuments(
+    files: File[],
+    metadata?: { titlePrefix?: string; author?: string; description?: string }
+  ): Promise<{ message: string; successful_count: number; failed_count: number; results: any[] }> {
+    const formData = new FormData();
+    
+    // Append all files
+    for (const file of files) {
+      formData.append('files', file);
+    }
+    
+    // Add metadata
+    if (metadata?.titlePrefix) {
+      formData.append('title_prefix', metadata.titlePrefix);
+    }
+    
+    if (metadata?.author) {
+      formData.append('author', metadata.author);
+    }
+    
+    if (metadata?.description) {
+      formData.append('description', metadata.description);
+    }
+    
+    try {
+      const response = await api.post('/documents/batch', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        // Increase timeout for large batch uploads
+        timeout: 300000, // 5 minutes
+      });
       
-      // Add specific error handling for timeouts
-      if (axios.isAxiosError(error) && error.code === 'ECONNABORTED') {
-        throw new Error('Upload timed out. The document may be too large or server processing took too long. Try with a smaller document or try again later.');
-      }
-      
+      return response.data;
+    } catch (error) {
+      console.error('Error uploading multiple documents:', error);
       throw error;
     }
   },
@@ -122,8 +189,13 @@ export const ragApi = {
    */
   async checkHealth(): Promise<{ message: string }> {
     try {
-      const response = await api.get<{ message: string }>('/');
-      return response.data;
+      // Use withRetry to automatically retry on network errors
+      return await withRetry(async () => {
+        console.log('Checking API health...');
+        const response = await api.get<{ message: string }>('/health');
+        console.log('API health check successful');
+        return response.data;
+      }, 2, 1000);
     } catch (error) {
       console.error('Health check error:', error);
       throw error;

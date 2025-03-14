@@ -3,7 +3,11 @@
  */
 const config = {
   // API URL - Uses environment variable or falls back to localhost for development
-  apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
+  apiUrl: (() => {
+    const configuredUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    console.log(`Using API URL: ${configuredUrl}`);
+    return configuredUrl;
+  })(),
   
   // Default configuration for document processing
   defaultChunkSize: 1000,

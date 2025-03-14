@@ -1,0 +1,77 @@
+{
+  "config": {
+    "name": "baseline",
+    "splitter_type": "token",
+    "chunk_size": 1000,
+    "chunk_overlap": 200,
+    "enable_hybrid_search": false,
+    "enable_reranking": false,
+    "description": "Baseline configuration with token splitter and basic vector search"
+  },
+  "document_id": "2efaccdfb6ce9728",
+  "num_chunks": 206,
+  "avg_retrieval_time": 1.1081696510314942,
+  "query_results": [
+    {
+      "query": "What are the key components of a transformer architecture?",
+      "time_seconds": 1.3114280700683594,
+      "num_results": 0,
+      "results": []
+    },
+    {
+      "query": "How do large language models handle context?",
+      "time_seconds": 1.0562520027160645,
+      "num_results": 0,
+      "results": []
+    },
+    {
+      "query": "What are the limitations of current large language models?",
+      "time_seconds": 1.0268044471740723,
+      "num_results": 0,
+      "results": []
+    },
+    {
+      "query": "Explain the attention mechanism in transformers",
+      "time_seconds": 1.2981622219085693,
+      "num_results": 0,
+      "results": []
+    },
+    {
+      "query": "How does fine-tuning improve LLM performance?",
+      "time_seconds": 1.191685676574707,
+      "num_results": 0,
+      "results": []
+    },
+    {
+      "query": "What is the role of tokenization in large language models?",
+      "time_seconds": 1.163320541381836,
+      "num_results": 0,
+      "results": []
+    },
+    {
+      "query": "How do prompt engineering techniques work?",
+      "time_seconds": 0.9893722534179688,
+      "num_results": 0,
+      "results": []
+    },
+    {
+      "query": "What are embeddings and how are they used in LLMs?",
+      "time_seconds": 1.0012426376342773,
+      "num_results": 0,
+      "results": []
+    },
+    {
+      "query": "Explain the concept of zero-shot learning in language models",
+      "time_seconds": 1.040524959564209,
+      "num_results": 0,
+      "results": []
+    },
+    {
+      "query": "What ethical concerns are associated with large language models?",
+      "time_seconds": 1.002903699874878,
+      "num_results": 0,
+      "results": []
+    }
+  ],
+  "timestamp": 1741944359.5830512
+}

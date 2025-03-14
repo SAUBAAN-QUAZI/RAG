@@ -1,0 +1,1141 @@
+Document ID: 2efaccdfb6ce9728
+Total chunks: 141
+Splitter type: semantic
+Chunk size: 1500
+Chunk overlap: 300
+
+Chunk 1:
+Token count: 793
+Character count: 4988
+Content preview: --- Page 1 ---
+
+arXiv:2501.09223v1  [cs.CL]  16 Jan 2025Foundations of
+Large Language Models
+Tong Xiao and Jingbo Zhu
+January 17, 2025
+NLP Lab, Northeastern University & NiuTrans Research
+
+--- Page 2 ...
+
+Chunk 2:
+Token count: 1159
+Character count: 3780
+Content preview:  thank Weiqiao Shan, Yongyu Mu, Chengl ong Wang, Kaiyan Chang, Yuchun
+Fan, Hang Zhou, Xinyu Liu, Huiwen Bao, Tong Zheng, Junhao Rua n, and Qing Yang.
+ii
+
+--- Page 4 ---
+
+Notation
+avariable
+arow vector...
+
+Chunk 3:
+Token count: 1466
+Character count: 3982
+Content preview:  . . . . . . . . . . . . . . . . . . . . . . . . 58
+2.2.3 Distributed Training . . . . . . . . . . . . . . . . . . . . . . . . . . . . 60
+2.2.4 Scaling Laws . . . . . . . . . . . . . . . . . . . . . ....
+
+Chunk 4:
+Token count: 806
+Character count: 4215
+Content preview:  . . . . . . . . . . . . . . . . . . . . . . . . 182
+4.4 Improved Human Preference Alignment . . . . . . . . . . . . . . . . . . . . . . 187
+4.4.1 Better Reward Modeling . . . . . . . . . . . . . . . ...
+
+Chunk 5:
+Token count: 728
+Character count: 4496
+Content preview:  structure,
+though they are not explicitly trained to achieve this. The g enerality of the pre-training tasks
+leads to systems that exhibit strong performance in a large v ariety of NLP problems, even...
+
+Chunk 6:
+Token count: 816
+Character count: 5064
+Content preview:  obtain. This reduces the
+reliance on task-speciﬁc labeled data, enabling the develo pment of more general models that are
+not conﬁned to particular problems.
+During the resurgence of neural networks ...
+
+Chunk 7:
+Token count: 1067
+Character count: 6908
+Content preview:  model for annotating the dat a. Instead, all the supervision sig-
+nals are created from the text, and the entire model is traine d from scratch. A well-known example
+of this is training sequence mode...
+
+Chunk 8:
+Token count: 1097
+Character count: 6666
+Content preview: F˜ω,˜θ(xnew) =[
+Pr(positive |xnew) Pr(negative |xnew) Pr(neutral |xnew)]
+(1.4)
+And we select the label of the entry with the maximum value as o utput. In this example it is
+positive .
+In general, the ...
+
+Chunk 9:
+Token count: 894
+Character count: 5525
+Content preview: . ,
+2018 ]. For example, we can use a Transformer decoder as a language model by simply removing
+cross-attention sub-layers from it. Such a model predicts t he distribution of tokens at a position
+giv...
+
+Chunk 10:
+Token count: 603
+Character count: 3644
+Content preview:  distribution of predicting the next word. T his follows an auto-regressive decoding
+process: a language model only observes the words up to posit ioniand predicts the next. By
+contrast, in encoder pr...
+
+Chunk 11:
+Token count: 949
+Character count: 6003
+Content preview:  positionkgiven the corrupted input
+x, and pW,θ
+kis the probability distribution at position kgiven the corrupted input x. To illustrate,
+consider the above example where two tokens of the sequence “ ...
+
+Chunk 12:
+Token count: 863
+Character count: 5062
+Content preview:  B=
+’I need an umbrella . ’ . The input sequence of the encoder could be
+[CLS] It is raining . [SEP] I need an umbrella . [SEP]
+where [CLS] is the start symbol (i.e., x0) which is commonly used in enc...
+
+Chunk 13:
+Token count: 1164
+Character count: 7133
+Content preview: small masked language model)
+↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
+replaced: [CLS] The boy spent decades working on toys .
+Then, we use the discriminator to label each of these tokens a sorginal orreplaced , as follows
+r...
+
+Chunk 14:
+Token count: 939
+Character count: 5765
+Content preview:  
+Preﬁx→ ⟨s⟩outside the house .
+Subsequent Sequence
+We can directly train an encoder-decoder model using exampl es like this. Then, the encoder learns
+to understand the preﬁx, and the decoder l...
+
+Chunk 15:
+Token count: 983
+Character count: 5981
+Content preview:  for the masked tokens, while th e remaining tokens in the sequence can be simply treated
+as[MASK] tokens. In denoising autoencoding, the decoder predicts th e sequence of all tokens in an autoregress...
+
+Chunk 16:
+Token count: 1113
+Character count: 7168
+Content preview:  is the ﬁrst token. For example, suppose we select the token leads from
+the above sequence. The rotated sequence is
+leads to success . Success brings happiness . Hard work Hard workselected
+where the ...
+
+Chunk 17:
+Token count: 832
+Character count: 4821
+Content preview:  and denoising autoencoding .[C] = [CLS] ,[M] = [MASK] ,[X],[Y] =
+sentinel tokens . Enc, Dec and E-D indicate whether the approach can be applie d to encoder-only, decoder-only,
+encoder-decoder models...
+
+Chunk 18:
+Token count: 909
+Character count: 5413
+Content preview:  e4 e5 e6 e7 e8 e9 e10 e11h0 h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11training I an umbrella
+Transformer Encoder
+Fig. 1.5: A running example of BERT-style masked language modeling. F irst,15% tokens are rand...
+
+Chunk 19:
+Token count: 807
+Character count: 4898
+Content preview: Transformer encoder). The i nput tokens are ﬁrst represented as embed-
+dings, each of which is the sum of the corresponding token emb edding, positional embedding and segment embedding.
+Then, the embe...
+
+Chunk 20:
+Token count: 842
+Character count: 5143
+Content preview: s
+work and Xiao and Zhu [2023 ]’s work. However, a deeper discussion of this general topic is
+beyond the scope of our current discussion. Here we instead c onsider a few efﬁcient variants of
+BERT.
+Sev...
+
+Chunk 21:
+Token count: 1079
+Character count: 6697
+Content preview:  representations
+of tokens from different languages are mapped into the same s pace, allowing for the sharing of
+knowledge across languages via this universal representat ion model.
+One important appl...
+
+Chunk 22:
+Token count: 910
+Character count: 5603
+Content preview:  Applying BERT Models
+Once a BERT model is pre-trained, it can then be used to solve N LP problems. But BERT models
+are not immediately ready for performing speciﬁc downstrea m tasks. In general, addi...
+
+Chunk 23:
+Token count: 889
+Character count: 5358
+Content preview:  to compute the similarity be tween two given sentences.
+The architecture is the same as that of BERT-based classiﬁca tion systems, with only the
+change of the output layer.
+[CLS]x1x2...xm[SEP]y1y2......
+
+Chunk 24:
+Token count: 694
+Character count: 4193
+Content preview:  t he architecture of a neural
+machine translation system where a BERT model is applied on t he source side.
+[CLS]x1...xm[SEP]
+Source Textex
+cls ex
+1... ex
+mex
+m+1BERT (Encoder)Adapter
+⟨s⟩y1y2...yn−1e...
+
+Chunk 25:
+Token count: 833
+Character count: 5130
+Content preview: abeled data. For example, a langua ge model can learn some general
+knowledge of a language by repeatedly predicting masked wor ds in large-scale text. As a result,
+this pre-trained language model can ...
+
+Chunk 26:
+Token count: 683
+Character count: 4119
+Content preview:  possible to compute the meanings of words and wordn-grams in a continu-
+ous representation space. As a result, language models are n o longer burdened with the curse of
+dimensionality, but can repres...
+
+Chunk 27:
+Token count: 565
+Character count: 3560
+Content preview: ,x m}
+be a sequence of tokens, where x0is the start symbol ⟨s⟩(or⟨SOS⟩)1. The probability of this se-
+quence can be deﬁned using the chain rule
+Pr(x0,...,x m) = Pr(x0)·Pr(x1|x0)·Pr(x2|x0,x1)· · ·Pr(xm...
+
+Chunk 28:
+Token count: 775
+Character count: 5096
+Content preview:  an output token is generated, shifting the s equence one po-
+sition forward for the next prediction. To do this, the langu age model outputs a distribution
+Pr(·|x0,...,x i−1)at each position i, and t...
+
+Chunk 29:
+Token count: 1044
+Character count: 6177
+Content preview:  a token xi−1as
+input and predicts a token xithat maximizes the probability Pr(xi|x0,...,x i−1). It is important
+to note that, despite different implementation details, ma ny LLMs share the same archi...
+
+Chunk 30:
+Token count: 833
+Character count: 5155
+Content preview:  predicting tokens from po sitionm+ 1,
+rather than position 0. Throughout this chapter and subsequent ones, we will emplo y separate
+variables xandyto distinguish the input and output of an LLM, thoug...
+
+Chunk 31:
+Token count: 1095
+Character count: 6610
+Content preview:  gramma tically correct.
+LLMs are powerful models but are expensive to build.
+Yes
+LLMs are powerful models but are expensive to build.
+Does this sentence make sense grammatically?
+Answer Option
+- Yes
+...
+
+Chunk 32:
+Token count: 1205
+Character count: 7137
+Content preview:  of ﬁne-tuning remain critical and should not be overlooked, though
+they are much lower than those of the pre-training phase.
+While we focus on instruction ﬁne-tuning for an illustrativ e example here...
+
+Chunk 33:
+Token count: 938
+Character count: 5814
+Content preview:  supervision from the reward m odel.
+Figure 2.2shows an overview of RLHF. Given that this section serves onl y as a brief intro-
+duction to concepts of LLMs, a detailed discussion of RLHF te chniques ...
+
+Chunk 34:
+Token count: 1041
+Character count: 6477
+Content preview:  model inputs involved in sampling. While the form of these
+functions may seem complex, their idea is simple: we penaliz e the model if the predicted ranking
+of two outputs differs from the human-labe...
+
+Chunk 35:
+Token count: 1093
+Character count: 6133
+Content preview:  with positive outcomes inacademic performance,
+social competence, andemotional well-being. Studies andexperiments inthis
+area highlight theimportance ofcultivating this skill early inlifetosupport
+lo...
+
+Chunk 36:
+Token count: 998
+Character count: 5972
+Content preview:  total down
+to 14 marbles. His brother gifts him 3 more marbles, increasi ng his total to 17
+marbles. Therefore, Tom now has 17 marbles. So the answer is 1 7.
+Jack has 7 apples. He ate 2 of them for d...
+
+Chunk 37:
+Token count: 787
+Character count: 4802
+Content preview: 
+LLMs raises new issues in creating or collecting these datas ets.
+A ﬁrst issue is the quality of data. High-quality data has lon g been seen as crucial for training
+data-driven NLP systems. Directly ...
+
+Chunk 38:
+Token count: 1023
+Character count: 6460
+Content preview:  different language phenomena, such as gender,
+ethnicity, and dialects. The bias in data is also related to t he diversity issue mentioned above.
+For example, since many LLMs are trained and aligned w...
+
+Chunk 39:
+Token count: 1058
+Character count: 6550
+Content preview: veral LLMs, such as BERT, GPT-3, and BLOOM.
+Another family of activation functions which is popular in L LMs is gated linear unit (GLU )-
+based functions. The basic form of GLUs is given by
+σglu(h) =σ...
+
+Chunk 40:
+Token count: 635
+Character count: 3859
+Content preview:  case, we can decouple the LLM into smal ler components and run these
+components on different devices. One simple way to do this is to group consecutive layers
+in the layer stack and assign each group...
+
+Chunk 41:
+Token count: 818
+Character count: 5048
+Content preview:  in-
+efﬁcient because only one device is activated at a time durin g processing. Pipeline par-
+allelism addresses this issue by introducing overlaps betw een computations on different
+devices [ Harlap...
+
+Chunk 42:
+Token count: 1071
+Character count: 6509
+Content preview:  which may affect mode l convergence and ﬁnal performance.
+This problem is more obvious if there are a large number of nod es involved in distributed training,
+especially given that low-precision nume...
+
+Chunk 43:
+Token count: 1095
+Character count: 6737
+Content preview:  error due to un known variables, which is
+present even as x→ ∞ . Eq. ( 2.37) is one of the most widely used forms for designing scaling
+laws of LLMs. For example, Rosenfeld et al. [2020 ] developed a...
+
+Chunk 44:
+Token count: 571
+Character count: 3647
+Content preview:  obtain a set of sub-
+matrices {K[1],...,K[nu]}, each corresponding to a segment of the sequence. Similarly , we can
+obtain the sub-matrices of V, denoted by {V[1],...,V[nu]}. Then, we assign each pai...
+
+Chunk 45:
+Token count: 986
+Character count: 6004
+Content preview: �
+node nu(2.44)
+Like Eq. ( 2.43), Eq. ( 2.44) can be implemented as a summation program in parallel proce ss-
+ing. First, perform the weighted summations of values on dif ferent nodes simultaneousl...
+
+Chunk 46:
+Token count: 775
+Character count: 4681
+Content preview:  a constant , and the model can be easily
+extended to deal with long sequences.
+In fact, this sequential approach to long sequence modeling arises naturally when we adopt a
+viewpoint of recurrent mode...
+
+Chunk 47:
+Token count: 1039
+Character count: 6206
+Content preview: vj
+nc)
+(2.54)
+Alternatively, we can use a weighted version of moving avera ge
+Mem =(∑i
+j=i−nc+1βj−i+nckj∑nc
+j=1βj,∑i
+j=i−nc+1βj−i+ncvj∑nc
+j=1βj)
+(2.55)
+Here {β1,...,β nc}are the coefﬁcients, which can...
+
+Chunk 48:
+Token count: 987
+Character count: 5697
+Content preview: . This view motivates the extens ion to attention models for
+combining both local and long-term memories [ Ainslie et al. ,2020 ;Zaheer et al. ,2020 ;
+Gupta and Berant ,2020 ]. A simple but widely-use...
+
+Chunk 49:
+Token count: 1208
+Character count: 7330
+Content preview: ly combines the two types of attention, given by
+Att(qi,Mem,Mem knn) = g⊙Attlocal+ (1 −g)⊙Attknn (2.64)
+Attlocal = Att( qi,Mem) (2.65)
+Attknn= Att( qi,Mem knn) (2.66)
+Here g∈Rdis the coefﬁcient vector...
+
+Chunk 50:
+Token count: 1047
+Character count: 6473
+Content preview: -based methods. For example, as discussed above, we can use a vector database to store
+previously generated key-value pairs, and thus represent t he context by this external memory
+model. Although thi...
+
+Chunk 51:
+Token count: 1018
+Character count: 6145
+Content preview: 
+Fig. 2.8: Illustration of QKV attention based on different multi-hea d and sharing mechanisms. (a) = single-head
+attention, and (b-e) = attention with multiple heads.
+beO(L·dh·m).
+Grouped query atten...
+
+Chunk 52:
+Token count: 1024
+Character count: 6141
+Content preview:  model can generalize through ext rapolation and interpolation.
+been observed before. Figure 2.9(b) shows an example of this approach, where a function
+is learned to ﬁt the data points within a speciﬁ...
+
+Chunk 53:
+Token count: 858
+Character count: 5162
+Content preview:  as i−jgrows. The last bucket is designed to handle sequences of arb itrarily long
+lengths.
+AllPE(i,j)s in a bucket share the same bias term ub(i−j). Substituting PE(i,j) =ub(i−j)
+into Eq. ( 2.76), th...
+
+Chunk 54:
+Token count: 773
+Character count: 4844
+Content preview: 3β−2β−1β0
+−5β−4β−3β−2β−β 0
+−6β−5β−4β−3β−2β−β 0Bias ( −β(i−j))
++
+(b) The ALiBi bias
+Fig. 2.11: Query-key products with biases (above = the T5 bias and below = the ALiBi bias). The color scale of the
+bi...
+
+Chunk 55:
+Token count: 744
+Character count: 4752
+Content preview: , respectively. Sub-ﬁgure (c) shows the embeddings of tokens catandsleeping in two different
+sentences. We show these sentences with a subscript afﬁxed t o each token to indicate its position. If we r...
+
+Chunk 56:
+Token count: 590
+Character count: 3608
+Content preview: 98)
+The key idea behind position interpolation is to adjust this period so that the new positions can
+be encoded within the range [0,ml]. One way to achieve this is to scale up Tkbym
+ml, given by
+T′
+k...
+
+Chunk 57:
+Token count: 805
+Character count: 4849
+Content preview: indeﬁnitely. Another way to achieve inﬁnite memory is to dev elop alternatives to self-attention
+models, for example, one can use continuous-space attentio n models to encode context, which
+removes th...
+
+Chunk 58:
+Token count: 1087
+Character count: 6508
+Content preview:  LLM
+provides initial values of model parameters used in a differ ent model, and this model is then ﬁne-
+tuned as usual.
+2.3.6.3 Evaluating Long-context LLMs
+Evaluating long-context LLMs is important,...
+
+Chunk 59:
+Token count: 1018
+Character count: 6002
+Content preview:  subsequent
+tokens given prompts. This emergent ability in language mod els comes from several dimensions,
+such as scaling up training, model size, and context size. It is undeniable that scaling laws...
+
+Chunk 60:
+Token count: 1128
+Character count: 6708
+Content preview:  LLM generates a text yby maximizing the probability Pr(y|x).
+In this generation process, the prompt acts as the condition on which we make predictions, and it
+can contain any information that helps d...
+
+Chunk 61:
+Token count: 1099
+Character count: 6323
+Content preview:  and are great at grammar correct ion.
+DEMO You will be provided with a sentence in English. The task is
+to output the correct sentence.
+Input: There is many reasons to celebrate.
+Output: There are ma...
+
+Chunk 62:
+Token count: 1229
+Character count: 7334
+Content preview:  it affects the weather, sea levels, and temper atures. Also,
+mention some things people are doing to help. Try to explain i n simple
+terms and do not exceed 500 words.
+•Guiding LLMs to think . LLMs h...
+
+Chunk 63:
+Token count: 874
+Character count: 5316
+Content preview: ��ne several ﬁelds for prompts and ﬁll dif ferent information in each
+ﬁeld. Another example is we can use code-style prompts for LL Ms which can understand
+and generate both natural language and code....
+
+Chunk 64:
+Token count: 1057
+Character count: 7026
+Content preview:  given by
+label = arg max
+y∈YPr(y|x) (3.1)
+whereydenotes the word ﬁlled in the blank, and Ydenotes the set of label words
+{positive,negative,neutral }.
+Another method of using LLMs to generate labels ...
+
+Chunk 65:
+Token count: 872
+Character count: 5829
+Content preview: ��cant roleindirecting theorganization’s activities,
+especially those related totourism inEurope.
+...
+If LLMs have been ﬁne-tuned with instruction following for i nformation extraction tasks, it
+is re...
+
+Chunk 66:
+Token count: 990
+Character count: 5724
+Content preview: -
+els of air and water pollution, increased waste production, and strained public
+services ...
+Urban areas aregrappling with sustainability challenges, such asrising pollution,
+trafﬁc congestion, andi...
+
+Chunk 67:
+Token count: 723
+Character count: 4250
+Content preview: . Suppose we are given a algebraic problem
+Calculate the average of the numbers 2, 4, and 6.
+We can consider it as the question and prompt an LLM to answer i t.
+Q: Please calculate the average of the ...
+
+Chunk 68:
+Token count: 853
+Character count: 5148
+Content preview:  CoT reasoning, typ-
+ically called the few-shot CoT method. By contrast, the zero -shot CoT method does not require
+such examples. It instead prompts LLMs to reason step-by-st ep by incorporating spec...
+
+Chunk 69:
+Token count: 998
+Character count: 6189
+Content preview: -solvi ng steps. This often heavily depends
+on the user’s experience. In addition, errors in intermedia te steps can also affect the accuracy of
+the ﬁnal conclusion. For further discussion on the pros...
+
+Chunk 70:
+Token count: 1245
+Character count: 7510
+Content preview: i cal thinking.
+• Conclusion
+Recap main points and encourage proactive engagement with A I ethics.
+Here we give the title and major points for each section. Then , the LLM can use this structure to
+br...
+
+Chunk 71:
+Token count: 999
+Character count: 6343
+Content preview: eniors?”.
+Q: Alice, Bob, and Charlie brought beads for their group proj ect in their
+craft class. Alice has twice as many beads as Bob, and Bob has ﬁ ve times
+as many beads as Charlie. If Charlie has ...
+
+Chunk 72:
+Token count: 1081
+Character count: 6783
+Content preview:  above model is to focus on developi ng better sub-problem solvers.
+In our previous discussion, we restricted Si(·)to LLMs that are prompted to solve the sub-problem
+pi. In fact, we can expand this fu...
+
+Chunk 73:
+Token count: 802
+Character count: 5215
+Content preview:  as grammar correction and text rewriting, can also be se en as examples on this theme.
+We can prompt LLMs to do self-reﬁnement. Consider a simple ex ample where we ﬁrst use
+an LLM to translate a text...
+
+Chunk 74:
+Token count: 1108
+Character count: 7043
+Content preview: , let us consider an example of generatin g good responses to user questions:
+• First, we prompt an LLM to answer the input question, as usua l.
+Generate a response to the question: “What are some maj...
+
+Chunk 75:
+Token count: 1028
+Character count: 6257
+Content preview: ﬁne the trans lation.
+Error Type: IncorrectTrans lation
+In this example, the input translation is not generated by LL Ms but is instead randomly sam-
+pled from the dataset. So it is simply an incorrec...
+
+Chunk 76:
+Token count: 614
+Character count: 3741
+Content preview:  a set of diverse
+prompts. Consequently, the output can be computed using a st raightforward combination model,
+as described in Eq. ( 3.6). The issue of creating high-quality, diverse prompts has b ee...
+
+Chunk 77:
+Token count: 953
+Character count: 6144
+Content preview: (H)and50% tails (T). Consider thepossible outcomes forthree ﬂips: HHH,
+HHT, HTH, HTT, THH, THT, TTH, TTT. Outofthese, only HHH, HHT, HTH,
+andTHH arerelevant. Weareonly interested inscenarios with exac...
+
+Chunk 78:
+Token count: 957
+Character count: 5637
+Content preview:  receives the same prompt and pr oduces a prediction. These predictions are combined
+to generate the ﬁnal prediction. In prompt ensembling (b), w e have one LLM and multiple prompts. The LLM produces
+...
+
+Chunk 79:
+Token count: 774
+Character count: 4592
+Content preview:  it
+is also necessary to enhance the robustness of the LLM, so tha t it can make reasonable predictions
+even when the input is inaccurate. Below is a new prompt that e nables the LLM to be more faith-...
+
+Chunk 80:
+Token count: 1275
+Character count: 7466
+Content preview: esser ,1996 ].
+The issue of tool use is broad and vast. Here we narrow our disc ussion to tasks that can be fa-
+cilitated by calling external APIs to solve some of the sub-p roblems [ Parisi et al. ,2...
+
+Chunk 81:
+Token count: 1166
+Character count: 6768
+Content preview:  be regarded as an instance of automated ma-
+chine learning (AutoML ), which aims to reduce or eliminate the need for expert-driv en manual
+design of machine learning models. Although our focus here i...
+
+Chunk 82:
+Token count: 1252
+Character count: 7708
+Content preview:  prompts
+into semantically equivalent forms [ Jiang et al. ,2020 ]. Alternatively, we can deﬁne speciﬁc edit
+operations, such as insertions and modiﬁcations, for each t oken. A given prompt can be edi...
+
+Chunk 83:
+Token count: 1080
+Character count: 6644
+Content preview:  Figure 3.3.
+While the above example shows that soft prompts can be genera ted by transforming hard
+prompts, there is not necessarily a direct correspondence b etween them. In fact, we do not even
+nee...
+
+Chunk 84:
+Token count: 551
+Character count: 3339
+Content preview: dataset D′where each sample is a tuple consisting of an instruction, a c orresponding simpliﬁed
+instruction, and a user input, denoted by x′= (c,c′,z). Knowledge distillation is performed by
+minimizin...
+
+Chunk 85:
+Token count: 1046
+Character count: 6010
+Content preview:  beginning of the input of each Transformer la yer [ Li and Liang ,2021 ]. These
+preﬁxes can be thought of as soft prompts that serve as additi onal context to guide the behavior
+of the model under sp...
+
+Chunk 86:
+Token count: 1021
+Character count: 5962
+Content preview:  and
+can perform the task without the need of explicit hard prompt s.
+Since p0p1...pnis itself a sequence, we can employ sequence models to better represent
+it. For example, a Transformer model can en...
+
+Chunk 87:
+Token count: 1142
+Character count: 6971
+Content preview:  between the two
+context representations.
+One general framework for achieving this is knowledge disti llation, where ˆyandˆyσcan be
+seen as the predictions of the teacher model and the student m odel,...
+
+Chunk 88:
+Token count: 879
+Character count: 5329
+Content preview:  various domains, with aparticular
+emphasis on healthcare and ﬁnance. Considering thebroad range ofpotential
+queries, from thespeciﬁcs ofmedical diagnoses tothenuances ofﬁnancial
+regulations, The mode...
+
+Chunk 89:
+Token count: 795
+Character count: 4762
+Content preview: . A gen-
+eral discussion of prompting can be very broad, and we cannot cover all details in this chapter.
+For more advanced techniques of prompting, the reader can re fer to recent surveys. Topics in-...
+
+Chunk 90:
+Token count: 1215
+Character count: 7441
+Content preview:  where
+the LLMs are trained based on feedback from humans. While the se methods are motivated by
+different goals, they are commonly used together to develop well-aligned LLMs.
+4.1 An Overview of LLM A...
+
+Chunk 91:
+Token count: 961
+Character count: 5933
+Content preview: -output pairs [ Ouyang et al. ,2022 ;Wei et al. ,2022a ]. Unlike standard lan-
+guage model training, here we do not wish to maximize the prob ability of generating a complete
+sequence, but rather maxi...
+
+Chunk 92:
+Token count: 1061
+Character count: 6566
+Content preview: User I’ve been feeling very tired lately.
+Chatbot I’msorry tohear that. Besides feeling tired, have younoticed any
+other symptoms?
+User Yes, I’m also experiencing headaches frequently.
+Chatbot How lon...
+
+Chunk 93:
+Token count: 619
+Character count: 3829
+Content preview: FT can be regarded as a post-training step following pre-t raining. It is a separate training
+phase designed to preserve the advantages of the initial pre -training while incorporating new
+adjustments...
+
+Chunk 94:
+Token count: 1223
+Character count: 7383
+Content preview: ,
+x=Translate the text from English to Chinese. \n How’s the weather today?
+y=今天天气怎么样？
+We can use this (x,y)pair to ﬁne-tune the LLM, as described in the previous subsec tion.
+One difﬁculty here is th...
+
+Chunk 95:
+Token count: 1184
+Character count: 7170
+Content preview:  -inputnew Outputnew
+FilteringFilter out invalid and low-quality samples.
+Add the remaining samples into the pool.
+Fig. 4.4: Illustration of self-instruct [ Wang et al. ,2023b ]. This method maintains...
+
+Chunk 96:
+Token count: 807
+Character count: 5040
+Content preview:  data, wh ere errors and biases are still inevitable.
+Another approach to efﬁcient ﬁne-tuning is to consider only the most relevant and impactful
+examples for ﬁne-tuning. We can thus reduce the amount...
+
+Chunk 97:
+Token count: 766
+Character count: 4789
+Content preview: ﬁciency in
+policy learning [ Wang et al. ,2024 ].
+4.2.4 Instruction Generalization
+In many machine learning and NLP problems, training a model t o generalize is a fundamental
+goal. For example, in tex...
+
+Chunk 98:
+Token count: 870
+Character count: 5324
+Content preview: LMs. And it is reasonable to scale
+instruction ﬁne-tuning to make an LLM follow broad instruct ions. From the perspective of LLM
+alignment, however, scaling instruction ﬁne-tuning might not be efﬁcien...
+
+Chunk 99:
+Token count: 905
+Character count: 5604
+Content preview: , the experts would ﬁnd it challenging to ident ify any inconsistencies, subtle biases,
+or missing key points without conducting an exhaustive and t ime-consuming review.
+One may ask at this point: ca...
+
+Chunk 100:
+Token count: 1193
+Character count: 7372
+Content preview:  with a small modelSmall Model 2 Small Model 1 Small Model 3
+x x xCombination Modely
+(d) Ensemble of multiple small models
+Large Model
+xy2
+Small Model
+(e) Cascading (at inference time)xy1Step 2
+(expen...
+
+Chunk 101:
+Token count: 969
+Character count: 6058
+Content preview: , the reward model
+provides feedback by assigning scores to new outputs that th e LLM generates in response to the
+inputs. The LLM uses these scores to update its parameters th rough reinforcement lea...
+
+Chunk 102:
+Token count: 531
+Character count: 3218
+Content preview:  taken at the initial state is a.
+The goal of reinforcement learning is to learn a policy that m aximizes the cumulative re-
+ward (orreturn ) the agent receives over the long run. Given a state-action...
+
+Chunk 103:
+Token count: 548
+Character count: 3438
+Content preview: (θ)with
+respect toθ:
+∂J(θ)
+∂θ=∂∑
+τ∈DPrθ(τ)R(τ)
+∂θ
+=∑
+τ∈D∂Prθ(τ)
+∂θR(τ)
+=∑
+τ∈DPrθ(τ)∂Prθ(τ)/∂θ
+Prθ(τ)R(τ)
+=∑
+τ∈DPrθ(τ)∂log Pr θ(τ)
+∂θR(τ) (4.20)
+In some cases, we will assume that every sequence in Dis...
+
+Chunk 104:
+Token count: 942
+Character count: 5820
+Content preview:  low total reward for the
+entire sequence, even if it includes good actions.
+One simple method for reducing the variance of the gradient i s to set a baseline band subtract
+it from∑T
+t=1rt, resulting ...
+
+Chunk 105:
+Token count: 1019
+Character count: 6121
+Content preview:  alignment, demonstrating
+how to use the A2C method for aligning with human preferences .
+4.3.2 Training Reward Models
+We have shown that reward models play a very important role in the general reinfo...
+
+Chunk 106:
+Token count: 484
+Character count: 2963
+Content preview:  preference pairs of
+outputs and their corresponding inputs. φrepresents the parameters of the reward model, which
+includes both the parameters of the Transformer decoder and the linear mapping matrix...
+
+Chunk 107:
+Token count: 638
+Character count: 4112
+Content preview:  the value function V(st)is trained with
+the reward model.
+Given this utility function, the A2C-based loss function ca n be written in the form
+L(θ) = −Eτ∼D[U(τ;θ)]
+=−Eτ∼D[T∑
+t=1logπθ(at|st)A(st,at)](...
+
+Chunk 108:
+Token count: 996
+Character count: 6170
+Content preview:  ﬁrst use a baseline policy (with θref) to sample a number of sequences, and then use the
+target policy (with θ) to compute the expected reward. In this way, we separate the policy used for collecting...
+
+Chunk 109:
+Token count: 920
+Character count: 5501
+Content preview:  the parameters). The reference
+model is the baseline LLM that serves as a starting point for p olicy training. In RLHF, it
+represents the previous version of the model or a model train ed without hum...
+
+Chunk 110:
+Token count: 543
+Character count: 3276
+Content preview: �D r[1
+N(N−1)∑
+ya∈Y,yb∈Y
+ya̸=yblog Pr( ya≻yb|x)]
+(4.57)
+whereYis a list of outputs, and Nis the number of outputs in the list. Pr(ya≻yb|x)can be
+deﬁned using the Bradley-Terry model, that is, Pr(ya≻yb...
+
+Chunk 111:
+Token count: 768
+Character count: 4786
+Content preview: 
+problem of modeling human preferences. However, discussin g these methods is beyond the scope
+of this chapter. Interested readers can refer to books on thi s topic for more details [ Liu,2009 ;Li,
+20...
+
+Chunk 112:
+Token count: 746
+Character count: 4560
+Content preview:  the challenges in
+many practical applications. For example, in robotics, it o ften needs to shape the reward function
+to ease optimization rather than relying solely on end-of-s equence rewards. Vari...
+
+Chunk 113:
+Token count: 663
+Character count: 4075
+Content preview: 
+entire sequence or task. In this case, the reward signals bas ed on human feedback, though very
+sparse, are typically very informative and accurate. Conse quently, this sparsity, together with the
+hi...
+
+Chunk 114:
+Token count: 1235
+Character count: 7393
+Content preview:  ction. For example, suppose that
+r(x,y,¯yk) = 1 if the segment is classiﬁed as unethical, and r(x,y,¯yk) =−1otherwise6. The
+hinge loss of training binary classiﬁcation models is given by
+Lhinge = max...
+
+Chunk 115:
+Token count: 713
+Character count: 4726
+Content preview: , be quite beneﬁci al. For example, using open-sourced
+or commercial LLMs as reward models has demonstrated strong performance in aligning LLMs,
+even achieving state-of-the-art results on several popu...
+
+Chunk 116:
+Token count: 1137
+Character count: 6946
+Content preview: π∗(y|x)
+=πθref(y|x) exp(1
+βr(x,y))
+Z(x) (4.79)
+Given this equation, we can express the reward r(x,y)using the target model πθ(y|x), the
+reference model πθref(y|x), and the normalization factor Z(x):
+r...
+
+Chunk 117:
+Token count: 854
+Character count: 5121
+Content preview:  a distribution over the labels.
+These probabilities of preferred labels can serve as pointw ise supervision signals for training the
+reward model, as discussed in Section 4.4.1 .
+For data generation,...
+
+Chunk 118:
+Token count: 687
+Character count: 4123
+Content preview:  such sup ervision signals.
+Figure 4.11 shows two LLM outputs for an example math problem. Although t he LLM gives
+the correct ﬁnal answer in both cases, it makes mistakes duri ng the problem-solving ...
+
+Chunk 119:
+Token count: 748
+Character count: 4709
+Content preview:  correct. For process-based approaches, the mistakes in
+response 2 can be considered in reward modeling.
+learning from reasoning mistakes. Instead, annotating ste ps that the model conﬁdently consider...
+
+Chunk 120:
+Token count: 1261
+Character count: 7526
+Content preview:  steps,
+thereby reducing reasoning complexity and improving efﬁci ency.
+4.4.5 Inference-time Alignment
+In this section we explored a variety of methods to align mode ls with human preferences and an-
+...
+
+Chunk 121:
+Token count: 806
+Character count: 5429
+Content preview:  system towar ds this objective. However, designing
+the objective of AI alignment is very difﬁcult. One reason is that human values are diverse and
+often context-dependent, making it difﬁcult to disti...
+
+Chunk 122:
+Token count: 726
+Character count: 5003
+Content preview: Fries, Maged Saeed AlShaibani, Shanya Sharma, Urmish Thakk er, Khalid Almubarak, Xiangru Tang,
+Dragomir R. Radev, Mike Tian-Jian Jiang, and Alexander M. Ru sh. Promptsource: An integrated de-
+velopmen...
+
+Chunk 123:
+Token count: 701
+Character count: 4725
+Content preview:  Túlio Ribeiro, and Yi Zhang. Sparks of artiﬁc ial general intelligence: Early experiments
+with gpt-4. arXiv preprint arXiv:2303.12712 , 2023.
+[Bulatov et al., 2022] Aydar Bulatov, Yury Kuratov, and M...
+
+Chunk 124:
+Token count: 806
+Character count: 5355
+Content preview: adg e, and Alexander Rudnicky. Kerple:
+Kernelized relative positional embedding for length extra polation. Advances in Neural Information Pro-
+cessing Systems , 35:8386–8399, 2022.
+[Chi et al., 2023] ...
+
+Chunk 125:
+Token count: 768
+Character count: 5095
+Content preview: , Zhiyuan Liu, and Ma osong Sun. ULTRAFEEDBACK:
+Boosting language models with scaled AI feedback. In Proceedings of the 41st International Conference
+on Machine Learning , volume 235, pages 9722–9744,...
+
+Chunk 126:
+Token count: 747
+Character count: 4947
+Content preview: ur, Alan Schelten, Amy Yang , Angela Fan, et al. The llama 3 herd of
+models. arXiv preprint arXiv:2407.21783 , 2024.
+[Dubois et al., 2024] Yann Dubois, Chen Xuechen Li, Rohan Tao ri, Tianyi Zhang, Ish...
+
+Chunk 127:
+Token count: 755
+Character count: 5024
+Content preview: ia, Jinliu Pan, Yuxi Bi, Yi Dai, Jiawei
+Sun, and Haofen Wang. Retrieval-augmented generation for l arge language models: A survey. arXiv
+preprint arXiv:2312.10997 , 2023c.
+[Garg et al., 2022] Shivam G...
+
+Chunk 128:
+Token count: 751
+Character count: 5137
+Content preview:  out-of-dis tribution robustness. In Proceedings of the
+58th Annual Meeting of the Association for Computational Li nguistics , pages 2744–2751, 2020.
+[Hendrycks et al., 2021] Dan Hendrycks, Collin Bu...
+
+Chunk 129:
+Token count: 721
+Character count: 4960
+Content preview: .
+[Jiang et al., 2020] Zhengbao Jiang, Frank F Xu, Jun Araki, an d Graham Neubig. How can we know what
+language models know? Transactions of the Association for Computational Linguis tics, 8:423–438,
+...
+
+Chunk 130:
+Token count: 756
+Character count: 5044
+Content preview: 2023] Po-Nien Kung and Nanyun Peng. Do models really learn to follow instructions?
+an empirical study of instruction tuning. arXiv preprint arXiv:2305.11383 , 2023.
+[Kwon et al., 2023] Woosuk Kwon, Zh...
+
+Chunk 131:
+Token count: 740
+Character count: 4857
+Content preview:  In Proceed-
+ings of the 14th International Conference on Recent Advance s in Natural Language Processing , pages
+641–647, 2023.
+[Li et al., 2023] Yucheng Li, Bo Dong, Frank Guerin, and Cheng hua Lin....
+
+Chunk 132:
+Token count: 697
+Character count: 4870
+Content preview: 4.
+[Madaan et al., 2024] Aman Madaan, Niket Tandon, Prakhar Gup ta, Skyler Hallinan, Luyu Gao,
+Sarah Wiegreffe, Uri Alon, Nouha Dziri, Shrimai Prabhumoye , Yiming Yang, Shashank Gupta, Bod-
+hisattwa P...
+
+Chunk 133:
+Token count: 703
+Character count: 4861
+Content preview: ��nite context transformers with inﬁni- attention. arXiv preprint arXiv:2404.07143 ,
+2024.
+[Nakano et al., 2021] Reiichiro Nakano, Jacob Hilton, Suchi r Balaji, Jeff Wu, Long Ouyang, Christina
+Kim, Ch...
+
+Chunk 134:
+Token count: 745
+Character count: 5016
+Content preview: ations , 2024.
+[Pennington et al., 2014] Jeffrey Pennington, Richard Soch er, and Christopher D. Manning. Glove: Global
+vectors for word representation. In Proceedings of Empirical Methods in Natural ...
+
+Chunk 135:
+Token count: 742
+Character count: 5104
+Content preview: 2019.
+[Rosenfeld et al., 2020] Jonathan S Rosenfeld, Amir Rosenfe ld, Yonatan Belinkov, and Nir Shavit. A con-
+structive prediction of the generalization error across sc ales. In Proceedings of Intern...
+
+Chunk 136:
+Token count: 736
+Character count: 5033
+Content preview:  arXiv:2002.05202 , 2020.
+[Shen et al., 2020] Sheng Shen, Zhen Dong, Jiayu Ye, Linjian M a, Zhewei Yao, Amir Gholami, Michael W
+Mahoney, and Kurt Keutzer. Q-bert: Hessian based ultra low p recision qu...
+
+Chunk 137:
+Token count: 752
+Character count: 5030
+Content preview: ., 2023] Hugo Touvron, Louis Martin, Kevin Sto ne, Peter Albert, Amjad Almahairi,
+Yasmine Babaei, Nikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, Dan Bikel,
+Lukas Blecher, Cristian...
+
+Chunk 138:
+Token count: 726
+Character count: 4931
+Content preview: 2022b.
+[Wang et al., 2023] Yizhong Wang, Hamish Ivison, Pradeep Das igi, Jack Hessel, Tushar Khot, Khy-
+athi Raghavi Chandu, David Wadden, Kelsey MacMillan, Noah A . Smith, Iz Beltagy, and Hannaneh
+Ha...
+
+Chunk 139:
+Token count: 761
+Character count: 5004
+Content preview:  Prithviraj Ammanabrolu,
+Noah A. Smith, Mari Ostendorf, and Hannaneh Hajishirzi. Fin e-grained human feedback gives better
+rewards for language model training. In Thirty-seventh Conference on Neural I...
+
+Chunk 140:
+Token count: 640
+Character count: 4286
+Content preview:  Hai Z hao. Igniting language intelli-
+gence: The hitchhiker’s guide from chain-of-thought reaso ning to language agents. arXiv preprint
+arXiv:2311.11797 , 2023a.
+[Zhang et al., 2023] Zhuosheng Zhang,...
+
+Chunk 141:
+Token count: 340
+Character count: 2536
+Content preview: few-shot COT prompting, 54
+gated linear unit, 58
+gaussian error linear unit, 58
+GeLU, 58
+GLU, 58
+GPT, 1
+GQA, 80
+Grouped query attention, 80
+hard prompts, 140
+human preference alignment, 152
+ICL, 53
+IC...
+

@@ -48,11 +48,11 @@ key_preview = OPENAI_API_KEY[:4] + "..." + OPENAI_API_KEY[-4:] if OPENAI_API_KEY
 print(f"Using OpenAI API key starting with: {key_preview}")
 
 # Document processing settings
-CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "1000"))
-CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "200"))
+CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "900"))
+CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "150"))
 
 # Embedding settings
-EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-large")
 
 # Vector database settings
 VECTOR_DB_TYPE = os.getenv("VECTOR_DB_TYPE", "chroma")
@@ -73,6 +73,7 @@ API_SECRET_KEY = os.getenv("API_SECRET_KEY", "development_secret_key")
 # Retrieval settings
 TOP_K_RESULTS = int(os.getenv("TOP_K_RESULTS", "4"))
 SIMILARITY_THRESHOLD = float(os.getenv("SIMILARITY_THRESHOLD", "0.5"))
+MAX_RESPONSE_TOKENS = int(os.getenv("MAX_RESPONSE_TOKENS", "1500"))
 
 # Deployment settings
 ALLOW_CORS = os.getenv("ALLOW_CORS", "True").lower() in ("true", "1", "t")

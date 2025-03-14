@@ -1,0 +1,21 @@
+Hybrid Search Performance Summary
+================================
+
+Average Retrieval Times:
+  Vector-only search: 1.1385 seconds
+  Hybrid search: 1.1203 seconds
+  Hybrid search with reranking: 4.1590 seconds
+
+Average Result Counts:
+  Vector-only search: 0.00 results
+  Hybrid search: 5.00 results
+  Hybrid search with reranking: 5.00 results
+
+Result Set Overlap:
+  Vector vs Hybrid: 0.00%
+  Vector vs Hybrid+Rerank: 0.00%
+  Hybrid vs Hybrid+Rerank: 0.00%
+
+Performance Impact:
+  Hybrid search is 0.98x slower than vector-only search
+  Reranking adds 3.71x overhead to hybrid search

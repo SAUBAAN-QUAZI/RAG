@@ -1,0 +1,837 @@
+{
+  "llm_definition": {
+    "What are large language models?": {
+      "results": [
+        {
+          "chunk_id": "e944efc521b07286",
+          "content": "resents a pa-\nrameter matrix. head jis the output of QKV attention on a sub-space of representati on\nhead j= Att qkv(Q[j],K[j],V[j]) (2.8)\nQ[j],K[j],andV[j]are the queries, keys, and values projected onto the j-th sub-space via linear\ntransformations\nQ[j]=HWq\nj (2.9)\nK[j]=HWk\nj (2.10)\nV[j]=HWv\nj (2.11)\nwhere Wq\nj,Wk\nj, and Wv\nj\u2208Rd\u00d7d\n\u03c4are the parameter matrices of the transformations.\nSuppose we have LTransformer blocks. A Softmax layer is built on top of the out put of the\nlast block. The Softma...",
+          "score": 0.6459265
+        },
+        {
+          "chunk_id": "393d627c45da8706",
+          "content": " Pre-normPost-norm or Pre-norm\nSelf-attentionFFNLBlocks\nFig. 2.1: The Transformer-decoder architecture for language modeli ng. The central components are Lstacked Trans-\nformer blocks, each comprising a self-attention sub-layer and an FFN sub-layer. To prevent the model from accessing\nthe right-context, a masking variable is incorporated into self-attention. The output layer uses a Softmax function to\ngenerate a probability distribution for the next token, giv en the sequence of previous tokens....",
+          "score": 0.6184994
+        },
+        {
+          "chunk_id": "86ebf89873b14c45",
+          "content": " development of large\nlanguage models (LLMs). This has helped create systems that can understand and generate nat-\nural languages like humans. These systems have even been fou nd to be able to reason, which\nis considered a very challenging AI problem. With these achi evements, NLP made big strides\nand entered a new era of research in which dif\ufb01cult problems a re being solved, such as building\nconversational systems that can communicate with humans sm oothly.\nThe concept of language modeling or p...",
+          "score": 0.6153432
+        },
+        {
+          "chunk_id": "01e5246396f56338",
+          "content": "\n\n--- Page 1 ---\n\narXiv:2501.09223v1  [cs.CL]  16 Jan 2025Foundations of\nLarge Language Models\nTong Xiao and Jingbo Zhu\nJanuary 17, 2025\nNLP Lab, Northeastern University & NiuTrans Research\n\n--- Page 2 ---\n\nCopyright \u00a9 2021-2025 Tong Xiao and Jingbo Zhu\nNATURAL LANGUAGE PROCESSING LAB, NORTHEASTERN UNIVERSITY\n&\nNIUTRANS RESEARCH\nLicensed under the Creative Commons Attribution-NonComme rcial 4.0 Unported License (the\n\u201cLicense\u201d). You may not use this \ufb01le except in compliance wit h the License. You...",
+          "score": 0.6139594
+        },
+        {
+          "chunk_id": "94fdcaccf6e4232e",
+          "content": "illions of tokens have already been used for training.\nWith the increase in the scale of model training, LLMs exhibi t new capabilities, known as the\nemergent abilities of LLMs. For example, Wei et al. [2022b ] studied the scaling properties of\nLLMs across different model sizes and amounts of computatio nal resources. Their work shows\nthat some abilities emerge when we scale the model size to cer tain level. The appearance of\nemergent abilities has demonstrated the role of scaled trai ning in en...",
+          "score": 0.6073594
+        },
+        {
+          "chunk_id": "72f80a0d0fe781a8",
+          "content": "s 37\npowerful Transformer-based models were pre-trained using these word prediction tasks, and suc-\ncessfully applied to a variety of downstream tasks [ Devlin et al. ,2019 ].\nIndeed, training language models on large-scale data has le d NLP research to exciting times.\nWhile language modeling has long been seen as a foundational technique with no direct link to\nthe goals of arti\ufb01cial intelligence that researchers had ho ped for, it helps us see the emergence of\nintelligent systems that can learn...",
+          "score": 0.6050868
+        },
+        {
+          "chunk_id": "81f6ca27534022fc",
+          "content": "24 896 14/2\n7B 28 3,584 28/4\n72B 80 8,192 64/8\nDeepSeek-V3 [ Liu et al. ,2024a ] 671B 61 7,168 128/128\nFalcon [ Penedo et al. ,2023 ]7B 32 4,544 71/71\n40B 60 8,192 128/128\n180B 80 14,848 232/232\nMistral [ Jiang et al. ,2023a ] 7B 32 4,096 32/32\nTable 2.2: Comparison of some LLMs in terms of model size, model depth, m odel width, and number of heads ( a/b\nmeansaheads for queries and bheads for both keys and values).\nsurprisingly, better results were continuously yielded as language models were ev...",
+          "score": 0.6020911
+        },
+        {
+          "chunk_id": "763b2f3380ad8dda",
+          "content": "\u00b71013)\u22120.076\n1081092.733.33.63.94.2\nDataset SizeTest LossL(D) = (D\n5.4\u00b71013)\u22120.095\nFig. 2.4: Test loss against model size ( N) and training dataset size ( D) (data points are plotted for illustrative purposes).\nWe plot test loss as a function of N, which is de\ufb01ned as L(N) =(N\n8.8\u00d71013)\u22120.076, and a function of D, which is\nde\ufb01ned as L(D) =(D\n5.4\u00d71013)\u22120.095[Kaplan et al. ,2020 ].\nwhereaandbare parameters that are estimated empirically. Despite its simplicity, this func-\ntion has successfully inte...",
+          "score": 0.5950468
+        },
+        {
+          "chunk_id": "3eb0ec13b980aca6",
+          "content": "] Jason Wei, Yi Tay, Rishi Bommasani, Colin R affel, Barret Zoph, Sebastian Borgeaud,\nDani Yogatama, Maarten Bosma, Denny Zhou, Donald Metzler, E d H. Chi, Tatsunori Hashimoto, Oriol\nVinyals, Percy Liang, Jeff Dean, and William Fedus. Emergen t abilities of large language models. arXiv\npreprint arXiv:2206.07682 , 2022b.\n[Wei et al., 2022] Jason Wei, Xuezhi Wang, Dale Schuurmans, M aarten Bosma, Brian Ichter, Fei Xia,\nEd H. Chi, Quoc V . Le, and Denny Zhou. Chain-of-thought promp ting elicits rea...",
+          "score": 0.5848984
+        },
+        {
+          "chunk_id": "88035bb4a07f11ae",
+          "content": " Bengio et al.\n[2003 ]\u2019s work where n-gram probabilities are modeled via a feed-forward network and learned\nby training the network in an end-to-end fashion. A by-produ ct of this neural language model\nis the distributed representations of words, known as word e mbeddings. Rather than represent-\ning words as discrete variables, word embeddings map words i nto low-dimensional real-valued\nvectors, making it possible to compute the meanings of words and wordn-grams in a continu-\nous representation ...",
+          "score": 0.58055943
+        }
+      ],
+      "retrieval_time": 0.8216931819915771
+    },
+    "Define large language models": {
+      "results": [
+        {
+          "chunk_id": "e944efc521b07286",
+          "content": "resents a pa-\nrameter matrix. head jis the output of QKV attention on a sub-space of representati on\nhead j= Att qkv(Q[j],K[j],V[j]) (2.8)\nQ[j],K[j],andV[j]are the queries, keys, and values projected onto the j-th sub-space via linear\ntransformations\nQ[j]=HWq\nj (2.9)\nK[j]=HWk\nj (2.10)\nV[j]=HWv\nj (2.11)\nwhere Wq\nj,Wk\nj, and Wv\nj\u2208Rd\u00d7d\n\u03c4are the parameter matrices of the transformations.\nSuppose we have LTransformer blocks. A Softmax layer is built on top of the out put of the\nlast block. The Softma...",
+          "score": 0.6381453
+        },
+        {
+          "chunk_id": "393d627c45da8706",
+          "content": " Pre-normPost-norm or Pre-norm\nSelf-attentionFFNLBlocks\nFig. 2.1: The Transformer-decoder architecture for language modeli ng. The central components are Lstacked Trans-\nformer blocks, each comprising a self-attention sub-layer and an FFN sub-layer. To prevent the model from accessing\nthe right-context, a masking variable is incorporated into self-attention. The output layer uses a Softmax function to\ngenerate a probability distribution for the next token, giv en the sequence of previous tokens....",
+          "score": 0.61477685
+        },
+        {
+          "chunk_id": "01e5246396f56338",
+          "content": "\n\n--- Page 1 ---\n\narXiv:2501.09223v1  [cs.CL]  16 Jan 2025Foundations of\nLarge Language Models\nTong Xiao and Jingbo Zhu\nJanuary 17, 2025\nNLP Lab, Northeastern University & NiuTrans Research\n\n--- Page 2 ---\n\nCopyright \u00a9 2021-2025 Tong Xiao and Jingbo Zhu\nNATURAL LANGUAGE PROCESSING LAB, NORTHEASTERN UNIVERSITY\n&\nNIUTRANS RESEARCH\nLicensed under the Creative Commons Attribution-NonComme rcial 4.0 Unported License (the\n\u201cLicense\u201d). You may not use this \ufb01le except in compliance wit h the License. You...",
+          "score": 0.6100564
+        },
+        {
+          "chunk_id": "86ebf89873b14c45",
+          "content": " development of large\nlanguage models (LLMs). This has helped create systems that can understand and generate nat-\nural languages like humans. These systems have even been fou nd to be able to reason, which\nis considered a very challenging AI problem. With these achi evements, NLP made big strides\nand entered a new era of research in which dif\ufb01cult problems a re being solved, such as building\nconversational systems that can communicate with humans sm oothly.\nThe concept of language modeling or p...",
+          "score": 0.5944381
+        },
+        {
+          "chunk_id": "94fdcaccf6e4232e",
+          "content": "illions of tokens have already been used for training.\nWith the increase in the scale of model training, LLMs exhibi t new capabilities, known as the\nemergent abilities of LLMs. For example, Wei et al. [2022b ] studied the scaling properties of\nLLMs across different model sizes and amounts of computatio nal resources. Their work shows\nthat some abilities emerge when we scale the model size to cer tain level. The appearance of\nemergent abilities has demonstrated the role of scaled trai ning in en...",
+          "score": 0.59229827
+        },
+        {
+          "chunk_id": "72f80a0d0fe781a8",
+          "content": "s 37\npowerful Transformer-based models were pre-trained using these word prediction tasks, and suc-\ncessfully applied to a variety of downstream tasks [ Devlin et al. ,2019 ].\nIndeed, training language models on large-scale data has le d NLP research to exciting times.\nWhile language modeling has long been seen as a foundational technique with no direct link to\nthe goals of arti\ufb01cial intelligence that researchers had ho ped for, it helps us see the emergence of\nintelligent systems that can learn...",
+          "score": 0.5912355
+        },
+        {
+          "chunk_id": "3eb0ec13b980aca6",
+          "content": "] Jason Wei, Yi Tay, Rishi Bommasani, Colin R affel, Barret Zoph, Sebastian Borgeaud,\nDani Yogatama, Maarten Bosma, Denny Zhou, Donald Metzler, E d H. Chi, Tatsunori Hashimoto, Oriol\nVinyals, Percy Liang, Jeff Dean, and William Fedus. Emergen t abilities of large language models. arXiv\npreprint arXiv:2206.07682 , 2022b.\n[Wei et al., 2022] Jason Wei, Xuezhi Wang, Dale Schuurmans, M aarten Bosma, Brian Ichter, Fei Xia,\nEd H. Chi, Quoc V . Le, and Denny Zhou. Chain-of-thought promp ting elicits rea...",
+          "score": 0.58809936
+        },
+        {
+          "chunk_id": "763b2f3380ad8dda",
+          "content": "\u00b71013)\u22120.076\n1081092.733.33.63.94.2\nDataset SizeTest LossL(D) = (D\n5.4\u00b71013)\u22120.095\nFig. 2.4: Test loss against model size ( N) and training dataset size ( D) (data points are plotted for illustrative purposes).\nWe plot test loss as a function of N, which is de\ufb01ned as L(N) =(N\n8.8\u00d71013)\u22120.076, and a function of D, which is\nde\ufb01ned as L(D) =(D\n5.4\u00d71013)\u22120.095[Kaplan et al. ,2020 ].\nwhereaandbare parameters that are estimated empirically. Despite its simplicity, this func-\ntion has successfully inte...",
+          "score": 0.5859463
+        },
+        {
+          "chunk_id": "81f6ca27534022fc",
+          "content": "24 896 14/2\n7B 28 3,584 28/4\n72B 80 8,192 64/8\nDeepSeek-V3 [ Liu et al. ,2024a ] 671B 61 7,168 128/128\nFalcon [ Penedo et al. ,2023 ]7B 32 4,544 71/71\n40B 60 8,192 128/128\n180B 80 14,848 232/232\nMistral [ Jiang et al. ,2023a ] 7B 32 4,096 32/32\nTable 2.2: Comparison of some LLMs in terms of model size, model depth, m odel width, and number of heads ( a/b\nmeansaheads for queries and bheads for both keys and values).\nsurprisingly, better results were continuously yielded as language models were ev...",
+          "score": 0.58304703
+        },
+        {
+          "chunk_id": "19138dc2402890d3",
+          "content": " Sandipan Kundu, Saurav Kada-\nvath, Scott Johnston, Shauna Kravec, Sheer El Showk, Tamera Lanham, Timothy Telleen-Lawton, Tom\nHenighan, Tristan Hume, Yuntao Bai, Zac Hat\ufb01eld-Dodds, Ben Mann, Dario Amodei, Nicholas Joseph,\nSam McCandlish, Tom Brown, Christopher Olah, Jack Clark, Sa muel R. Bowman, and Jared Kaplan.\nThe capacity for moral self-correction in large language mo dels. arXiv preprint arXiv:2302.07459 , 2023.\n[Gao et al., 2023] Leo Gao, John Schulman, and Jacob Hilton. S caling laws for...",
+          "score": 0.5761335
+        }
+      ],
+      "retrieval_time": 0.7751398086547852
+    },
+    "Explain what LLMs are": {
+      "results": [
+        {
+          "chunk_id": "5564f6d5fddfb6a4",
+          "content": " tasks we need to \u201cmemorize\u201d\nthe entire context so that the relevant information can be ac cessed. We will discuss the evaluation\nissue later in this subsection.\n2.3.6.2 Pre-training or Adapting LLMs?\nTraining LLMs requires signi\ufb01cant computational costs. Al though it is straightforward to train\nLLMs on long sequence data, the training becomes computatio nally unwieldy for large data sets. It\nis common practice to pre-train LLMs on general datasets, an d then adapt them with modest \ufb01ne-\ntuning e...",
+          "score": 0.4684617
+        },
+        {
+          "chunk_id": "81f6ca27534022fc",
+          "content": "24 896 14/2\n7B 28 3,584 28/4\n72B 80 8,192 64/8\nDeepSeek-V3 [ Liu et al. ,2024a ] 671B 61 7,168 128/128\nFalcon [ Penedo et al. ,2023 ]7B 32 4,544 71/71\n40B 60 8,192 128/128\n180B 80 14,848 232/232\nMistral [ Jiang et al. ,2023a ] 7B 32 4,096 32/32\nTable 2.2: Comparison of some LLMs in terms of model size, model depth, m odel width, and number of heads ( a/b\nmeansaheads for queries and bheads for both keys and values).\nsurprisingly, better results were continuously yielded as language models were ev...",
+          "score": 0.4622286
+        },
+        {
+          "chunk_id": "8d69b7f846ee6a8a",
+          "content": "x m,y1,...,y i\u22121) (2.15)\nHere\u2211n\ni=1log Pr(yi|x0,...,x m,y1,...,y i\u22121)essentially expresses the same thing as the right-\nhand side of Eq. ( 2.2). It models the log probability of predicting tokens from po sitionm+ 1,\nrather than position 0. Throughout this chapter and subsequent ones, we will emplo y separate\nvariables xandyto distinguish the input and output of an LLM, though they can be seen as sub-\nsequences from the same sequence. By adopting such notation , we see that the form of the above\n...",
+          "score": 0.4596476
+        },
+        {
+          "chunk_id": "6054ad72af016f5a",
+          "content": " Here we consider three widely-used approa ches to aligning LLMs.\nThe \ufb01rst approach is to \ufb01ne-tune LLMs with labeled data. This approach is straightforward\nas it simply extends the pre-existing training of a pre-trai ned LLM to adapt it to speci\ufb01c tasks.\nAn example of this is supervised \ufb01ne-tuning (SFT), in which the LLM is further trained on a\ndataset comprising task-speci\ufb01c instructions paired with their expected outputs. The SFT dataset\nis generally much smaller compared to the original train...",
+          "score": 0.45223635
+        },
+        {
+          "chunk_id": "06dd27bf6c7633ed",
+          "content": " This poses new chall enges in ensuring that LLM outputs are\nnot only accurate and relevant, but also ethically sound and non-discriminatory.\nSimply pre-training LLMs can result in a variety of alignmen t problems. Our ultimate goal\nis to resolve or mitigate all these problems to ensure LLMs ar e both accurate and safe. There\nis an interesting issue here: since large language models ar e trained on vast amounts of data,\nwe have reason to believe that if we have suf\ufb01cient data cover ing a variety...",
+          "score": 0.45109704
+        },
+        {
+          "chunk_id": "f7a831a2a96ee856",
+          "content": "in g errors such as syntactic or\nsemantic mistakes in text. For an LLM which is trained on both code and natural language data,\nwe may use it for code debugging6.\nFix the bugs in this C language program.\n#include<stdio.h>\nint main() {\nprintg(\"Hello, World!\")\nreturn 0;\n}\n1. The function name \u2019printg\u2019 is incorrect . It should be \u2019pri ntf\u2019.\n2. There is a missing semicolon at the end of the \u2019printf\u2019 func tion call.\nHere is the corrected version of the program:\n#include<stdio.h>\nint main() {\nprintf(\"...",
+          "score": 0.4508403
+        },
+        {
+          "chunk_id": "a5d7171d84d43e01",
+          "content": " be seen as following the pre-training + \ufb01ne-t uning paradigm, and offers a\nrelatively straightforward method to adapt LLMs.\n\u2022Learning from Human Feedback . After an LLM \ufb01nishes pre-training and supervised \ufb01ne-\ntuning, it can be used to respond to user requests if appropri ately prompted. But this model\nmay generate content that is unfactual, biased, or harmful. To make the LLM more aligned\nwith the users, one simple approach is to directly learn from human feedback. For example,\ngiven some inst...",
+          "score": 0.45082343
+        },
+        {
+          "chunk_id": "84ea29514492a812",
+          "content": " much training data as possible.\nHowever, larger training datasets do not mean better traini ng results, and the development of\nLLMs raises new issues in creating or collecting these datas ets.\nA \ufb01rst issue is the quality of data. High-quality data has lon g been seen as crucial for training\ndata-driven NLP systems. Directly using raw text from vario us sources is in general undesirable.\nFor example, a signi\ufb01cant portion of the data used to train re cent LLMs comes from web scraping,\nwhich may c...",
+          "score": 0.44393215
+        },
+        {
+          "chunk_id": "517aad6933c5c19b",
+          "content": "cult for humans to provide ou tputs that are well aligned. As an\nalternative, annotating the preferences of a given list of m odel outputs offers a simpler task. By\ndoing so, we can create a model that understands human prefer ences, which can then be used as\na reward model for training policies. From the perspective o f machine learning, RLHF is par-\nticularly useful for scenarios where the desired behavior o f an agent is dif\ufb01cult to demonstrate\nbut can be easily recognized by humans. Another ...",
+          "score": 0.4411042
+        },
+        {
+          "chunk_id": "90d9629e1022454c",
+          "content": "\nall the grammatical errors in the translation\u201d, so that the m odel can focus more on grammatical\nerror correction during re\ufb01nement.\nA general framework of self-re\ufb01nement with LLMs involves th ree steps [ Madaan et al. ,2024 ].\n\u2022Prediction . We use an LLM to produce the initial model output.\n\u2022Feedback Collection . We obtain feedback on the model output.\n\u2022Re\ufb01nement . We use the LLM to re\ufb01ne the model output based on the feedback .\nThe last two steps can be repeated multiple times, which lead s to...",
+          "score": 0.44002268
+        }
+      ],
+      "retrieval_time": 0.7165427207946777
+    }
+  },
+  "transformer_architecture": {
+    "How does the transformer architecture work?": {
+      "results": [
+        {
+          "chunk_id": "7e50577222aac10b",
+          "content": " applied across var ious deep learning models [ Kim et al. ,\n2023 ]. A commonly used approach is to adopt a low-precision imple mentation of Transformers.\nFor example, we can use 8-bit or 16-bit \ufb01xed-point data types for arithmetic operations, instead\nof 32-bit or 64-bit \ufb02oating-point data types. Using these lo w-precision data types can increase\nthe ef\ufb01ciency and memory throughput, so that longer sequenc es can be processed more easily.\nAn alternative approach is to improve Transformers by usin...",
+          "score": 0.41956568
+        },
+        {
+          "chunk_id": "45cfbd636699d0e7",
+          "content": " laws\ncontinuously push the boundaries of AI further away. On the o ther hand, understanding scaling\nlaws helps researchers make decisions in training LLMs. For example, given the computational\nresources at hand, the performance of LLMs may be predicted.\nOne last note on scaling laws in this section. For LLMs, a lowe r test loss does not always\nimply better performance on all downstream tasks. To adapt L LMs, there are several steps such\nas \ufb01ne-tuning and prompting that may in\ufb02uence the \ufb01nal res...",
+          "score": 0.41322812
+        },
+        {
+          "chunk_id": "0f5b1ae9206c1d0a",
+          "content": "\u2211\nkj\u2032\u2208K[nu]exp(\u03b2i,j\u2032)\n\ued19\ued18\ued17\ued1a\nnode nu(2.43)\nwhere the notation kj\u2032\u2208K[u]represents that kj\u2032is a row vector of K[u]. In a straightforward\nimplementation, we \ufb01rst perform the summations {\u2211\nkj\u2032\u2208K[u]exp(\u03b2i,j\u2032)}separately on the corre-\nsponding nodes. Then, we collect these summation results fr om different nodes to combine them\ninto a \ufb01nal result. This corresponds to a collective operati on in the context of parallel processing.\nThere are many ef\ufb01cient implementations of such operations , such as the al...",
+          "score": 0.39955467
+        },
+        {
+          "chunk_id": "1e0983597b61131c",
+          "content": "is the attention weight between positions iandj. In Transformers, \u03b1i,jis obtained\nby normalizing the rescaled version of the dot product betwe enqiandkj. Let\u03b2i,jdenote the\nattention score between qiandkj. We have\n\u03b2i,j=qi\u00b7kj\u221a\nd+ Mask(i,j) (2.41)\nwhere Mask(i,j)is the masking variable for (i,j). Then, we de\ufb01ne the attention weight \u03b1i,jto\nbe\n\u03b1i,j= Softmax( \u03b2i,j)\n=exp(\u03b2i,j)\u2211\nj\u2032exp(\u03b2i,j\u2032)(2.42)\n\n--- Page 75 ---\n\n68 Generative Models\nOn each computing node, we need to implement these equations . Given...",
+          "score": 0.39876708
+        },
+        {
+          "chunk_id": "cba032a57ada2df2",
+          "content": " not a proble m that is speci\ufb01c to LLMs but\nexists in many NLP systems. A common example is gender bias, w here LLMs show a preference\nfor one gender over another. This can partly be attributed to class imbalance in the training data,\nfor example, the term nurses is more often associated with women. In order to debias the da ta,\nit is common practice to balance the categories of different language phenomena, such as gender,\nethnicity, and dialects. The bias in data is also related to t he divers...",
+          "score": 0.39778933
+        },
+        {
+          "chunk_id": "410dad6170826ef7",
+          "content": "s\u27e9a)\n\u27e8s\u27e9a bc arg maxx3\u2208VPr(x3|\u27e8s\u27e9ab) Pr(\u27e8s\u27e9)\u00b7Pr(a|\u27e8s\u27e9)\u00b7Pr(b|\u27e8s\u27e9a)\u00b7\nPr(c|\u27e8s\u27e9ab)\n\u27e8s\u27e9a b cd arg maxx4\u2208VPr(x4|\u27e8s\u27e9abc)Pr(\u27e8s\u27e9)\u00b7Pr(a|\u27e8s\u27e9)\u00b7Pr(b|\u27e8s\u27e9a)\u00b7\nPr(c|\u27e8s\u27e9ab)\u00b7Pr(d|\u27e8s\u27e9abc)\nTable 2.1: Illustration of generating the three tokens b c d given the pre\ufb01x \u27e8s\u27e9avia a language model. In each step,\nthe model picks a token xifromVso that Pr(xi|x0,...,x i\u22121)is maximized. This token is then appended to the end\nof the context sequence. In the next step, we repeat the same p rocess, but based on the new context.\npr...",
+          "score": 0.39581367
+        },
+        {
+          "chunk_id": "808ec4ed6117434d",
+          "content": "s\u27e9a)\n\u27e8s\u27e9a bc arg maxx3\u2208VPr(x3|\u27e8s\u27e9ab) Pr(\u27e8s\u27e9)\u00b7Pr(a|\u27e8s\u27e9)\u00b7Pr(b|\u27e8s\u27e9a)\u00b7\nPr(c|\u27e8s\u27e9ab)\n\u27e8s\u27e9a b cd arg maxx4\u2208VPr(x4|\u27e8s\u27e9abc)Pr(\u27e8s\u27e9)\u00b7Pr(a|\u27e8s\u27e9)\u00b7Pr(b|\u27e8s\u27e9a)\u00b7\nPr(c|\u27e8s\u27e9ab)\u00b7Pr(d|\u27e8s\u27e9abc)\nTable 2.1: Illustration of generating the three tokens b c d given the pre\ufb01x \u27e8s\u27e9avia a language model. In each step,\nthe model picks a token xifromVso that Pr(xi|x0,...,x i\u22121)is maximized. This token is then appended to the end\nof the context sequence. In the next step, we repeat the same p rocess, but based on the new context.\npr...",
+          "score": 0.3796454
+        },
+        {
+          "chunk_id": "99df9d134f8a74ab",
+          "content": " (2.4)\n3Note that\u2211m\ni=1log Pr(xi|x0,...,x i\u22121) =\u2211m\ni=0log Pr(xi|x0,...,x i\u22121)since log Pr(x0) = 0 .\n\n--- Page 46 ---\n\n2.1 A Brief Introduction to LLMs 39\nor the pre-norm architecture\noutput = LNorm( F(input)) + input (2.5)\nwhere input andoutput denote the input and output, both being an m\u00d7dmatrix. The i-th rows\nofinput andoutput can be seen as contextual representations of the i-th token in the sequence.\nF(\u00b7)is the core function of a sub-layer. For FFN sub-layers, F(\u00b7)is a multi-layer FFN. For\ns...",
+          "score": 0.3786699
+        },
+        {
+          "chunk_id": "570656a5c1117373",
+          "content": " sharing acros s heads in multi-head self-attention.\nRecall from Section 2.1.1 that multi-head self-attention uses multiple sets of queri es, keys, and\nvalues (each set is called a head), each performing the QKV at tention mechanism as usual. This\ncan be expressed as\nOutput = Merge(head 1,...,head \u03c4)Whead(2.70)\nwhere head j\u2208Rdhis computed using the standard QKV attention function\nhead j= Att qkv(q[j]\ni,K[j]\n\u2264i,V[j]\n\u2264i) (2.71)\nHere, q[j]\ni,K[j]\n\u2264i, and V[j]\n\u2264iare the query, keys, and values that ...",
+          "score": 0.3767913
+        },
+        {
+          "chunk_id": "393d627c45da8706",
+          "content": " Pre-normPost-norm or Pre-norm\nSelf-attentionFFNLBlocks\nFig. 2.1: The Transformer-decoder architecture for language modeli ng. The central components are Lstacked Trans-\nformer blocks, each comprising a self-attention sub-layer and an FFN sub-layer. To prevent the model from accessing\nthe right-context, a masking variable is incorporated into self-attention. The output layer uses a Softmax function to\ngenerate a probability distribution for the next token, giv en the sequence of previous tokens....",
+          "score": 0.37375492
+        }
+      ],
+      "retrieval_time": 0.5701711177825928
+    },
+    "Explain the transformer architecture": {
+      "results": [
+        {
+          "chunk_id": "410dad6170826ef7",
+          "content": "s\u27e9a)\n\u27e8s\u27e9a bc arg maxx3\u2208VPr(x3|\u27e8s\u27e9ab) Pr(\u27e8s\u27e9)\u00b7Pr(a|\u27e8s\u27e9)\u00b7Pr(b|\u27e8s\u27e9a)\u00b7\nPr(c|\u27e8s\u27e9ab)\n\u27e8s\u27e9a b cd arg maxx4\u2208VPr(x4|\u27e8s\u27e9abc)Pr(\u27e8s\u27e9)\u00b7Pr(a|\u27e8s\u27e9)\u00b7Pr(b|\u27e8s\u27e9a)\u00b7\nPr(c|\u27e8s\u27e9ab)\u00b7Pr(d|\u27e8s\u27e9abc)\nTable 2.1: Illustration of generating the three tokens b c d given the pre\ufb01x \u27e8s\u27e9avia a language model. In each step,\nthe model picks a token xifromVso that Pr(xi|x0,...,x i\u22121)is maximized. This token is then appended to the end\nof the context sequence. In the next step, we repeat the same p rocess, but based on the new context.\npr...",
+          "score": 0.4025733
+        },
+        {
+          "chunk_id": "45cfbd636699d0e7",
+          "content": " laws\ncontinuously push the boundaries of AI further away. On the o ther hand, understanding scaling\nlaws helps researchers make decisions in training LLMs. For example, given the computational\nresources at hand, the performance of LLMs may be predicted.\nOne last note on scaling laws in this section. For LLMs, a lowe r test loss does not always\nimply better performance on all downstream tasks. To adapt L LMs, there are several steps such\nas \ufb01ne-tuning and prompting that may in\ufb02uence the \ufb01nal res...",
+          "score": 0.40251717
+        },
+        {
+          "chunk_id": "cba032a57ada2df2",
+          "content": " not a proble m that is speci\ufb01c to LLMs but\nexists in many NLP systems. A common example is gender bias, w here LLMs show a preference\nfor one gender over another. This can partly be attributed to class imbalance in the training data,\nfor example, the term nurses is more often associated with women. In order to debias the da ta,\nit is common practice to balance the categories of different language phenomena, such as gender,\nethnicity, and dialects. The bias in data is also related to t he divers...",
+          "score": 0.40072134
+        },
+        {
+          "chunk_id": "0f5b1ae9206c1d0a",
+          "content": "\u2211\nkj\u2032\u2208K[nu]exp(\u03b2i,j\u2032)\n\ued19\ued18\ued17\ued1a\nnode nu(2.43)\nwhere the notation kj\u2032\u2208K[u]represents that kj\u2032is a row vector of K[u]. In a straightforward\nimplementation, we \ufb01rst perform the summations {\u2211\nkj\u2032\u2208K[u]exp(\u03b2i,j\u2032)}separately on the corre-\nsponding nodes. Then, we collect these summation results fr om different nodes to combine them\ninto a \ufb01nal result. This corresponds to a collective operati on in the context of parallel processing.\nThere are many ef\ufb01cient implementations of such operations , such as the al...",
+          "score": 0.3949985
+        },
+        {
+          "chunk_id": "99df9d134f8a74ab",
+          "content": " (2.4)\n3Note that\u2211m\ni=1log Pr(xi|x0,...,x i\u22121) =\u2211m\ni=0log Pr(xi|x0,...,x i\u22121)since log Pr(x0) = 0 .\n\n--- Page 46 ---\n\n2.1 A Brief Introduction to LLMs 39\nor the pre-norm architecture\noutput = LNorm( F(input)) + input (2.5)\nwhere input andoutput denote the input and output, both being an m\u00d7dmatrix. The i-th rows\nofinput andoutput can be seen as contextual representations of the i-th token in the sequence.\nF(\u00b7)is the core function of a sub-layer. For FFN sub-layers, F(\u00b7)is a multi-layer FFN. For\ns...",
+          "score": 0.3908326
+        },
+        {
+          "chunk_id": "1e0983597b61131c",
+          "content": "is the attention weight between positions iandj. In Transformers, \u03b1i,jis obtained\nby normalizing the rescaled version of the dot product betwe enqiandkj. Let\u03b2i,jdenote the\nattention score between qiandkj. We have\n\u03b2i,j=qi\u00b7kj\u221a\nd+ Mask(i,j) (2.41)\nwhere Mask(i,j)is the masking variable for (i,j). Then, we de\ufb01ne the attention weight \u03b1i,jto\nbe\n\u03b1i,j= Softmax( \u03b2i,j)\n=exp(\u03b2i,j)\u2211\nj\u2032exp(\u03b2i,j\u2032)(2.42)\n\n--- Page 75 ---\n\n68 Generative Models\nOn each computing node, we need to implement these equations . Given...",
+          "score": 0.39060634
+        },
+        {
+          "chunk_id": "7e50577222aac10b",
+          "content": " applied across var ious deep learning models [ Kim et al. ,\n2023 ]. A commonly used approach is to adopt a low-precision imple mentation of Transformers.\nFor example, we can use 8-bit or 16-bit \ufb01xed-point data types for arithmetic operations, instead\nof 32-bit or 64-bit \ufb02oating-point data types. Using these lo w-precision data types can increase\nthe ef\ufb01ciency and memory throughput, so that longer sequenc es can be processed more easily.\nAn alternative approach is to improve Transformers by usin...",
+          "score": 0.38672742
+        },
+        {
+          "chunk_id": "808ec4ed6117434d",
+          "content": "s\u27e9a)\n\u27e8s\u27e9a bc arg maxx3\u2208VPr(x3|\u27e8s\u27e9ab) Pr(\u27e8s\u27e9)\u00b7Pr(a|\u27e8s\u27e9)\u00b7Pr(b|\u27e8s\u27e9a)\u00b7\nPr(c|\u27e8s\u27e9ab)\n\u27e8s\u27e9a b cd arg maxx4\u2208VPr(x4|\u27e8s\u27e9abc)Pr(\u27e8s\u27e9)\u00b7Pr(a|\u27e8s\u27e9)\u00b7Pr(b|\u27e8s\u27e9a)\u00b7\nPr(c|\u27e8s\u27e9ab)\u00b7Pr(d|\u27e8s\u27e9abc)\nTable 2.1: Illustration of generating the three tokens b c d given the pre\ufb01x \u27e8s\u27e9avia a language model. In each step,\nthe model picks a token xifromVso that Pr(xi|x0,...,x i\u22121)is maximized. This token is then appended to the end\nof the context sequence. In the next step, we repeat the same p rocess, but based on the new context.\npr...",
+          "score": 0.38602027
+        },
+        {
+          "chunk_id": "98f55b0dfaa16904",
+          "content": " It is [MASK] .[SEP] Ineed [MASK] hat.[SEP] Token:\nReplacement\nKeep selected tokens unchanged with a probability of 10%\n[CLS] It is [MASK] .[SEP] Ineed [MASK] hat . [SEP] Unchanged:\nTrain the Transformer encoder with the modi\ufb01ed sequence\n[CLS] It is[MASK] .[SEP] I need [MASK] hat .[SEP]e0 e1 e2 e3 e4 e5 e6 e7 e8 e9 e10 e11h0 h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11training I an umbrella\nTransformer Encoder\nFig. 1.5: A running example of BERT-style masked language modeling. F irst,15% tokens are random...",
+          "score": 0.37707204
+        },
+        {
+          "chunk_id": "eda120047cba6319",
+          "content": " the output representation is a real-valued ve ctor which is produced by the last layer\nof the network.\nThere are several aspects one may consider in developing BER T models.\n\u2022Vocabulary Size (|V|). In Transformers, each input token is represented as an ent ry in a\nvocabularyV. Large vocabularies can cover more surface form variants of words, but may\nlead to increased storage requirements.\n\u2022Embedding Size (de). Every token is represented as a de-dimensional real-valued vector.\nAs presented above...",
+          "score": 0.37620553
+        }
+      ],
+      "retrieval_time": 0.776275634765625
+    },
+    "What is the structure of transformer models?": {
+      "results": [
+        {
+          "chunk_id": "99df9d134f8a74ab",
+          "content": " (2.4)\n3Note that\u2211m\ni=1log Pr(xi|x0,...,x i\u22121) =\u2211m\ni=0log Pr(xi|x0,...,x i\u22121)since log Pr(x0) = 0 .\n\n--- Page 46 ---\n\n2.1 A Brief Introduction to LLMs 39\nor the pre-norm architecture\noutput = LNorm( F(input)) + input (2.5)\nwhere input andoutput denote the input and output, both being an m\u00d7dmatrix. The i-th rows\nofinput andoutput can be seen as contextual representations of the i-th token in the sequence.\nF(\u00b7)is the core function of a sub-layer. For FFN sub-layers, F(\u00b7)is a multi-layer FFN. For\ns...",
+          "score": 0.45235476
+        },
+        {
+          "chunk_id": "393d627c45da8706",
+          "content": " Pre-normPost-norm or Pre-norm\nSelf-attentionFFNLBlocks\nFig. 2.1: The Transformer-decoder architecture for language modeli ng. The central components are Lstacked Trans-\nformer blocks, each comprising a self-attention sub-layer and an FFN sub-layer. To prevent the model from accessing\nthe right-context, a masking variable is incorporated into self-attention. The output layer uses a Softmax function to\ngenerate a probability distribution for the next token, giv en the sequence of previous tokens....",
+          "score": 0.44748777
+        },
+        {
+          "chunk_id": "cba032a57ada2df2",
+          "content": " not a proble m that is speci\ufb01c to LLMs but\nexists in many NLP systems. A common example is gender bias, w here LLMs show a preference\nfor one gender over another. This can partly be attributed to class imbalance in the training data,\nfor example, the term nurses is more often associated with women. In order to debias the da ta,\nit is common practice to balance the categories of different language phenomena, such as gender,\nethnicity, and dialects. The bias in data is also related to t he divers...",
+          "score": 0.43581274
+        },
+        {
+          "chunk_id": "410dad6170826ef7",
+          "content": "s\u27e9a)\n\u27e8s\u27e9a bc arg maxx3\u2208VPr(x3|\u27e8s\u27e9ab) Pr(\u27e8s\u27e9)\u00b7Pr(a|\u27e8s\u27e9)\u00b7Pr(b|\u27e8s\u27e9a)\u00b7\nPr(c|\u27e8s\u27e9ab)\n\u27e8s\u27e9a b cd arg maxx4\u2208VPr(x4|\u27e8s\u27e9abc)Pr(\u27e8s\u27e9)\u00b7Pr(a|\u27e8s\u27e9)\u00b7Pr(b|\u27e8s\u27e9a)\u00b7\nPr(c|\u27e8s\u27e9ab)\u00b7Pr(d|\u27e8s\u27e9abc)\nTable 2.1: Illustration of generating the three tokens b c d given the pre\ufb01x \u27e8s\u27e9avia a language model. In each step,\nthe model picks a token xifromVso that Pr(xi|x0,...,x i\u22121)is maximized. This token is then appended to the end\nof the context sequence. In the next step, we repeat the same p rocess, but based on the new context.\npr...",
+          "score": 0.43478662
+        },
+        {
+          "chunk_id": "eda120047cba6319",
+          "content": " the output representation is a real-valued ve ctor which is produced by the last layer\nof the network.\nThere are several aspects one may consider in developing BER T models.\n\u2022Vocabulary Size (|V|). In Transformers, each input token is represented as an ent ry in a\nvocabularyV. Large vocabularies can cover more surface form variants of words, but may\nlead to increased storage requirements.\n\u2022Embedding Size (de). Every token is represented as a de-dimensional real-valued vector.\nAs presented above...",
+          "score": 0.4246843
+        },
+        {
+          "chunk_id": "808ec4ed6117434d",
+          "content": "s\u27e9a)\n\u27e8s\u27e9a bc arg maxx3\u2208VPr(x3|\u27e8s\u27e9ab) Pr(\u27e8s\u27e9)\u00b7Pr(a|\u27e8s\u27e9)\u00b7Pr(b|\u27e8s\u27e9a)\u00b7\nPr(c|\u27e8s\u27e9ab)\n\u27e8s\u27e9a b cd arg maxx4\u2208VPr(x4|\u27e8s\u27e9abc)Pr(\u27e8s\u27e9)\u00b7Pr(a|\u27e8s\u27e9)\u00b7Pr(b|\u27e8s\u27e9a)\u00b7\nPr(c|\u27e8s\u27e9ab)\u00b7Pr(d|\u27e8s\u27e9abc)\nTable 2.1: Illustration of generating the three tokens b c d given the pre\ufb01x \u27e8s\u27e9avia a language model. In each step,\nthe model picks a token xifromVso that Pr(xi|x0,...,x i\u22121)is maximized. This token is then appended to the end\nof the context sequence. In the next step, we repeat the same p rocess, but based on the new context.\npr...",
+          "score": 0.42451668
+        },
+        {
+          "chunk_id": "45cfbd636699d0e7",
+          "content": " laws\ncontinuously push the boundaries of AI further away. On the o ther hand, understanding scaling\nlaws helps researchers make decisions in training LLMs. For example, given the computational\nresources at hand, the performance of LLMs may be predicted.\nOne last note on scaling laws in this section. For LLMs, a lowe r test loss does not always\nimply better performance on all downstream tasks. To adapt L LMs, there are several steps such\nas \ufb01ne-tuning and prompting that may in\ufb02uence the \ufb01nal res...",
+          "score": 0.4239038
+        },
+        {
+          "chunk_id": "1e0983597b61131c",
+          "content": "is the attention weight between positions iandj. In Transformers, \u03b1i,jis obtained\nby normalizing the rescaled version of the dot product betwe enqiandkj. Let\u03b2i,jdenote the\nattention score between qiandkj. We have\n\u03b2i,j=qi\u00b7kj\u221a\nd+ Mask(i,j) (2.41)\nwhere Mask(i,j)is the masking variable for (i,j). Then, we de\ufb01ne the attention weight \u03b1i,jto\nbe\n\u03b1i,j= Softmax( \u03b2i,j)\n=exp(\u03b2i,j)\u2211\nj\u2032exp(\u03b2i,j\u2032)(2.42)\n\n--- Page 75 ---\n\n68 Generative Models\nOn each computing node, we need to implement these equations . Given...",
+          "score": 0.4213629
+        },
+        {
+          "chunk_id": "0f5b1ae9206c1d0a",
+          "content": "\u2211\nkj\u2032\u2208K[nu]exp(\u03b2i,j\u2032)\n\ued19\ued18\ued17\ued1a\nnode nu(2.43)\nwhere the notation kj\u2032\u2208K[u]represents that kj\u2032is a row vector of K[u]. In a straightforward\nimplementation, we \ufb01rst perform the summations {\u2211\nkj\u2032\u2208K[u]exp(\u03b2i,j\u2032)}separately on the corre-\nsponding nodes. Then, we collect these summation results fr om different nodes to combine them\ninto a \ufb01nal result. This corresponds to a collective operati on in the context of parallel processing.\nThere are many ef\ufb01cient implementations of such operations , such as the al...",
+          "score": 0.41896552
+        },
+        {
+          "chunk_id": "e944efc521b07286",
+          "content": "resents a pa-\nrameter matrix. head jis the output of QKV attention on a sub-space of representati on\nhead j= Att qkv(Q[j],K[j],V[j]) (2.8)\nQ[j],K[j],andV[j]are the queries, keys, and values projected onto the j-th sub-space via linear\ntransformations\nQ[j]=HWq\nj (2.9)\nK[j]=HWk\nj (2.10)\nV[j]=HWv\nj (2.11)\nwhere Wq\nj,Wk\nj, and Wv\nj\u2208Rd\u00d7d\n\u03c4are the parameter matrices of the transformations.\nSuppose we have LTransformer blocks. A Softmax layer is built on top of the out put of the\nlast block. The Softma...",
+          "score": 0.41774535
+        }
+      ],
+      "retrieval_time": 0.6950364112854004
+    }
+  },
+  "llm_limitations": {
+    "What are the limitations of large language models?": {
+      "results": [
+        {
+          "chunk_id": "e944efc521b07286",
+          "content": "resents a pa-\nrameter matrix. head jis the output of QKV attention on a sub-space of representati on\nhead j= Att qkv(Q[j],K[j],V[j]) (2.8)\nQ[j],K[j],andV[j]are the queries, keys, and values projected onto the j-th sub-space via linear\ntransformations\nQ[j]=HWq\nj (2.9)\nK[j]=HWk\nj (2.10)\nV[j]=HWv\nj (2.11)\nwhere Wq\nj,Wk\nj, and Wv\nj\u2208Rd\u00d7d\n\u03c4are the parameter matrices of the transformations.\nSuppose we have LTransformer blocks. A Softmax layer is built on top of the out put of the\nlast block. The Softma...",
+          "score": 0.62561226
+        },
+        {
+          "chunk_id": "94fdcaccf6e4232e",
+          "content": "illions of tokens have already been used for training.\nWith the increase in the scale of model training, LLMs exhibi t new capabilities, known as the\nemergent abilities of LLMs. For example, Wei et al. [2022b ] studied the scaling properties of\nLLMs across different model sizes and amounts of computatio nal resources. Their work shows\nthat some abilities emerge when we scale the model size to cer tain level. The appearance of\nemergent abilities has demonstrated the role of scaled trai ning in en...",
+          "score": 0.5967547
+        },
+        {
+          "chunk_id": "763b2f3380ad8dda",
+          "content": "\u00b71013)\u22120.076\n1081092.733.33.63.94.2\nDataset SizeTest LossL(D) = (D\n5.4\u00b71013)\u22120.095\nFig. 2.4: Test loss against model size ( N) and training dataset size ( D) (data points are plotted for illustrative purposes).\nWe plot test loss as a function of N, which is de\ufb01ned as L(N) =(N\n8.8\u00d71013)\u22120.076, and a function of D, which is\nde\ufb01ned as L(D) =(D\n5.4\u00d71013)\u22120.095[Kaplan et al. ,2020 ].\nwhereaandbare parameters that are estimated empirically. Despite its simplicity, this func-\ntion has successfully inte...",
+          "score": 0.58594954
+        },
+        {
+          "chunk_id": "86ebf89873b14c45",
+          "content": " development of large\nlanguage models (LLMs). This has helped create systems that can understand and generate nat-\nural languages like humans. These systems have even been fou nd to be able to reason, which\nis considered a very challenging AI problem. With these achi evements, NLP made big strides\nand entered a new era of research in which dif\ufb01cult problems a re being solved, such as building\nconversational systems that can communicate with humans sm oothly.\nThe concept of language modeling or p...",
+          "score": 0.58312464
+        },
+        {
+          "chunk_id": "393d627c45da8706",
+          "content": " Pre-normPost-norm or Pre-norm\nSelf-attentionFFNLBlocks\nFig. 2.1: The Transformer-decoder architecture for language modeli ng. The central components are Lstacked Trans-\nformer blocks, each comprising a self-attention sub-layer and an FFN sub-layer. To prevent the model from accessing\nthe right-context, a masking variable is incorporated into self-attention. The output layer uses a Softmax function to\ngenerate a probability distribution for the next token, giv en the sequence of previous tokens....",
+          "score": 0.5823288
+        },
+        {
+          "chunk_id": "72f80a0d0fe781a8",
+          "content": "s 37\npowerful Transformer-based models were pre-trained using these word prediction tasks, and suc-\ncessfully applied to a variety of downstream tasks [ Devlin et al. ,2019 ].\nIndeed, training language models on large-scale data has le d NLP research to exciting times.\nWhile language modeling has long been seen as a foundational technique with no direct link to\nthe goals of arti\ufb01cial intelligence that researchers had ho ped for, it helps us see the emergence of\nintelligent systems that can learn...",
+          "score": 0.5775654
+        },
+        {
+          "chunk_id": "81f6ca27534022fc",
+          "content": "24 896 14/2\n7B 28 3,584 28/4\n72B 80 8,192 64/8\nDeepSeek-V3 [ Liu et al. ,2024a ] 671B 61 7,168 128/128\nFalcon [ Penedo et al. ,2023 ]7B 32 4,544 71/71\n40B 60 8,192 128/128\n180B 80 14,848 232/232\nMistral [ Jiang et al. ,2023a ] 7B 32 4,096 32/32\nTable 2.2: Comparison of some LLMs in terms of model size, model depth, m odel width, and number of heads ( a/b\nmeansaheads for queries and bheads for both keys and values).\nsurprisingly, better results were continuously yielded as language models were ev...",
+          "score": 0.5720227
+        },
+        {
+          "chunk_id": "88035bb4a07f11ae",
+          "content": " Bengio et al.\n[2003 ]\u2019s work where n-gram probabilities are modeled via a feed-forward network and learned\nby training the network in an end-to-end fashion. A by-produ ct of this neural language model\nis the distributed representations of words, known as word e mbeddings. Rather than represent-\ning words as discrete variables, word embeddings map words i nto low-dimensional real-valued\nvectors, making it possible to compute the meanings of words and wordn-grams in a continu-\nous representation ...",
+          "score": 0.55478626
+        },
+        {
+          "chunk_id": "01e5246396f56338",
+          "content": "\n\n--- Page 1 ---\n\narXiv:2501.09223v1  [cs.CL]  16 Jan 2025Foundations of\nLarge Language Models\nTong Xiao and Jingbo Zhu\nJanuary 17, 2025\nNLP Lab, Northeastern University & NiuTrans Research\n\n--- Page 2 ---\n\nCopyright \u00a9 2021-2025 Tong Xiao and Jingbo Zhu\nNATURAL LANGUAGE PROCESSING LAB, NORTHEASTERN UNIVERSITY\n&\nNIUTRANS RESEARCH\nLicensed under the Creative Commons Attribution-NonComme rcial 4.0 Unported License (the\n\u201cLicense\u201d). You may not use this \ufb01le except in compliance wit h the License. You...",
+          "score": 0.5534649
+        },
+        {
+          "chunk_id": "2494b46ffd18db50",
+          "content": "24 896 14/2\n7B 28 3,584 28/4\n72B 80 8,192 64/8\nDeepSeek-V3 [ Liu et al. ,2024a ] 671B 61 7,168 128/128\nFalcon [ Penedo et al. ,2023 ]7B 32 4,544 71/71\n40B 60 8,192 128/128\n180B 80 14,848 232/232\nMistral [ Jiang et al. ,2023a ] 7B 32 4,096 32/32\nTable 2.2: Comparison of some LLMs in terms of model size, model depth, m odel width, and number of heads ( a/b\nmeansaheads for queries and bheads for both keys and values).\nsurprisingly, better results were continuously yielded as language models were ev...",
+          "score": 0.550413
+        }
+      ],
+      "retrieval_time": 0.7984797954559326
+    },
+    "What are the drawbacks of LLMs?": {
+      "results": [
+        {
+          "chunk_id": "84ea29514492a812",
+          "content": " much training data as possible.\nHowever, larger training datasets do not mean better traini ng results, and the development of\nLLMs raises new issues in creating or collecting these datas ets.\nA \ufb01rst issue is the quality of data. High-quality data has lon g been seen as crucial for training\ndata-driven NLP systems. Directly using raw text from vario us sources is in general undesirable.\nFor example, a signi\ufb01cant portion of the data used to train re cent LLMs comes from web scraping,\nwhich may c...",
+          "score": 0.47732693
+        },
+        {
+          "chunk_id": "393349cb0aa2258f",
+          "content": "answers might be dif\ufb01cult, or sometimes infeasible. For exa mple, when faced with an extremely\nlong document, the experts would \ufb01nd it challenging to ident ify any inconsistencies, subtle biases,\nor missing key points without conducting an exhaustive and t ime-consuming review.\nOne may ask at this point: can we use weak LLMs to supervise str ong LLMs? This seems\nto be a signi\ufb01cant challenge, but it may re\ufb02ect a future scena rio where we need to supervise AI\nsystems that are smarter than humans o...",
+          "score": 0.44086412
+        },
+        {
+          "chunk_id": "5564f6d5fddfb6a4",
+          "content": " tasks we need to \u201cmemorize\u201d\nthe entire context so that the relevant information can be ac cessed. We will discuss the evaluation\nissue later in this subsection.\n2.3.6.2 Pre-training or Adapting LLMs?\nTraining LLMs requires signi\ufb01cant computational costs. Al though it is straightforward to train\nLLMs on long sequence data, the training becomes computatio nally unwieldy for large data sets. It\nis common practice to pre-train LLMs on general datasets, an d then adapt them with modest \ufb01ne-\ntuning e...",
+          "score": 0.43117648
+        },
+        {
+          "chunk_id": "90d9629e1022454c",
+          "content": "\nall the grammatical errors in the translation\u201d, so that the m odel can focus more on grammatical\nerror correction during re\ufb01nement.\nA general framework of self-re\ufb01nement with LLMs involves th ree steps [ Madaan et al. ,2024 ].\n\u2022Prediction . We use an LLM to produce the initial model output.\n\u2022Feedback Collection . We obtain feedback on the model output.\n\u2022Re\ufb01nement . We use the LLM to re\ufb01ne the model output based on the feedback .\nThe last two steps can be repeated multiple times, which lead s to...",
+          "score": 0.41801697
+        },
+        {
+          "chunk_id": "cba032a57ada2df2",
+          "content": " not a proble m that is speci\ufb01c to LLMs but\nexists in many NLP systems. A common example is gender bias, w here LLMs show a preference\nfor one gender over another. This can partly be attributed to class imbalance in the training data,\nfor example, the term nurses is more often associated with women. In order to debias the da ta,\nit is common practice to balance the categories of different language phenomena, such as gender,\nethnicity, and dialects. The bias in data is also related to t he divers...",
+          "score": 0.40886372
+        },
+        {
+          "chunk_id": "00c9176dbdb5060f",
+          "content": " much training data as possible.\nHowever, larger training datasets do not mean better traini ng results, and the development of\nLLMs raises new issues in creating or collecting these datas ets.\nA \ufb01rst issue is the quality of data. High-quality data has lon g been seen as crucial for training\ndata-driven NLP systems. Directly using raw text from vario us sources is in general undesirable.\nFor example, a signi\ufb01cant portion of the data used to train re cent LLMs comes from web scraping,\nwhich may c...",
+          "score": 0.408776
+        },
+        {
+          "chunk_id": "81f6ca27534022fc",
+          "content": "24 896 14/2\n7B 28 3,584 28/4\n72B 80 8,192 64/8\nDeepSeek-V3 [ Liu et al. ,2024a ] 671B 61 7,168 128/128\nFalcon [ Penedo et al. ,2023 ]7B 32 4,544 71/71\n40B 60 8,192 128/128\n180B 80 14,848 232/232\nMistral [ Jiang et al. ,2023a ] 7B 32 4,096 32/32\nTable 2.2: Comparison of some LLMs in terms of model size, model depth, m odel width, and number of heads ( a/b\nmeansaheads for queries and bheads for both keys and values).\nsurprisingly, better results were continuously yielded as language models were ev...",
+          "score": 0.39954242
+        },
+        {
+          "chunk_id": "ca18210619f4479d",
+          "content": "answers might be dif\ufb01cult, or sometimes infeasible. For exa mple, when faced with an extremely\nlong document, the experts would \ufb01nd it challenging to ident ify any inconsistencies, subtle biases,\nor missing key points without conducting an exhaustive and t ime-consuming review.\nOne may ask at this point: can we use weak LLMs to supervise str ong LLMs? This seems\nto be a signi\ufb01cant challenge, but it may re\ufb02ect a future scena rio where we need to supervise AI\nsystems that are smarter than humans o...",
+          "score": 0.3985513
+        },
+        {
+          "chunk_id": "4e4904128c16741b",
+          "content": " common\nto \ufb01ne-tune LLMs to improve their use of retrieval-augmente d inputs. Another example of \ufb01ne-\ntuning LLMs for long-context modeling is that we train an LLM with full attention models, and\nthen replace them with sparse attention models in the \ufb01ne-tu ning phase. The pre-trained LLM\nprovides initial values of model parameters used in a differ ent model, and this model is then \ufb01ne-\ntuned as usual.\n2.3.6.3 Evaluating Long-context LLMs\nEvaluating long-context LLMs is important, but it is a new...",
+          "score": 0.39846244
+        },
+        {
+          "chunk_id": "a5d7171d84d43e01",
+          "content": " be seen as following the pre-training + \ufb01ne-t uning paradigm, and offers a\nrelatively straightforward method to adapt LLMs.\n\u2022Learning from Human Feedback . After an LLM \ufb01nishes pre-training and supervised \ufb01ne-\ntuning, it can be used to respond to user requests if appropri ately prompted. But this model\nmay generate content that is unfactual, biased, or harmful. To make the LLM more aligned\nwith the users, one simple approach is to directly learn from human feedback. For example,\ngiven some inst...",
+          "score": 0.38761693
+        }
+      ],
+      "retrieval_time": 0.8052873611450195
+    },
+    "What challenges do large language models face?": {
+      "results": [
+        {
+          "chunk_id": "e944efc521b07286",
+          "content": "resents a pa-\nrameter matrix. head jis the output of QKV attention on a sub-space of representati on\nhead j= Att qkv(Q[j],K[j],V[j]) (2.8)\nQ[j],K[j],andV[j]are the queries, keys, and values projected onto the j-th sub-space via linear\ntransformations\nQ[j]=HWq\nj (2.9)\nK[j]=HWk\nj (2.10)\nV[j]=HWv\nj (2.11)\nwhere Wq\nj,Wk\nj, and Wv\nj\u2208Rd\u00d7d\n\u03c4are the parameter matrices of the transformations.\nSuppose we have LTransformer blocks. A Softmax layer is built on top of the out put of the\nlast block. The Softma...",
+          "score": 0.63848704
+        },
+        {
+          "chunk_id": "94fdcaccf6e4232e",
+          "content": "illions of tokens have already been used for training.\nWith the increase in the scale of model training, LLMs exhibi t new capabilities, known as the\nemergent abilities of LLMs. For example, Wei et al. [2022b ] studied the scaling properties of\nLLMs across different model sizes and amounts of computatio nal resources. Their work shows\nthat some abilities emerge when we scale the model size to cer tain level. The appearance of\nemergent abilities has demonstrated the role of scaled trai ning in en...",
+          "score": 0.6039195
+        },
+        {
+          "chunk_id": "763b2f3380ad8dda",
+          "content": "\u00b71013)\u22120.076\n1081092.733.33.63.94.2\nDataset SizeTest LossL(D) = (D\n5.4\u00b71013)\u22120.095\nFig. 2.4: Test loss against model size ( N) and training dataset size ( D) (data points are plotted for illustrative purposes).\nWe plot test loss as a function of N, which is de\ufb01ned as L(N) =(N\n8.8\u00d71013)\u22120.076, and a function of D, which is\nde\ufb01ned as L(D) =(D\n5.4\u00d71013)\u22120.095[Kaplan et al. ,2020 ].\nwhereaandbare parameters that are estimated empirically. Despite its simplicity, this func-\ntion has successfully inte...",
+          "score": 0.59269977
+        },
+        {
+          "chunk_id": "393d627c45da8706",
+          "content": " Pre-normPost-norm or Pre-norm\nSelf-attentionFFNLBlocks\nFig. 2.1: The Transformer-decoder architecture for language modeli ng. The central components are Lstacked Trans-\nformer blocks, each comprising a self-attention sub-layer and an FFN sub-layer. To prevent the model from accessing\nthe right-context, a masking variable is incorporated into self-attention. The output layer uses a Softmax function to\ngenerate a probability distribution for the next token, giv en the sequence of previous tokens....",
+          "score": 0.59014297
+        },
+        {
+          "chunk_id": "86ebf89873b14c45",
+          "content": " development of large\nlanguage models (LLMs). This has helped create systems that can understand and generate nat-\nural languages like humans. These systems have even been fou nd to be able to reason, which\nis considered a very challenging AI problem. With these achi evements, NLP made big strides\nand entered a new era of research in which dif\ufb01cult problems a re being solved, such as building\nconversational systems that can communicate with humans sm oothly.\nThe concept of language modeling or p...",
+          "score": 0.5848532
+        },
+        {
+          "chunk_id": "72f80a0d0fe781a8",
+          "content": "s 37\npowerful Transformer-based models were pre-trained using these word prediction tasks, and suc-\ncessfully applied to a variety of downstream tasks [ Devlin et al. ,2019 ].\nIndeed, training language models on large-scale data has le d NLP research to exciting times.\nWhile language modeling has long been seen as a foundational technique with no direct link to\nthe goals of arti\ufb01cial intelligence that researchers had ho ped for, it helps us see the emergence of\nintelligent systems that can learn...",
+          "score": 0.5790802
+        },
+        {
+          "chunk_id": "81f6ca27534022fc",
+          "content": "24 896 14/2\n7B 28 3,584 28/4\n72B 80 8,192 64/8\nDeepSeek-V3 [ Liu et al. ,2024a ] 671B 61 7,168 128/128\nFalcon [ Penedo et al. ,2023 ]7B 32 4,544 71/71\n40B 60 8,192 128/128\n180B 80 14,848 232/232\nMistral [ Jiang et al. ,2023a ] 7B 32 4,096 32/32\nTable 2.2: Comparison of some LLMs in terms of model size, model depth, m odel width, and number of heads ( a/b\nmeansaheads for queries and bheads for both keys and values).\nsurprisingly, better results were continuously yielded as language models were ev...",
+          "score": 0.57678086
+        },
+        {
+          "chunk_id": "3eb0ec13b980aca6",
+          "content": "] Jason Wei, Yi Tay, Rishi Bommasani, Colin R affel, Barret Zoph, Sebastian Borgeaud,\nDani Yogatama, Maarten Bosma, Denny Zhou, Donald Metzler, E d H. Chi, Tatsunori Hashimoto, Oriol\nVinyals, Percy Liang, Jeff Dean, and William Fedus. Emergen t abilities of large language models. arXiv\npreprint arXiv:2206.07682 , 2022b.\n[Wei et al., 2022] Jason Wei, Xuezhi Wang, Dale Schuurmans, M aarten Bosma, Brian Ichter, Fei Xia,\nEd H. Chi, Quoc V . Le, and Denny Zhou. Chain-of-thought promp ting elicits rea...",
+          "score": 0.5734232
+        },
+        {
+          "chunk_id": "01e5246396f56338",
+          "content": "\n\n--- Page 1 ---\n\narXiv:2501.09223v1  [cs.CL]  16 Jan 2025Foundations of\nLarge Language Models\nTong Xiao and Jingbo Zhu\nJanuary 17, 2025\nNLP Lab, Northeastern University & NiuTrans Research\n\n--- Page 2 ---\n\nCopyright \u00a9 2021-2025 Tong Xiao and Jingbo Zhu\nNATURAL LANGUAGE PROCESSING LAB, NORTHEASTERN UNIVERSITY\n&\nNIUTRANS RESEARCH\nLicensed under the Creative Commons Attribution-NonComme rcial 4.0 Unported License (the\n\u201cLicense\u201d). You may not use this \ufb01le except in compliance wit h the License. You...",
+          "score": 0.57279205
+        },
+        {
+          "chunk_id": "84ea29514492a812",
+          "content": " much training data as possible.\nHowever, larger training datasets do not mean better traini ng results, and the development of\nLLMs raises new issues in creating or collecting these datas ets.\nA \ufb01rst issue is the quality of data. High-quality data has lon g been seen as crucial for training\ndata-driven NLP systems. Directly using raw text from vario us sources is in general undesirable.\nFor example, a signi\ufb01cant portion of the data used to train re cent LLMs comes from web scraping,\nwhich may c...",
+          "score": 0.5704297
+        }
+      ],
+      "retrieval_time": 0.8881616592407227
+    }
+  },
+  "attention_mechanism": {
+    "What is the attention mechanism in transformers?": {
+      "results": [
+        {
+          "chunk_id": "7e50577222aac10b",
+          "content": " applied across var ious deep learning models [ Kim et al. ,\n2023 ]. A commonly used approach is to adopt a low-precision imple mentation of Transformers.\nFor example, we can use 8-bit or 16-bit \ufb01xed-point data types for arithmetic operations, instead\nof 32-bit or 64-bit \ufb02oating-point data types. Using these lo w-precision data types can increase\nthe ef\ufb01ciency and memory throughput, so that longer sequenc es can be processed more easily.\nAn alternative approach is to improve Transformers by usin...",
+          "score": 0.570969
+        },
+        {
+          "chunk_id": "1e0983597b61131c",
+          "content": "is the attention weight between positions iandj. In Transformers, \u03b1i,jis obtained\nby normalizing the rescaled version of the dot product betwe enqiandkj. Let\u03b2i,jdenote the\nattention score between qiandkj. We have\n\u03b2i,j=qi\u00b7kj\u221a\nd+ Mask(i,j) (2.41)\nwhere Mask(i,j)is the masking variable for (i,j). Then, we de\ufb01ne the attention weight \u03b1i,jto\nbe\n\u03b1i,j= Softmax( \u03b2i,j)\n=exp(\u03b2i,j)\u2211\nj\u2032exp(\u03b2i,j\u2032)(2.42)\n\n--- Page 75 ---\n\n68 Generative Models\nOn each computing node, we need to implement these equations . Given...",
+          "score": 0.5286089
+        },
+        {
+          "chunk_id": "45cfbd636699d0e7",
+          "content": " laws\ncontinuously push the boundaries of AI further away. On the o ther hand, understanding scaling\nlaws helps researchers make decisions in training LLMs. For example, given the computational\nresources at hand, the performance of LLMs may be predicted.\nOne last note on scaling laws in this section. For LLMs, a lowe r test loss does not always\nimply better performance on all downstream tasks. To adapt L LMs, there are several steps such\nas \ufb01ne-tuning and prompting that may in\ufb02uence the \ufb01nal res...",
+          "score": 0.51156545
+        },
+        {
+          "chunk_id": "0f5b1ae9206c1d0a",
+          "content": "\u2211\nkj\u2032\u2208K[nu]exp(\u03b2i,j\u2032)\n\ued19\ued18\ued17\ued1a\nnode nu(2.43)\nwhere the notation kj\u2032\u2208K[u]represents that kj\u2032is a row vector of K[u]. In a straightforward\nimplementation, we \ufb01rst perform the summations {\u2211\nkj\u2032\u2208K[u]exp(\u03b2i,j\u2032)}separately on the corre-\nsponding nodes. Then, we collect these summation results fr om different nodes to combine them\ninto a \ufb01nal result. This corresponds to a collective operati on in the context of parallel processing.\nThere are many ef\ufb01cient implementations of such operations , such as the al...",
+          "score": 0.4991102
+        },
+        {
+          "chunk_id": "a34dac1c314d6229",
+          "content": " the form of the\nresulting attention model is given by\nAttqkv(qi,K\u2264i,V\u2264i)\u2248Attlinear(q\u2032\ni,K\u2032\n\u2264i,V\u2264i)\n=q\u2032\ni\u00b5i\nq\u2032\ni\u03bdi(2.49)\nwhere\u00b5iand\u03bdiare variables that are computed in the recurrent forms\n\u00b5i=\u00b5i\u22121+k\u2032T\nivi (2.50)\n\u03bdi=\u03bdi\u22121+k\u2032T\ni (2.51)\n\u00b5iand\u03bdican be seen as representations of the history up to position i. A bene\ufb01t of this model is\nthat we need not keep all past queries and values. Instead onl y the latest representations \u00b5iand\n\u03bdiare used. So the computational cost of each step is a constant , and th...",
+          "score": 0.43089652
+        },
+        {
+          "chunk_id": "328ea14a8bfea607",
+          "content": " in language modeling and have been reconsidered as a promising alterna-\ntive to Transformers [ Gu and Dao ,2023 ]. Figure 2.5shows a comparison of the models discussed\nin this subsection.\n10In the new space after this transformation, the Softmax norm alization can be transformed into the simple scaling\nnormalization.\n\n--- Page 78 ---\n\n2.3 Long Sequence Modeling 71\nqi ki ki\u22121 ki\u22122 \u00b7 \u00b7 \u00b7 k1 k0\nvi vi\u22121 vi\u22122 \u00b7 \u00b7 \u00b7 v1 v0Att qkv(qi,K\u2264i,V\u2264i)\n(a) Standard Self-attention\nqi ki ki\u22121 ki\u22122 \u00b7 \u00b7 \u00b7 k1 k0\nvi v...",
+          "score": 0.43065077
+        },
+        {
+          "chunk_id": "570656a5c1117373",
+          "content": " sharing acros s heads in multi-head self-attention.\nRecall from Section 2.1.1 that multi-head self-attention uses multiple sets of queri es, keys, and\nvalues (each set is called a head), each performing the QKV at tention mechanism as usual. This\ncan be expressed as\nOutput = Merge(head 1,...,head \u03c4)Whead(2.70)\nwhere head j\u2208Rdhis computed using the standard QKV attention function\nhead j= Att qkv(q[j]\ni,K[j]\n\u2264i,V[j]\n\u2264i) (2.71)\nHere, q[j]\ni,K[j]\n\u2264i, and V[j]\n\u2264iare the query, keys, and values that ...",
+          "score": 0.42754418
+        },
+        {
+          "chunk_id": "5737912b367745d7",
+          "content": ", and only the order in which we predict these token s differs from standard language\nmodeling. For example, consider a sequence of 5 tokens x0x1x2x3x4. Let eirepresent the em-\nbedding ofxi(i.e., combination of the token embedding and positional em bedding). In standard\nlanguage modeling, we would generate this sequence in the or der ofx0\u2192x1\u2192x2\u2192x3\u2192x4.\nThe probability of the sequence can be modeled via a generati on process.\nPr(x) = Pr(x0)\u00b7Pr(x1|x0)\u00b7Pr(x2|x0,x1)\u00b7Pr(x3|x0,x1,x2)\u00b7\nPr(x4|x0,x1,x2,x3...",
+          "score": 0.42695767
+        },
+        {
+          "chunk_id": "27a10ef37a61650d",
+          "content": " subsection, both x\n3The training loss for the value network (or critic network) i n A2C is generally formulated as the mean squared\nerror between the computed return rt+\u03b3V(st+1)and the predicted state value V(st). Suppose that the value network\nis parameterized by \u03c9. The loss function is given by\nLv(\u03c9) =1\nM\u2211(\nrt+\u03b3V\u03c9(st+1)\u2212V\u03c9(st))2(4.32)\nwhereMis the number of training samples, for example, for a sequenc e ofTtokens, we can set M=T.\n\n--- Page 187 ---\n\n180 Alignment\nx0x1x2 \u00b7 \u00b7 \u00b7xmy1y2 \u00b7 \u00b7 \u00b7yn\n(La...",
+          "score": 0.41419026
+        },
+        {
+          "chunk_id": "eef68698d6e2b7e9",
+          "content": "d+Mask )\n=\uf8ee\n\uf8ef\uf8ef\uf8ef\uf8ef\uf8ef\uf8ef\uf8f0\u03b10,0 0 0 ... 0\n\u03b11,0\u03b11,1 0... 0\n\u03b12,0\u03b12,1\u03b12,2... 0\n...............\n\u03b1m\u22121,0\u03b1m\u22121,1\u03b1m\u22121,2... \u03b1 m\u22121,m\u22121\uf8f9\n\uf8fa\uf8fa\uf8fa\uf8fa\uf8fa\uf8fa\uf8fb(2.46)\nEach row vector[\n\u03b1i,0... \u03b1 i,i0...0]\ncorresponds to a distribution of attending the i-th\ntoken to every token of the sequence. Since language models p redict next tokens only based on\ntheir left-context, we normally write the output of the atte ntion model at position ias\nAttqkv(qi,K\u2264i,V\u2264i) =[\n\u03b1i,0... \u03b1 i,i]\uf8ee\n\uf8ef\uf8ef\uf8f0v0\n...\nvi\uf8f9\n\uf8fa\uf8fa\uf8fb\n=i\u2211\nj=0\u03b1i,jvj (2.47)\nwhere K\u2264i=\uf8ee\n\uf8ef\uf8ef\uf8f0k0\n....",
+          "score": 0.41303524
+        }
+      ],
+      "retrieval_time": 1.0672051906585693
+    },
+    "How does attention work in language models?": {
+      "results": [
+        {
+          "chunk_id": "eef68698d6e2b7e9",
+          "content": "d+Mask )\n=\uf8ee\n\uf8ef\uf8ef\uf8ef\uf8ef\uf8ef\uf8ef\uf8f0\u03b10,0 0 0 ... 0\n\u03b11,0\u03b11,1 0... 0\n\u03b12,0\u03b12,1\u03b12,2... 0\n...............\n\u03b1m\u22121,0\u03b1m\u22121,1\u03b1m\u22121,2... \u03b1 m\u22121,m\u22121\uf8f9\n\uf8fa\uf8fa\uf8fa\uf8fa\uf8fa\uf8fa\uf8fb(2.46)\nEach row vector[\n\u03b1i,0... \u03b1 i,i0...0]\ncorresponds to a distribution of attending the i-th\ntoken to every token of the sequence. Since language models p redict next tokens only based on\ntheir left-context, we normally write the output of the atte ntion model at position ias\nAttqkv(qi,K\u2264i,V\u2264i) =[\n\u03b1i,0... \u03b1 i,i]\uf8ee\n\uf8ef\uf8ef\uf8f0v0\n...\nvi\uf8f9\n\uf8fa\uf8fa\uf8fb\n=i\u2211\nj=0\u03b1i,jvj (2.47)\nwhere K\u2264i=\uf8ee\n\uf8ef\uf8ef\uf8f0k0\n....",
+          "score": 0.61187565
+        },
+        {
+          "chunk_id": "99df9d134f8a74ab",
+          "content": " (2.4)\n3Note that\u2211m\ni=1log Pr(xi|x0,...,x i\u22121) =\u2211m\ni=0log Pr(xi|x0,...,x i\u22121)since log Pr(x0) = 0 .\n\n--- Page 46 ---\n\n2.1 A Brief Introduction to LLMs 39\nor the pre-norm architecture\noutput = LNorm( F(input)) + input (2.5)\nwhere input andoutput denote the input and output, both being an m\u00d7dmatrix. The i-th rows\nofinput andoutput can be seen as contextual representations of the i-th token in the sequence.\nF(\u00b7)is the core function of a sub-layer. For FFN sub-layers, F(\u00b7)is a multi-layer FFN. For\ns...",
+          "score": 0.5552824
+        },
+        {
+          "chunk_id": "98b1d122f11dc1dd",
+          "content": "d+Mask )\n=\uf8ee\n\uf8ef\uf8ef\uf8ef\uf8ef\uf8ef\uf8ef\uf8f0\u03b10,0 0 0 ... 0\n\u03b11,0\u03b11,1 0... 0\n\u03b12,0\u03b12,1\u03b12,2... 0\n...............\n\u03b1m\u22121,0\u03b1m\u22121,1\u03b1m\u22121,2... \u03b1 m\u22121,m\u22121\uf8f9\n\uf8fa\uf8fa\uf8fa\uf8fa\uf8fa\uf8fa\uf8fb(2.46)\nEach row vector[\n\u03b1i,0... \u03b1 i,i0...0]\ncorresponds to a distribution of attending the i-th\ntoken to every token of the sequence. Since language models p redict next tokens only based on\ntheir left-context, we normally write the output of the atte ntion model at position ias\nAttqkv(qi,K\u2264i,V\u2264i) =[\n\u03b1i,0... \u03b1 i,i]\uf8ee\n\uf8ef\uf8ef\uf8f0v0\n...\nvi\uf8f9\n\uf8fa\uf8fa\uf8fb\n=i\u2211\nj=0\u03b1i,jvj (2.47)\nwhere K\u2264i=\uf8ee\n\uf8ef\uf8ef\uf8f0k0\n....",
+          "score": 0.5546459
+        },
+        {
+          "chunk_id": "a34dac1c314d6229",
+          "content": " the form of the\nresulting attention model is given by\nAttqkv(qi,K\u2264i,V\u2264i)\u2248Attlinear(q\u2032\ni,K\u2032\n\u2264i,V\u2264i)\n=q\u2032\ni\u00b5i\nq\u2032\ni\u03bdi(2.49)\nwhere\u00b5iand\u03bdiare variables that are computed in the recurrent forms\n\u00b5i=\u00b5i\u22121+k\u2032T\nivi (2.50)\n\u03bdi=\u03bdi\u22121+k\u2032T\ni (2.51)\n\u00b5iand\u03bdican be seen as representations of the history up to position i. A bene\ufb01t of this model is\nthat we need not keep all past queries and values. Instead onl y the latest representations \u00b5iand\n\u03bdiare used. So the computational cost of each step is a constant , and th...",
+          "score": 0.54792064
+        },
+        {
+          "chunk_id": "e944efc521b07286",
+          "content": "resents a pa-\nrameter matrix. head jis the output of QKV attention on a sub-space of representati on\nhead j= Att qkv(Q[j],K[j],V[j]) (2.8)\nQ[j],K[j],andV[j]are the queries, keys, and values projected onto the j-th sub-space via linear\ntransformations\nQ[j]=HWq\nj (2.9)\nK[j]=HWk\nj (2.10)\nV[j]=HWv\nj (2.11)\nwhere Wq\nj,Wk\nj, and Wv\nj\u2208Rd\u00d7d\n\u03c4are the parameter matrices of the transformations.\nSuppose we have LTransformer blocks. A Softmax layer is built on top of the out put of the\nlast block. The Softma...",
+          "score": 0.5322168
+        },
+        {
+          "chunk_id": "83e2e20470deffc3",
+          "content": "ikay Khandelwal , Naman Goyal, Vishrav Chaudhary, Guil-\nlaume Wenzek, Francisco Guzm\u00e1n, \u00c9douard Grave, Myle Ott, Lu ke Zettlemoyer, and Veselin Stoyanov.\nUnsupervised cross-lingual representation learning at sc ale. In Proceedings of the 58th Annual Meeting\nof the Association for Computational Linguistics , pages 8440\u20138451, 2020.\n[Coste et al., 2024] Thomas Coste, Usman Anwar, Robert Kirk, and David Krueger. Reward model ensem-\nbles help mitigate overoptimization. In The Twelfth International Co...",
+          "score": 0.5310798
+        },
+        {
+          "chunk_id": "65c2a760b17ed691",
+          "content": "\ufffdRdis the coef\ufb01cient vector, which can be the output of a learned gate.\nGiven thek-NN-based memory model described above, the remaining task is to determine\nwhich key-value pairs are retained in the datastore. For sta ndard language modeling tasks, we\nconsider the previously seen tokens in a sequence as the cont ext, so we can add the keys and\nvalues of all these tokens into the datastore. In this case, t he resulting k-NN-based attention\nmodel is essentially equivalent to a sparse attention mod...",
+          "score": 0.53043914
+        },
+        {
+          "chunk_id": "c6fd27f99b4727a7",
+          "content": ".\n[Jurafsky and Martin, 2008] Dan Jurafsky and James H. Martin .Speech and Language Processing (2nd\ned.). Prentice Hall, 2008.\n[Kahneman, 2011] Daniel Kahneman. Thinking, fast and slow . macmillan, 2011.\n[Kaplan et al., 2020] Jared Kaplan, Sam McCandlish, Tom Heni ghan, Tom B Brown, Benjamin Chess, Re-\nwon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Am odei. Scaling laws for neural language\nmodels. arXiv preprint arXiv:2001.08361 , 2020.\n[Katharopoulos et al., 2020] Angelos Katharopou...",
+          "score": 0.5282415
+        },
+        {
+          "chunk_id": "be358382e7747987",
+          "content": "Size = 1 \u00d72MemoryMem = Update( Skv,Mem pre)\u21d2\n(c) Recurrent Network as Cache\n\u00b7 \u00b7 \u00b7\n\u00b7 \u00b7 \u00b7\ni i \u22121 i\u22122 i\u22123 i\u22124 i\u22125 i\u22126 i\u22127Keys\nValuesSize = 4 \u00d72Memory\nSize = 2 \u00d72MemoryCompressed\n(d) Hybrid Cache (Compressed Memory + Local Memory)\nFig. 2.6: Illustrations of \ufb01xed-size KV caches in LLMs. Blue boxes rep resent the keys and values generated during\nLLM inference, green boxes represent the keys and values sto red or encoded in the primary memory, and orange boxes\nrepresent the keys and values stored or en...",
+          "score": 0.5281812
+        },
+        {
+          "chunk_id": "1e0983597b61131c",
+          "content": "is the attention weight between positions iandj. In Transformers, \u03b1i,jis obtained\nby normalizing the rescaled version of the dot product betwe enqiandkj. Let\u03b2i,jdenote the\nattention score between qiandkj. We have\n\u03b2i,j=qi\u00b7kj\u221a\nd+ Mask(i,j) (2.41)\nwhere Mask(i,j)is the masking variable for (i,j). Then, we de\ufb01ne the attention weight \u03b1i,jto\nbe\n\u03b1i,j= Softmax( \u03b2i,j)\n=exp(\u03b2i,j)\u2211\nj\u2032exp(\u03b2i,j\u2032)(2.42)\n\n--- Page 75 ---\n\n68 Generative Models\nOn each computing node, we need to implement these equations . Given...",
+          "score": 0.52498317
+        }
+      ],
+      "retrieval_time": 2.3247902393341064
+    },
+    "Explain self-attention in transformers": {
+      "results": [
+        {
+          "chunk_id": "7e50577222aac10b",
+          "content": " applied across var ious deep learning models [ Kim et al. ,\n2023 ]. A commonly used approach is to adopt a low-precision imple mentation of Transformers.\nFor example, we can use 8-bit or 16-bit \ufb01xed-point data types for arithmetic operations, instead\nof 32-bit or 64-bit \ufb02oating-point data types. Using these lo w-precision data types can increase\nthe ef\ufb01ciency and memory throughput, so that longer sequenc es can be processed more easily.\nAn alternative approach is to improve Transformers by usin...",
+          "score": 0.5560314
+        },
+        {
+          "chunk_id": "1e0983597b61131c",
+          "content": "is the attention weight between positions iandj. In Transformers, \u03b1i,jis obtained\nby normalizing the rescaled version of the dot product betwe enqiandkj. Let\u03b2i,jdenote the\nattention score between qiandkj. We have\n\u03b2i,j=qi\u00b7kj\u221a\nd+ Mask(i,j) (2.41)\nwhere Mask(i,j)is the masking variable for (i,j). Then, we de\ufb01ne the attention weight \u03b1i,jto\nbe\n\u03b1i,j= Softmax( \u03b2i,j)\n=exp(\u03b2i,j)\u2211\nj\u2032exp(\u03b2i,j\u2032)(2.42)\n\n--- Page 75 ---\n\n68 Generative Models\nOn each computing node, we need to implement these equations . Given...",
+          "score": 0.51171046
+        },
+        {
+          "chunk_id": "45cfbd636699d0e7",
+          "content": " laws\ncontinuously push the boundaries of AI further away. On the o ther hand, understanding scaling\nlaws helps researchers make decisions in training LLMs. For example, given the computational\nresources at hand, the performance of LLMs may be predicted.\nOne last note on scaling laws in this section. For LLMs, a lowe r test loss does not always\nimply better performance on all downstream tasks. To adapt L LMs, there are several steps such\nas \ufb01ne-tuning and prompting that may in\ufb02uence the \ufb01nal res...",
+          "score": 0.5070615
+        },
+        {
+          "chunk_id": "0f5b1ae9206c1d0a",
+          "content": "\u2211\nkj\u2032\u2208K[nu]exp(\u03b2i,j\u2032)\n\ued19\ued18\ued17\ued1a\nnode nu(2.43)\nwhere the notation kj\u2032\u2208K[u]represents that kj\u2032is a row vector of K[u]. In a straightforward\nimplementation, we \ufb01rst perform the summations {\u2211\nkj\u2032\u2208K[u]exp(\u03b2i,j\u2032)}separately on the corre-\nsponding nodes. Then, we collect these summation results fr om different nodes to combine them\ninto a \ufb01nal result. This corresponds to a collective operati on in the context of parallel processing.\nThere are many ef\ufb01cient implementations of such operations , such as the al...",
+          "score": 0.4909427
+        },
+        {
+          "chunk_id": "5737912b367745d7",
+          "content": ", and only the order in which we predict these token s differs from standard language\nmodeling. For example, consider a sequence of 5 tokens x0x1x2x3x4. Let eirepresent the em-\nbedding ofxi(i.e., combination of the token embedding and positional em bedding). In standard\nlanguage modeling, we would generate this sequence in the or der ofx0\u2192x1\u2192x2\u2192x3\u2192x4.\nThe probability of the sequence can be modeled via a generati on process.\nPr(x) = Pr(x0)\u00b7Pr(x1|x0)\u00b7Pr(x2|x0,x1)\u00b7Pr(x3|x0,x1,x2)\u00b7\nPr(x4|x0,x1,x2,x3...",
+          "score": 0.49044877
+        },
+        {
+          "chunk_id": "73fc6a4749feafa6",
+          "content": " NSP is that a good text encoder should cap ture\nthe relationship between two sentences. To model such a rela tionship, in NSP we can use the\noutput of encoding two consecutive sentences Sent AandSent Bto determine whether Sent Bis\nthe next sentence following Sent A. For example, suppose Sent A=\u2019It is raining . \u2019 andSent B=\n\u2019I need an umbrella . \u2019 . The input sequence of the encoder could be\n[CLS] It is raining . [SEP] I need an umbrella . [SEP]\nwhere [CLS] is the start symbol (i.e., x0) which i...",
+          "score": 0.47310078
+        },
+        {
+          "chunk_id": "328ea14a8bfea607",
+          "content": " in language modeling and have been reconsidered as a promising alterna-\ntive to Transformers [ Gu and Dao ,2023 ]. Figure 2.5shows a comparison of the models discussed\nin this subsection.\n10In the new space after this transformation, the Softmax norm alization can be transformed into the simple scaling\nnormalization.\n\n--- Page 78 ---\n\n2.3 Long Sequence Modeling 71\nqi ki ki\u22121 ki\u22122 \u00b7 \u00b7 \u00b7 k1 k0\nvi vi\u22121 vi\u22122 \u00b7 \u00b7 \u00b7 v1 v0Att qkv(qi,K\u2264i,V\u2264i)\n(a) Standard Self-attention\nqi ki ki\u22121 ki\u22122 \u00b7 \u00b7 \u00b7 k1 k0\nvi v...",
+          "score": 0.46282974
+        },
+        {
+          "chunk_id": "06278d32405365c8",
+          "content": " making it dif\ufb01cul t to reach the\nairport on time.\nPolarity : Negative\nInput : The weather here is wonderful.\nPolarity : Positive\nInput : I love the food here. It\u2019s amazing!\nPolarity :\nPrompting and in-context learning play important roles in t he recent rise of large language\nmodels. We will discuss these issues more deeply in Chapter 3 . However, it is worth noting\nthat while prompting is a powerful way to adapt large languag e models, some tuning efforts are\nstill needed to ensure the models ...",
+          "score": 0.4576815
+        },
+        {
+          "chunk_id": "5da46889c19976eb",
+          "content": "[MASK]\ued19\ued18\ued17\ued1a\n\u00afx2bird catches the [MASK]\ued19\ued18\ued17\ued1a\n\u00afx6)(1.12)\nOnce we obtain the optimized parameters\u02c6Wand\u02c6\u03b8, we can drop\u02c6W. Then, we can further\n\ufb01ne-tune the pre-trained encoder Encoder \u02c6\u03b8(\u00b7)or directly apply it to downstream tasks.\n1.2.2.2 Permuted Language Modeling\nWhile masked language modeling is simple and widely applied , it introduces new issues. One\ndrawback is the use of a special token, [MASK] , which is employed only during training but not\n\n--- Page 18 ---\n\n1.2 Self-supervised Pre-training T...",
+          "score": 0.45369512
+        },
+        {
+          "chunk_id": "4927e1c52610f5a5",
+          "content": " NSP is that a good text encoder should cap ture\nthe relationship between two sentences. To model such a rela tionship, in NSP we can use the\noutput of encoding two consecutive sentences Sent AandSent Bto determine whether Sent Bis\nthe next sentence following Sent A. For example, suppose Sent A=\u2019It is raining . \u2019 andSent B=\n\u2019I need an umbrella . \u2019 . The input sequence of the encoder could be\n[CLS] It is raining . [SEP] I need an umbrella . [SEP]\nwhere [CLS] is the start symbol (i.e., x0) which i...",
+          "score": 0.44886094
+        }
+      ],
+      "retrieval_time": 0.6623287200927734
+    }
+  },
+  "llm_training": {
+    "How are large language models trained?": {
+      "results": [
+        {
+          "chunk_id": "e944efc521b07286",
+          "content": "resents a pa-\nrameter matrix. head jis the output of QKV attention on a sub-space of representati on\nhead j= Att qkv(Q[j],K[j],V[j]) (2.8)\nQ[j],K[j],andV[j]are the queries, keys, and values projected onto the j-th sub-space via linear\ntransformations\nQ[j]=HWq\nj (2.9)\nK[j]=HWk\nj (2.10)\nV[j]=HWv\nj (2.11)\nwhere Wq\nj,Wk\nj, and Wv\nj\u2208Rd\u00d7d\n\u03c4are the parameter matrices of the transformations.\nSuppose we have LTransformer blocks. A Softmax layer is built on top of the out put of the\nlast block. The Softma...",
+          "score": 0.6319618
+        },
+        {
+          "chunk_id": "393d627c45da8706",
+          "content": " Pre-normPost-norm or Pre-norm\nSelf-attentionFFNLBlocks\nFig. 2.1: The Transformer-decoder architecture for language modeli ng. The central components are Lstacked Trans-\nformer blocks, each comprising a self-attention sub-layer and an FFN sub-layer. To prevent the model from accessing\nthe right-context, a masking variable is incorporated into self-attention. The output layer uses a Softmax function to\ngenerate a probability distribution for the next token, giv en the sequence of previous tokens....",
+          "score": 0.60009813
+        },
+        {
+          "chunk_id": "94fdcaccf6e4232e",
+          "content": "illions of tokens have already been used for training.\nWith the increase in the scale of model training, LLMs exhibi t new capabilities, known as the\nemergent abilities of LLMs. For example, Wei et al. [2022b ] studied the scaling properties of\nLLMs across different model sizes and amounts of computatio nal resources. Their work shows\nthat some abilities emerge when we scale the model size to cer tain level. The appearance of\nemergent abilities has demonstrated the role of scaled trai ning in en...",
+          "score": 0.59880984
+        },
+        {
+          "chunk_id": "3eb0ec13b980aca6",
+          "content": "] Jason Wei, Yi Tay, Rishi Bommasani, Colin R affel, Barret Zoph, Sebastian Borgeaud,\nDani Yogatama, Maarten Bosma, Denny Zhou, Donald Metzler, E d H. Chi, Tatsunori Hashimoto, Oriol\nVinyals, Percy Liang, Jeff Dean, and William Fedus. Emergen t abilities of large language models. arXiv\npreprint arXiv:2206.07682 , 2022b.\n[Wei et al., 2022] Jason Wei, Xuezhi Wang, Dale Schuurmans, M aarten Bosma, Brian Ichter, Fei Xia,\nEd H. Chi, Quoc V . Le, and Denny Zhou. Chain-of-thought promp ting elicits rea...",
+          "score": 0.5896659
+        },
+        {
+          "chunk_id": "72f80a0d0fe781a8",
+          "content": "s 37\npowerful Transformer-based models were pre-trained using these word prediction tasks, and suc-\ncessfully applied to a variety of downstream tasks [ Devlin et al. ,2019 ].\nIndeed, training language models on large-scale data has le d NLP research to exciting times.\nWhile language modeling has long been seen as a foundational technique with no direct link to\nthe goals of arti\ufb01cial intelligence that researchers had ho ped for, it helps us see the emergence of\nintelligent systems that can learn...",
+          "score": 0.5871558
+        },
+        {
+          "chunk_id": "81f6ca27534022fc",
+          "content": "24 896 14/2\n7B 28 3,584 28/4\n72B 80 8,192 64/8\nDeepSeek-V3 [ Liu et al. ,2024a ] 671B 61 7,168 128/128\nFalcon [ Penedo et al. ,2023 ]7B 32 4,544 71/71\n40B 60 8,192 128/128\n180B 80 14,848 232/232\nMistral [ Jiang et al. ,2023a ] 7B 32 4,096 32/32\nTable 2.2: Comparison of some LLMs in terms of model size, model depth, m odel width, and number of heads ( a/b\nmeansaheads for queries and bheads for both keys and values).\nsurprisingly, better results were continuously yielded as language models were ev...",
+          "score": 0.5823728
+        },
+        {
+          "chunk_id": "98db8abcf5ce2d1d",
+          "content": "avo de Rosa, Olli Saarikivi, Adil\nSalim, Shital Shah, Harkirat Singh Behl, Xin Wang, S\u00e9bastie n Bubeck, Ronen Eldan, Adam Tauman\nKalai, Yin Tat Lee, and Yuanzhi Li. Textbooks are all you need .arXiv preprint arXiv:2306.11644 , 2023.\n[Guo et al., 2024] Qingyan Guo, Rui Wang, Junliang Guo, Bei Li , Kaitao Song, Xu Tan, Guoqing Liu, Jiang\nBian, and Yujiu Yang. Connecting large language models with evolutionary algorithms yields powerful\nprompt optimizers. In The Twelfth International Conference on ...",
+          "score": 0.57986933
+        },
+        {
+          "chunk_id": "c6fd27f99b4727a7",
+          "content": ".\n[Jurafsky and Martin, 2008] Dan Jurafsky and James H. Martin .Speech and Language Processing (2nd\ned.). Prentice Hall, 2008.\n[Kahneman, 2011] Daniel Kahneman. Thinking, fast and slow . macmillan, 2011.\n[Kaplan et al., 2020] Jared Kaplan, Sam McCandlish, Tom Heni ghan, Tom B Brown, Benjamin Chess, Re-\nwon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Am odei. Scaling laws for neural language\nmodels. arXiv preprint arXiv:2001.08361 , 2020.\n[Katharopoulos et al., 2020] Angelos Katharopou...",
+          "score": 0.5788958
+        },
+        {
+          "chunk_id": "86ebf89873b14c45",
+          "content": " development of large\nlanguage models (LLMs). This has helped create systems that can understand and generate nat-\nural languages like humans. These systems have even been fou nd to be able to reason, which\nis considered a very challenging AI problem. With these achi evements, NLP made big strides\nand entered a new era of research in which dif\ufb01cult problems a re being solved, such as building\nconversational systems that can communicate with humans sm oothly.\nThe concept of language modeling or p...",
+          "score": 0.5761429
+        },
+        {
+          "chunk_id": "88035bb4a07f11ae",
+          "content": " Bengio et al.\n[2003 ]\u2019s work where n-gram probabilities are modeled via a feed-forward network and learned\nby training the network in an end-to-end fashion. A by-produ ct of this neural language model\nis the distributed representations of words, known as word e mbeddings. Rather than represent-\ning words as discrete variables, word embeddings map words i nto low-dimensional real-valued\nvectors, making it possible to compute the meanings of words and wordn-grams in a continu-\nous representation ...",
+          "score": 0.57585377
+        }
+      ],
+      "retrieval_time": 0.7616558074951172
+    },
+    "What is the training process for LLMs?": {
+      "results": [
+        {
+          "chunk_id": "84ea29514492a812",
+          "content": " much training data as possible.\nHowever, larger training datasets do not mean better traini ng results, and the development of\nLLMs raises new issues in creating or collecting these datas ets.\nA \ufb01rst issue is the quality of data. High-quality data has lon g been seen as crucial for training\ndata-driven NLP systems. Directly using raw text from vario us sources is in general undesirable.\nFor example, a signi\ufb01cant portion of the data used to train re cent LLMs comes from web scraping,\nwhich may c...",
+          "score": 0.49520558
+        },
+        {
+          "chunk_id": "cbc04304fcb8caed",
+          "content": " many \ufb01ne-tuning runs and evaluations. The\ncost and experimental effort of \ufb01ne-tuning remain critical and should not be overlooked, though\nthey are much lower than those of the pre-training phase.\nWhile we focus on instruction \ufb01ne-tuning for an illustrativ e example here, \ufb01ne-tuning tech-\nniques play an important role in developing various LLMs and are more widely used. Examples\ninclude \ufb01ne-tuning LLMs as chatbots using dialog data, and a dapting these models to handle very\nlong sequences. The w...",
+          "score": 0.44509244
+        },
+        {
+          "chunk_id": "a5d7171d84d43e01",
+          "content": " be seen as following the pre-training + \ufb01ne-t uning paradigm, and offers a\nrelatively straightforward method to adapt LLMs.\n\u2022Learning from Human Feedback . After an LLM \ufb01nishes pre-training and supervised \ufb01ne-\ntuning, it can be used to respond to user requests if appropri ately prompted. But this model\nmay generate content that is unfactual, biased, or harmful. To make the LLM more aligned\nwith the users, one simple approach is to directly learn from human feedback. For example,\ngiven some inst...",
+          "score": 0.44357514
+        },
+        {
+          "chunk_id": "00c9176dbdb5060f",
+          "content": " much training data as possible.\nHowever, larger training datasets do not mean better traini ng results, and the development of\nLLMs raises new issues in creating or collecting these datas ets.\nA \ufb01rst issue is the quality of data. High-quality data has lon g been seen as crucial for training\ndata-driven NLP systems. Directly using raw text from vario us sources is in general undesirable.\nFor example, a signi\ufb01cant portion of the data used to train re cent LLMs comes from web scraping,\nwhich may c...",
+          "score": 0.44348085
+        },
+        {
+          "chunk_id": "5564f6d5fddfb6a4",
+          "content": " tasks we need to \u201cmemorize\u201d\nthe entire context so that the relevant information can be ac cessed. We will discuss the evaluation\nissue later in this subsection.\n2.3.6.2 Pre-training or Adapting LLMs?\nTraining LLMs requires signi\ufb01cant computational costs. Al though it is straightforward to train\nLLMs on long sequence data, the training becomes computatio nally unwieldy for large data sets. It\nis common practice to pre-train LLMs on general datasets, an d then adapt them with modest \ufb01ne-\ntuning e...",
+          "score": 0.44308156
+        },
+        {
+          "chunk_id": "6054ad72af016f5a",
+          "content": " Here we consider three widely-used approa ches to aligning LLMs.\nThe \ufb01rst approach is to \ufb01ne-tune LLMs with labeled data. This approach is straightforward\nas it simply extends the pre-existing training of a pre-trai ned LLM to adapt it to speci\ufb01c tasks.\nAn example of this is supervised \ufb01ne-tuning (SFT), in which the LLM is further trained on a\ndataset comprising task-speci\ufb01c instructions paired with their expected outputs. The SFT dataset\nis generally much smaller compared to the original train...",
+          "score": 0.44011465
+        },
+        {
+          "chunk_id": "90d9629e1022454c",
+          "content": "\nall the grammatical errors in the translation\u201d, so that the m odel can focus more on grammatical\nerror correction during re\ufb01nement.\nA general framework of self-re\ufb01nement with LLMs involves th ree steps [ Madaan et al. ,2024 ].\n\u2022Prediction . We use an LLM to produce the initial model output.\n\u2022Feedback Collection . We obtain feedback on the model output.\n\u2022Re\ufb01nement . We use the LLM to re\ufb01ne the model output based on the feedback .\nThe last two steps can be repeated multiple times, which lead s to...",
+          "score": 0.43882167
+        },
+        {
+          "chunk_id": "c9e900cac3d07297",
+          "content": " to 19 marbles. He loses 5 marbles the next day, bring ing his total down\nto 14 marbles. His brother gifts him 3 more marbles, increasi ng his total to 17\nmarbles. Therefore, Tom now has 17 marbles. So the answer is 1 7.\nJack has 7 apples. He ate 2 of them for dinner, but then his mom g ave him 5 more\napples. The next day, Jack gave 3 apples to his friend John. Ho w many apples\ndoes Jack have left in the end?\nJack starts with 7apples. Heeats 2apples fordinner, sowesubtract 2from 7,\nleaving him w...",
+          "score": 0.4277506
+        },
+        {
+          "chunk_id": "06dd27bf6c7633ed",
+          "content": " This poses new chall enges in ensuring that LLM outputs are\nnot only accurate and relevant, but also ethically sound and non-discriminatory.\nSimply pre-training LLMs can result in a variety of alignmen t problems. Our ultimate goal\nis to resolve or mitigate all these problems to ensure LLMs ar e both accurate and safe. There\nis an interesting issue here: since large language models ar e trained on vast amounts of data,\nwe have reason to believe that if we have suf\ufb01cient data cover ing a variety...",
+          "score": 0.4259255
+        },
+        {
+          "chunk_id": "81f6ca27534022fc",
+          "content": "24 896 14/2\n7B 28 3,584 28/4\n72B 80 8,192 64/8\nDeepSeek-V3 [ Liu et al. ,2024a ] 671B 61 7,168 128/128\nFalcon [ Penedo et al. ,2023 ]7B 32 4,544 71/71\n40B 60 8,192 128/128\n180B 80 14,848 232/232\nMistral [ Jiang et al. ,2023a ] 7B 32 4,096 32/32\nTable 2.2: Comparison of some LLMs in terms of model size, model depth, m odel width, and number of heads ( a/b\nmeansaheads for queries and bheads for both keys and values).\nsurprisingly, better results were continuously yielded as language models were ev...",
+          "score": 0.4256183
+        }
+      ],
+      "retrieval_time": 0.8044712543487549
+    },
+    "Explain how LLMs are pre-trained": {
+      "results": [
+        {
+          "chunk_id": "00c9176dbdb5060f",
+          "content": " much training data as possible.\nHowever, larger training datasets do not mean better traini ng results, and the development of\nLLMs raises new issues in creating or collecting these datas ets.\nA \ufb01rst issue is the quality of data. High-quality data has lon g been seen as crucial for training\ndata-driven NLP systems. Directly using raw text from vario us sources is in general undesirable.\nFor example, a signi\ufb01cant portion of the data used to train re cent LLMs comes from web scraping,\nwhich may c...",
+          "score": 0.6033
+        },
+        {
+          "chunk_id": "8d69b7f846ee6a8a",
+          "content": "x m,y1,...,y i\u22121) (2.15)\nHere\u2211n\ni=1log Pr(yi|x0,...,x m,y1,...,y i\u22121)essentially expresses the same thing as the right-\nhand side of Eq. ( 2.2). It models the log probability of predicting tokens from po sitionm+ 1,\nrather than position 0. Throughout this chapter and subsequent ones, we will emplo y separate\nvariables xandyto distinguish the input and output of an LLM, though they can be seen as sub-\nsequences from the same sequence. By adopting such notation , we see that the form of the above\n...",
+          "score": 0.5915784
+        },
+        {
+          "chunk_id": "a5d7171d84d43e01",
+          "content": " be seen as following the pre-training + \ufb01ne-t uning paradigm, and offers a\nrelatively straightforward method to adapt LLMs.\n\u2022Learning from Human Feedback . After an LLM \ufb01nishes pre-training and supervised \ufb01ne-\ntuning, it can be used to respond to user requests if appropri ately prompted. But this model\nmay generate content that is unfactual, biased, or harmful. To make the LLM more aligned\nwith the users, one simple approach is to directly learn from human feedback. For example,\ngiven some inst...",
+          "score": 0.58931214
+        },
+        {
+          "chunk_id": "cba032a57ada2df2",
+          "content": " not a proble m that is speci\ufb01c to LLMs but\nexists in many NLP systems. A common example is gender bias, w here LLMs show a preference\nfor one gender over another. This can partly be attributed to class imbalance in the training data,\nfor example, the term nurses is more often associated with women. In order to debias the da ta,\nit is common practice to balance the categories of different language phenomena, such as gender,\nethnicity, and dialects. The bias in data is also related to t he divers...",
+          "score": 0.5878933
+        },
+        {
+          "chunk_id": "2494b46ffd18db50",
+          "content": "24 896 14/2\n7B 28 3,584 28/4\n72B 80 8,192 64/8\nDeepSeek-V3 [ Liu et al. ,2024a ] 671B 61 7,168 128/128\nFalcon [ Penedo et al. ,2023 ]7B 32 4,544 71/71\n40B 60 8,192 128/128\n180B 80 14,848 232/232\nMistral [ Jiang et al. ,2023a ] 7B 32 4,096 32/32\nTable 2.2: Comparison of some LLMs in terms of model size, model depth, m odel width, and number of heads ( a/b\nmeansaheads for queries and bheads for both keys and values).\nsurprisingly, better results were continuously yielded as language models were ev...",
+          "score": 0.58741903
+        },
+        {
+          "chunk_id": "81f6ca27534022fc",
+          "content": "24 896 14/2\n7B 28 3,584 28/4\n72B 80 8,192 64/8\nDeepSeek-V3 [ Liu et al. ,2024a ] 671B 61 7,168 128/128\nFalcon [ Penedo et al. ,2023 ]7B 32 4,544 71/71\n40B 60 8,192 128/128\n180B 80 14,848 232/232\nMistral [ Jiang et al. ,2023a ] 7B 32 4,096 32/32\nTable 2.2: Comparison of some LLMs in terms of model size, model depth, m odel width, and number of heads ( a/b\nmeansaheads for queries and bheads for both keys and values).\nsurprisingly, better results were continuously yielded as language models were ev...",
+          "score": 0.58544445
+        },
+        {
+          "chunk_id": "84ea29514492a812",
+          "content": " much training data as possible.\nHowever, larger training datasets do not mean better traini ng results, and the development of\nLLMs raises new issues in creating or collecting these datas ets.\nA \ufb01rst issue is the quality of data. High-quality data has lon g been seen as crucial for training\ndata-driven NLP systems. Directly using raw text from vario us sources is in general undesirable.\nFor example, a signi\ufb01cant portion of the data used to train re cent LLMs comes from web scraping,\nwhich may c...",
+          "score": 0.58276856
+        },
+        {
+          "chunk_id": "9840b36b7c94b42e",
+          "content": "ne-tune the model parameters using\ninstruction-following data. This approach is called instruction \ufb01ne-tuning .\nAn instruction \ufb01ne-tuning sample, which is represented by a sequence of tokens, can be seen\nas a tuple consisting of an input and the desired output. Here , the input includes instructions,\nsystem information (or system pre\ufb01x), and any other user-pr ovided information5. To illustrate,\nconsider the following examples (blue text = input and under lined text = output).\n5System information...",
+          "score": 0.5754742
+        },
+        {
+          "chunk_id": "7cba7ed122b37471",
+          "content": "-\ntuned with tens or hundreds of thousands of samples, or even f ewer if these samples are of high\nquality [ Zhou et al. ,2023a ;Chen et al. ,2023b ], whereas pre-training such models may require\nbillions or trillions of tokens, resulting in signi\ufb01cantly larger computational demands and longer\ntraining times [ Touvron et al. ,2023a ].\nIt is also worth noting that we should not expect the \ufb01ne-tuni ng data to cover all the down-\nstream tasks to which we intend to apply LLMs. A common unders tandin...",
+          "score": 0.5733989
+        },
+        {
+          "chunk_id": "f80f06574143b8ef",
+          "content": " Alignment 155\n4.1 An Overview of LLM Alignment . . . . . . . . . . . . . . . . . . . . . . . . . . 155\n4.2 Instruction Alignment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 157\n4.2.1 Supervised Fine-tuning . . . . . . . . . . . . . . . . . . . . . . . . . . . 157\n4.2.2 Fine-tuning Data Acquisition . . . . . . . . . . . . . . . . . . . . . . . . 161\n4.2.3 Fine-tuning with Less Data . . . . . . . . . . . . . . . . . . . . . . . . . 166\n4.2.4 Instruction Generalization . . . . ...",
+          "score": 0.5715103
+        }
+      ],
+      "retrieval_time": 0.7562222480773926
+    }
+  }
+}

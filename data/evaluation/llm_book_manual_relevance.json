@@ -1,0 +1,62 @@
+{
+  "What are large language models?": {
+    "e944efc521b07286": 0,
+    "393d627c45da8706": 0,
+    "86ebf89873b14c45": 0,
+    "01e5246396f56338": 0,
+    "94fdcaccf6e4232e": 0,
+    "72f80a0d0fe781a8": 0,
+    "81f6ca27534022fc": 0,
+    "763b2f3380ad8dda": 0,
+    "3eb0ec13b980aca6": 0,
+    "88035bb4a07f11ae": 0
+  },
+  "How does the transformer architecture work?": {
+    "7e50577222aac10b": 0,
+    "45cfbd636699d0e7": 0,
+    "0f5b1ae9206c1d0a": 0,
+    "1e0983597b61131c": 0,
+    "cba032a57ada2df2": 0,
+    "410dad6170826ef7": 0,
+    "808ec4ed6117434d": 0,
+    "99df9d134f8a74ab": 0,
+    "570656a5c1117373": 0,
+    "393d627c45da8706": 0
+  },
+  "What are the limitations of large language models?": {
+    "e944efc521b07286": 0,
+    "94fdcaccf6e4232e": 0,
+    "763b2f3380ad8dda": 0,
+    "86ebf89873b14c45": 0,
+    "393d627c45da8706": 0,
+    "72f80a0d0fe781a8": 0,
+    "81f6ca27534022fc": 0,
+    "88035bb4a07f11ae": 0,
+    "01e5246396f56338": 0,
+    "2494b46ffd18db50": 0
+  },
+  "What is the attention mechanism in transformers?": {
+    "7e50577222aac10b": 0,
+    "1e0983597b61131c": 0,
+    "45cfbd636699d0e7": 0,
+    "0f5b1ae9206c1d0a": 0,
+    "a34dac1c314d6229": 0,
+    "328ea14a8bfea607": 0,
+    "570656a5c1117373": 0,
+    "5737912b367745d7": 0,
+    "27a10ef37a61650d": 0,
+    "eef68698d6e2b7e9": 0
+  },
+  "How are large language models trained?": {
+    "e944efc521b07286": 0,
+    "393d627c45da8706": 0,
+    "94fdcaccf6e4232e": 0,
+    "3eb0ec13b980aca6": 0,
+    "72f80a0d0fe781a8": 0,
+    "81f6ca27534022fc": 0,
+    "98db8abcf5ce2d1d": 0,
+    "c6fd27f99b4727a7": 0,
+    "86ebf89873b14c45": 0,
+    "88035bb4a07f11ae": 0
+  }
+}

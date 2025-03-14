@@ -1,139 +1,161 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ragApi } from '../api/ragApi';
+import config from '../config';
 
 /**
- * Home page component
+ * Home component for the RAG UI
  */
 const Home: React.FC = () => {
-  const [isConnected, setIsConnected] = useState<boolean | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+    const [apiStatus, setApiStatus] = useState<'loading' | 'connected' | 'error'>('loading');
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [isRetrying, setIsRetrying] = useState<boolean>(false);
 
-  // Check API connection on mount
-  useEffect(() => {
+    useEffect(() => {
+        checkConnection();
+    }, []);
+
     const checkConnection = async () => {
-      try {
-        await ragApi.checkHealth();
-        setIsConnected(true);
-      } catch (error) {
-        console.error('API connection error:', error);
-        setIsConnected(false);
-      } finally {
-        setIsLoading(false);
-      }
+        try {
+            setApiStatus('loading');
+            setIsRetrying(false);
+            setErrorMessage('');
+            
+            console.log(`Checking connection to API at: ${config.apiUrl}`);
+            await ragApi.checkHealth();
+            setApiStatus('connected');
+        } catch (error) {
+            console.error('API connection error:', error);
+            setApiStatus('error');
+            
+            // Extract meaningful error message
+            if (error instanceof Error) {
+                setErrorMessage(error.message);
+            } else {
+                setErrorMessage('Failed to connect to the API server. Please check if the server is running.');
+            }
+        }
     };
 
-    checkConnection();
-  }, []);
+    const handleRetry = () => {
+        setIsRetrying(true);
+        setTimeout(() => {
+            checkConnection();
+        }, 1000);
+    };
 
-  return (
-    <div className="max-w-4xl mx-auto">
-      <div className="mb-8 text-center">
-        <h1 className="text-3xl font-bold mb-4">Welcome to the RAG System</h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          A Retrieval-Augmented Generation (RAG) system that combines the power of large language
-          models with document retrieval capabilities.
-        </p>
-      </div>
+    return (
+        <div className="max-w-4xl mx-auto">
+            <h1 className="text-3xl font-bold mb-6">Welcome to the RAG System</h1>
+            
+            {/* API Status */}
+            <div className="mb-8 p-4 border rounded-lg bg-gray-50">
+                <h2 className="text-xl font-semibold mb-2">System Status</h2>
+                <div className="flex items-center mb-2">
+                    <span className="mr-2">API Connection:</span>
+                    {apiStatus === 'loading' && (
+                        <span className="text-yellow-500 flex items-center">
+                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Checking...
+                        </span>
+                    )}
+                    {apiStatus === 'connected' && (
+                        <span className="text-green-500 flex items-center">
+                            <svg className="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                            Connected
+                        </span>
+                    )}
+                    {apiStatus === 'error' && (
+                        <span className="text-red-500 flex items-center">
+                            <svg className="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                            </svg>
+                            Disconnected
+                        </span>
+                    )}
+                </div>
+                
+                <div className="text-sm text-gray-600 mb-2">
+                    API URL: <code className="bg-gray-100 px-1 py-0.5 rounded">{config.apiUrl}</code>
+                </div>
 
-      {/* API Status */}
-      <div className="mb-12 flex justify-center">
-        <div className="bg-white rounded-md shadow-sm border p-4 inline-flex items-center">
-          <div className="mr-3 text-gray-700">API Status:</div>
-          {isLoading ? (
-            <div className="text-gray-500">Checking connection...</div>
-          ) : isConnected ? (
-            <div className="flex items-center text-green-600">
-              <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
-              Connected
+                {apiStatus === 'error' && (
+                    <div className="mt-2">
+                        <p className="text-red-600 text-sm mb-2">{errorMessage}</p>
+                        <div className="bg-red-50 border-l-4 border-red-500 p-4 mt-2">
+                            <div className="flex">
+                                <div className="flex-shrink-0">
+                                    <svg className="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div className="ml-3">
+                                    <p className="text-sm text-red-700">
+                                        Please ensure that:
+                                    </p>
+                                    <ul className="mt-1 text-sm text-red-700 list-disc list-inside">
+                                        <li>The API server is running</li>
+                                        <li>The API URL is correct in your environment settings</li>
+                                        <li>There are no network issues or firewall restrictions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            onClick={handleRetry}
+                            disabled={isRetrying}
+                            className="mt-3 bg-blue-500 hover:bg-blue-600 text-white py-1 px-4 rounded-md text-sm flex items-center disabled:opacity-50"
+                        >
+                            {isRetrying ? (
+                                <>
+                                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Retrying...
+                                </>
+                            ) : (
+                                'Retry Connection'
+                            )}
+                        </button>
+                    </div>
+                )}
             </div>
-          ) : (
-            <div className="flex items-center text-red-600">
-              <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
-              Disconnected
+
+            {/* Quick Start Guide */}
+            <div className="mb-6">
+                <h2 className="text-2xl font-semibold mb-4">Get Started</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Link href="/upload" className="block p-6 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                        <h3 className="text-xl font-medium text-blue-800 mb-2">Upload Documents</h3>
+                        <p className="text-blue-600">Add PDF documents to the RAG system for processing and querying.</p>
+                    </Link>
+                    <Link href="/chat" className="block p-6 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                        <h3 className="text-xl font-medium text-green-800 mb-2">Chat with Documents</h3>
+                        <p className="text-green-600">Ask questions about your uploaded documents and get AI-generated answers.</p>
+                    </Link>
+                </div>
             </div>
-          )}
+
+            {/* About */}
+            <div className="mb-6">
+                <h2 className="text-2xl font-semibold mb-4">About RAG</h2>
+                <p className="mb-2">
+                    The <strong>Retrieval-Augmented Generation (RAG)</strong> system combines the power of large language models with document 
+                    retrieval capabilities to provide accurate and context-aware responses based on your documents.
+                </p>
+                <p>
+                    Upload your PDFs, ask questions, and get answers grounded in the content of your documents.
+                </p>
+            </div>
         </div>
-      </div>
-
-      {/* Feature Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-        <Link
-          href="/upload"
-          className="bg-white rounded-md shadow-sm border p-6 hover:shadow-md transition-shadow"
-        >
-          <h2 className="text-xl font-semibold mb-2">Upload Documents</h2>
-          <p className="text-gray-600 mb-4">
-            Upload PDF documents to the knowledge base for the RAG system to use when answering
-            questions.
-          </p>
-          <div className="text-blue-600 font-medium">Upload &rarr;</div>
-        </Link>
-
-        <Link
-          href="/chat"
-          className="bg-white rounded-md shadow-sm border p-6 hover:shadow-md transition-shadow"
-        >
-          <h2 className="text-xl font-semibold mb-2">Chat with RAG</h2>
-          <p className="text-gray-600 mb-4">
-            Ask questions about your uploaded documents and get answers grounded in their content.
-          </p>
-          <div className="text-blue-600 font-medium">Chat &rarr;</div>
-        </Link>
-
-        <Link
-          href="/settings"
-          className="bg-white rounded-md shadow-sm border p-6 hover:shadow-md transition-shadow"
-        >
-          <h2 className="text-xl font-semibold mb-2">Settings</h2>
-          <p className="text-gray-600 mb-4">
-            Configure the RAG system behavior, including API settings and retrieval parameters.
-          </p>
-          <div className="text-blue-600 font-medium">Configure &rarr;</div>
-        </Link>
-
-        <a
-          href="https://github.com/yourusername/RAG"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-white rounded-md shadow-sm border p-6 hover:shadow-md transition-shadow"
-        >
-          <h2 className="text-xl font-semibold mb-2">GitHub Repository</h2>
-          <p className="text-gray-600 mb-4">
-            View the source code, contribute to the project, or report issues on GitHub.
-          </p>
-          <div className="text-blue-600 font-medium">View Code &rarr;</div>
-        </a>
-      </div>
-
-      {/* How It Works */}
-      <div className="bg-white rounded-md shadow-sm border p-6 mb-8">
-        <h2 className="text-xl font-semibold mb-4">How It Works</h2>
-        <ol className="list-decimal pl-5 space-y-3">
-          <li className="text-gray-700">
-            <span className="font-medium">Upload documents</span> - Add PDFs to the knowledge base
-          </li>
-          <li className="text-gray-700">
-            <span className="font-medium">Backend processing</span> - Documents are split into
-            chunks, embedded, and stored in a vector database
-          </li>
-          <li className="text-gray-700">
-            <span className="font-medium">Ask questions</span> - Submit queries through the chat
-            interface
-          </li>
-          <li className="text-gray-700">
-            <span className="font-medium">Relevant retrieval</span> - The system finds the most
-            relevant document chunks
-          </li>
-          <li className="text-gray-700">
-            <span className="font-medium">AI-powered answers</span> - Get responses grounded in your
-            documents
-          </li>
-        </ol>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Home; 

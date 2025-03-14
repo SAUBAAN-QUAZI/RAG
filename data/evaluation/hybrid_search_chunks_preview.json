@@ -1,0 +1,27 @@
+[
+  {
+    "chunk_id": "unknown",
+    "content_preview": "--- Page 1 ---\n\narXiv:2501.09223v1  [cs.CL]  16 Jan 2025Foundations of\nLarge Language Models\nTong Xiao and Jingbo Zhu\nJanuary 17, 2025\nNLP Lab, Northeastern University & NiuTrans Research\n\n--- Page 2 ...",
+    "token_count": 793
+  },
+  {
+    "chunk_id": "unknown",
+    "content_preview": " thank Weiqiao Shan, Yongyu Mu, Chengl ong Wang, Kaiyan Chang, Yuchun\nFan, Hang Zhou, Xinyu Liu, Huiwen Bao, Tong Zheng, Junhao Rua n, and Qing Yang.\nii\n\n--- Page 4 ---\n\nNotation\navariable\narow vector...",
+    "token_count": 1159
+  },
+  {
+    "chunk_id": "unknown",
+    "content_preview": " . . . . . . . . . . . . . . . . . . . . . . . . 58\n2.2.3 Distributed Training . . . . . . . . . . . . . . . . . . . . . . . . . . . . 60\n2.2.4 Scaling Laws . . . . . . . . . . . . . . . . . . . . . ....",
+    "token_count": 1466
+  },
+  {
+    "chunk_id": "unknown",
+    "content_preview": " . . . . . . . . . . . . . . . . . . . . . . . . 182\n4.4 Improved Human Preference Alignment . . . . . . . . . . . . . . . . . . . . . . 187\n4.4.1 Better Reward Modeling . . . . . . . . . . . . . . . ...",
+    "token_count": 806
+  },
+  {
+    "chunk_id": "unknown",
+    "content_preview": " structure,\nthough they are not explicitly trained to achieve this. The g enerality of the pre-training tasks\nleads to systems that exhibit strong performance in a large v ariety of NLP problems, even...",
+    "token_count": 728
+  }
+]

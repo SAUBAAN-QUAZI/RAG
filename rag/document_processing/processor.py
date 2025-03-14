@@ -7,6 +7,7 @@ This module combines document loading and splitting into a single process.
 import json
 from pathlib import Path
 from typing import Dict, List, Optional, Union
+from datetime import datetime
 
 from rag.config import CHUNKS_DIR, DOCUMENTS_DIR, CHUNK_SIZE, CHUNK_OVERLAP
 from rag.document_processing.document import Document, DocumentChunk
@@ -64,39 +65,89 @@ class DocumentProcessor:
         self,
         file_path: Union[str, Path],
         save_results: bool = True,
+        chunk_batch_size: int = 100,  # Process chunks in batches for large documents
         **metadata
     ) -> Dict[str, Union[Document, List[DocumentChunk]]]:
         """
-        Process a document file by loading and splitting it.
+        Process a document file by loading and splitting it into chunks.
         
         Args:
             file_path: Path to the document file
             save_results: Whether to save the processed document and chunks
+            chunk_batch_size: Number of chunks to process at once for large documents
             **metadata: Additional metadata to include
             
         Returns:
             Dict containing the processed document and chunks
         """
         file_path = Path(file_path)
-        logger.info(f"Processing document: {file_path}")
         
-        # Load document
-        document = load_document(file_path, **metadata)
-        logger.info(f"Loaded document with ID: {document.doc_id}")
+        if not file_path.exists():
+            raise FileNotFoundError(f"File not found: {file_path}")
+            
+        # Log start of processing
+        start_time = datetime.now()
+        logger.info(f"Processing file: {file_path}")
         
-        # Split document into chunks
-        chunks = self.text_splitter.split_document(document)
-        logger.info(f"Split document into {len(chunks)} chunks")
-        
-        # Save results if requested
-        if save_results:
-            self._save_document(document)
-            self._save_chunks(chunks)
-        
-        return {
-            "document": document,
-            "chunks": chunks,
-        }
+        try:
+            # Load document
+            document = load_document(file_path, **metadata)
+            document_size = len(document.content)
+            logger.info(f"Loaded document with {document_size:,} characters")
+            
+            # Estimate number of tokens (rough estimate: ~4 chars per token)
+            est_tokens = document_size // 4
+            logger.info(f"Estimated document size: ~{est_tokens:,} tokens")
+            
+            # Split document into chunks
+            chunks = self.text_splitter.split_document(document)
+            logger.info(f"Split document into {len(chunks)} chunks")
+            
+            # Save document if requested
+            if save_results:
+                self._save_document(document)
+                
+                # For very large documents, save chunks in batches to manage memory
+                if len(chunks) > chunk_batch_size:
+                    logger.info(f"Document is large. Saving {len(chunks)} chunks in batches of {chunk_batch_size}")
+                    for i in range(0, len(chunks), chunk_batch_size):
+                        batch = chunks[i:i + chunk_batch_size]
+                        # Save this batch only - use a special batch path
+                        batch_path = self.chunks_dir / f"{document.doc_id}_chunks_batch_{i//chunk_batch_size}.json"
+                        batch_data = [chunk.to_dict() for chunk in batch]
+                        save_json(batch_data, batch_path)
+                        logger.info(f"Saved batch {i//chunk_batch_size + 1} with {len(batch)} chunks")
+                    
+                    # Save an index file to track all batches
+                    index_path = self.chunks_dir / f"{document.doc_id}_chunks_index.json"
+                    batch_count = (len(chunks) + chunk_batch_size - 1) // chunk_batch_size
+                    index_data = {
+                        "doc_id": document.doc_id,
+                        "total_chunks": len(chunks),
+                        "batch_count": batch_count,
+                        "batch_size": chunk_batch_size,
+                        "batches": [f"{document.doc_id}_chunks_batch_{i}.json" for i in range(batch_count)]
+                    }
+                    save_json(index_data, index_path)
+                    logger.info(f"Saved chunk index with {batch_count} batches")
+                else:
+                    # Save all chunks at once for smaller documents
+                    self._save_chunks(chunks)
+            
+            # Calculate processing time
+            processing_time = (datetime.now() - start_time).total_seconds()
+            logger.info(f"Document processed in {processing_time:.2f} seconds")
+            
+            return {
+                "document": document,
+                "chunks": chunks,
+                "processing_time": processing_time,
+                "chunk_count": len(chunks)
+            }
+            
+        except Exception as e:
+            logger.exception(f"Error processing file {file_path}: {str(e)}")
+            raise
     
     def process_text(
         self,

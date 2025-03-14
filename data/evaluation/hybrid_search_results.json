@@ -1,0 +1,609 @@
+{
+  "vector_only": [
+    {
+      "query": "Explain neural architecture of transformers",
+      "time": 1.1033642292022705,
+      "result_count": 0,
+      "results": []
+    },
+    {
+      "query": "How does attention help with understanding language?",
+      "time": 1.0188701152801514,
+      "result_count": 0,
+      "results": []
+    },
+    {
+      "query": "Limitations of language models for reasoning",
+      "time": 1.2137320041656494,
+      "result_count": 0,
+      "results": []
+    },
+    {
+      "query": "What is RLHF?",
+      "time": 1.4579896926879883,
+      "result_count": 0,
+      "results": []
+    },
+    {
+      "query": "Explain the GPT-4 architecture",
+      "time": 1.000927448272705,
+      "result_count": 0,
+      "results": []
+    },
+    {
+      "query": "What is the impact of context window size?",
+      "time": 1.0364162921905518,
+      "result_count": 0,
+      "results": []
+    }
+  ],
+  "hybrid": [
+    {
+      "query": "Explain neural architecture of transformers",
+      "time": 1.0660302639007568,
+      "result_count": 5,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "fbc379fa-83af-4932-b668-de7f56ca6162",
+          "similarity": 0.051237836144585394,
+          "source": "keyword",
+          "content_preview": ", Zhiyuan Liu, and Ma osong Sun. ULTRAFEEDBACK:\nBoosting language models with scaled AI feedback. In Proceedings of the 41st International Conference\non Machine Learning , volume 235, pages 9722–9744,..."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "654105b8-272b-4e95-a82d-726586598d54",
+          "similarity": 0.04672432664885918,
+          "source": "keyword",
+          "content_preview": "ur, Alan Schelten, Amy Yang , Angela Fan, et al. The llama 3 herd of\nmodels. arXiv preprint arXiv:2407.21783 , 2024.\n[Dubois et al., 2024] Yann Dubois, Chen Xuechen Li, Rohan Tao ri, Tianyi Zhang, Ish..."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "a2411736-7953-4a16-8520-6a3bc8543c36",
+          "similarity": 0.04287252429192179,
+          "source": "keyword",
+          "content_preview": "few-shot COT prompting, 54\ngated linear unit, 58\ngaussian error linear unit, 58\nGeLU, 58\nGLU, 58\nGPT, 1\nGQA, 80\nGrouped query attention, 80\nhard prompts, 140\nhuman preference alignment, 152\nICL, 53\nIC..."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "4c584fa0-287a-4fa5-bb04-8bcc5e260deb",
+          "similarity": 0.04035663800227665,
+          "source": "keyword",
+          "content_preview": " Hai Z hao. Igniting language intelli-\ngence: The hitchhiker’s guide from chain-of-thought reaso ning to language agents. arXiv preprint\narXiv:2311.11797 , 2023a.\n[Zhang et al., 2023] Zhuosheng Zhang,..."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "8ae79239-fb88-4ff7-b0b8-e91950a40c99",
+          "similarity": 0.03884715937031408,
+          "source": "keyword",
+          "content_preview": " and are great at grammar correct ion.\nDEMO You will be provided with a sentence in English. The task is\nto output the correct sentence.\nInput: There is many reasons to celebrate.\nOutput: There are ma..."
+        }
+      ]
+    },
+    {
+      "query": "How does attention help with understanding language?",
+      "time": 1.0633032321929932,
+      "result_count": 5,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "2f97e704-5bcd-4635-ba8d-69e7385fedff",
+          "similarity": 0.11359522786359964,
+          "source": "keyword",
+          "content_preview": "�\nnode nu(2.44)\nLike Eq. ( 2.43), Eq. ( 2.44) can be implemented as a summation program in parallel proce ss-\ning. First, perform the weighted summations of values on dif ferent nodes simultaneousl..."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "c7d884dd-b3b2-4908-a5fb-83b6d6adb0dc",
+          "similarity": 0.09637972266602828,
+          "source": "keyword",
+          "content_preview": "--- Page 1 ---\n\narXiv:2501.09223v1  [cs.CL]  16 Jan 2025Foundations of\nLarge Language Models\nTong Xiao and Jingbo Zhu\nJanuary 17, 2025\nNLP Lab, Northeastern University & NiuTrans Research\n\n--- Page 2 ..."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "b0f14748-e178-4c67-ba66-f3a2ca4fb552",
+          "similarity": 0.08169878323908676,
+          "source": "keyword",
+          "content_preview": " an output token is generated, shifting the s equence one po-\nsition forward for the next prediction. To do this, the langu age model outputs a distribution\nPr(·|x0,...,x i−1)at each position i, and t..."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "f4c69250-7736-491f-b4bb-f366bf919122",
+          "similarity": 0.07399097124333073,
+          "source": "keyword",
+          "content_preview": "-based methods. For example, as discussed above, we can use a vector database to store\npreviously generated key-value pairs, and thus represent t he context by this external memory\nmodel. Although thi..."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "0e606e1c-c358-4e0e-8a77-5f36268144e8",
+          "similarity": 0.07184197314615168,
+          "source": "keyword",
+          "content_preview": "abeled data. For example, a langua ge model can learn some general\nknowledge of a language by repeatedly predicting masked wor ds in large-scale text. As a result,\nthis pre-trained language model can ..."
+        }
+      ]
+    },
+    {
+      "query": "Limitations of language models for reasoning",
+      "time": 1.0748040676116943,
+      "result_count": 5,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "c7d884dd-b3b2-4908-a5fb-83b6d6adb0dc",
+          "similarity": 0.19972166360539198,
+          "source": "keyword",
+          "content_preview": "--- Page 1 ---\n\narXiv:2501.09223v1  [cs.CL]  16 Jan 2025Foundations of\nLarge Language Models\nTong Xiao and Jingbo Zhu\nJanuary 17, 2025\nNLP Lab, Northeastern University & NiuTrans Research\n\n--- Page 2 ..."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "fc1409ab-e0b5-477c-9db3-573b6620fbfe",
+          "similarity": 0.15230615212702356,
+          "source": "keyword",
+          "content_preview": " correct. For process-based approaches, the mistakes in\nresponse 2 can be considered in reward modeling.\nlearning from reasoning mistakes. Instead, annotating ste ps that the model conﬁdently consider..."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "c2dc4596-ac5f-4bbc-97e4-46c472e68742",
+          "similarity": 0.14817316804894726,
+          "source": "keyword",
+          "content_preview": "F˜ω,˜θ(xnew) =[\nPr(positive |xnew) Pr(negative |xnew) Pr(neutral |xnew)]\n(1.4)\nAnd we select the label of the entry with the maximum value as o utput. In this example it is\npositive .\nIn general, the ..."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "b53186a8-a0aa-4d1d-8948-b3c844910eec",
+          "similarity": 0.13568938243110162,
+          "source": "keyword",
+          "content_preview": " CoT reasoning, typ-\nically called the few-shot CoT method. By contrast, the zero -shot CoT method does not require\nsuch examples. It instead prompts LLMs to reason step-by-st ep by incorporating spec..."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "0e606e1c-c358-4e0e-8a77-5f36268144e8",
+          "similarity": 0.1316399223850613,
+          "source": "keyword",
+          "content_preview": "abeled data. For example, a langua ge model can learn some general\nknowledge of a language by repeatedly predicting masked wor ds in large-scale text. As a result,\nthis pre-trained language model can ..."
+        }
+      ]
+    },
+    {
+      "query": "What is RLHF?",
+      "time": 1.0318644046783447,
+      "result_count": 5,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "bd4fd2a1-e459-4350-a318-4a33bf3dcd1e",
+          "similarity": 0.16163738491923457,
+          "source": "keyword",
+          "content_preview": " of ﬁne-tuning remain critical and should not be overlooked, though\nthey are much lower than those of the pre-training phase.\nWhile we focus on instruction ﬁne-tuning for an illustrativ e example here..."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "c0588fea-daaa-424c-b4c1-7473614a36c1",
+          "similarity": 0.10420752142325747,
+          "source": "keyword",
+          "content_preview": " ction. For example, suppose that\nr(x,y,¯yk) = 1 if the segment is classiﬁed as unethical, and r(x,y,¯yk) =−1otherwise6. The\nhinge loss of training binary classiﬁcation models is given by\nLhinge = max..."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "9c004e0f-bfe3-49b7-a088-43513b9f5025",
+          "similarity": 0.09219772110614972,
+          "source": "keyword",
+          "content_preview": " supervision from the reward m odel.\nFigure 2.2shows an overview of RLHF. Given that this section serves onl y as a brief intro-\nduction to concepts of LLMs, a detailed discussion of RLHF te chniques ..."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "50963004-1d6a-4183-8852-023b1e6a811c",
+          "similarity": 0.0856513756855065,
+          "source": "keyword",
+          "content_preview": " the parameters). The reference\nmodel is the baseline LLM that serves as a starting point for p olicy training. In RLHF, it\nrepresents the previous version of the model or a model train ed without hum..."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "2e99b6d2-f1ab-4ea6-bad7-b1011cae34bb",
+          "similarity": 0.08381128526318196,
+          "source": "keyword",
+          "content_preview": " model inputs involved in sampling. While the form of these\nfunctions may seem complex, their idea is simple: we penaliz e the model if the predicted ranking\nof two outputs differs from the human-labe..."
+        }
+      ]
+    },
+    {
+      "query": "Explain the GPT-4 architecture",
+      "time": 1.1702499389648438,
+      "result_count": 5,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "8ae79239-fb88-4ff7-b0b8-e91950a40c99",
+          "similarity": 0.05122810448990152,
+          "source": "keyword",
+          "content_preview": " and are great at grammar correct ion.\nDEMO You will be provided with a sentence in English. The task is\nto output the correct sentence.\nInput: There is many reasons to celebrate.\nOutput: There are ma..."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "7d997763-0a83-4db4-ad60-7276c5734f1f",
+          "similarity": 0.04830690784417013,
+          "source": "keyword",
+          "content_preview": " a token xi−1as\ninput and predicts a token xithat maximizes the probability Pr(xi|x0,...,x i−1). It is important\nto note that, despite different implementation details, ma ny LLMs share the same archi..."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "92d23ca4-8857-44d8-9a37-a9f2988321f4",
+          "similarity": 0.037963638714192935,
+          "source": "keyword",
+          "content_preview": " different language phenomena, such as gender,\nethnicity, and dialects. The bias in data is also related to t he diversity issue mentioned above.\nFor example, since many LLMs are trained and aligned w..."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "b0f14748-e178-4c67-ba66-f3a2ca4fb552",
+          "similarity": 0.036496808112787646,
+          "source": "keyword",
+          "content_preview": " an output token is generated, shifting the s equence one po-\nsition forward for the next prediction. To do this, the langu age model outputs a distribution\nPr(·|x0,...,x i−1)at each position i, and t..."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "fc1409ab-e0b5-477c-9db3-573b6620fbfe",
+          "similarity": 0.0358274677747331,
+          "source": "keyword",
+          "content_preview": " correct. For process-based approaches, the mistakes in\nresponse 2 can be considered in reward modeling.\nlearning from reasoning mistakes. Instead, annotating ste ps that the model conﬁdently consider..."
+        }
+      ]
+    },
+    {
+      "query": "What is the impact of context window size?",
+      "time": 1.3152797222137451,
+      "result_count": 5,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "f4c69250-7736-491f-b4bb-f366bf919122",
+          "similarity": 0.0815629980341332,
+          "source": "keyword",
+          "content_preview": "-based methods. For example, as discussed above, we can use a vector database to store\npreviously generated key-value pairs, and thus represent t he context by this external memory\nmodel. Although thi..."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "f069e1aa-25cb-44dc-9675-0c9504a98c1a",
+          "similarity": 0.06512721673037376,
+          "source": "keyword",
+          "content_preview": " LLM\nprovides initial values of model parameters used in a differ ent model, and this model is then ﬁne-\ntuned as usual.\n2.3.6.3 Evaluating Long-context LLMs\nEvaluating long-context LLMs is important,..."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "15cd8e01-a776-40fb-936e-858f47acdfa8",
+          "similarity": 0.061329356267868174,
+          "source": "keyword",
+          "content_preview": "indeﬁnitely. Another way to achieve inﬁnite memory is to dev elop alternatives to self-attention\nmodels, for example, one can use continuous-space attentio n models to encode context, which\nremoves th..."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "769b51ff-f699-4013-9f45-34ccd0cea210",
+          "similarity": 0.057587148397048385,
+          "source": "keyword",
+          "content_preview": ". This view motivates the extens ion to attention models for\ncombining both local and long-term memories [ Ainslie et al. ,2020 ;Zaheer et al. ,2020 ;\nGupta and Berant ,2020 ]. A simple but widely-use..."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "80fc679e-5c0b-4a76-9f46-44605aa0a299",
+          "similarity": 0.05365871890670275,
+          "source": "keyword",
+          "content_preview": " between the two\ncontext representations.\nOne general framework for achieving this is knowledge disti llation, where ˆyandˆyσcan be\nseen as the predictions of the teacher model and the student m odel,..."
+        }
+      ]
+    }
+  ],
+  "hybrid_with_rerank": [
+    {
+      "query": "Explain neural architecture of transformers",
+      "time": 4.437288522720337,
+      "result_count": 5,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "e7e9ff83-b62c-400e-b939-bbafcb1773ea",
+          "similarity": 0.051237836144585394,
+          "source": "keyword",
+          "content_preview": ", Zhiyuan Liu, and Ma osong Sun. ULTRAFEEDBACK:\nBoosting language models with scaled AI feedback. In Proceedings of the 41st International Conference\non Machine Learning , volume 235, pages 9722–9744,..."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dc6890fe-ea4d-44ad-8812-c8b5118acaf8",
+          "similarity": 0.04672432664885918,
+          "source": "keyword",
+          "content_preview": "ur, Alan Schelten, Amy Yang , Angela Fan, et al. The llama 3 herd of\nmodels. arXiv preprint arXiv:2407.21783 , 2024.\n[Dubois et al., 2024] Yann Dubois, Chen Xuechen Li, Rohan Tao ri, Tianyi Zhang, Ish..."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "524e5167-4539-4e97-9a60-1f01e10e4da6",
+          "similarity": 0.04287252429192179,
+          "source": "keyword",
+          "content_preview": "few-shot COT prompting, 54\ngated linear unit, 58\ngaussian error linear unit, 58\nGeLU, 58\nGLU, 58\nGPT, 1\nGQA, 80\nGrouped query attention, 80\nhard prompts, 140\nhuman preference alignment, 152\nICL, 53\nIC..."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "4af2d29d-9d04-42a0-89fb-ed9042e52a75",
+          "similarity": 0.04035663800227665,
+          "source": "keyword",
+          "content_preview": " Hai Z hao. Igniting language intelli-\ngence: The hitchhiker’s guide from chain-of-thought reaso ning to language agents. arXiv preprint\narXiv:2311.11797 , 2023a.\n[Zhang et al., 2023] Zhuosheng Zhang,..."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "4a61b664-416b-4c84-ba1c-fa2fbca3ce29",
+          "similarity": 0.03884715937031408,
+          "source": "keyword",
+          "content_preview": " and are great at grammar correct ion.\nDEMO You will be provided with a sentence in English. The task is\nto output the correct sentence.\nInput: There is many reasons to celebrate.\nOutput: There are ma..."
+        }
+      ]
+    },
+    {
+      "query": "How does attention help with understanding language?",
+      "time": 2.9733574390411377,
+      "result_count": 5,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "0c6ca70c-a71f-40aa-b4cf-c018d8eaa3b5",
+          "similarity": 0.11359522786359964,
+          "source": "keyword",
+          "content_preview": "�\nnode nu(2.44)\nLike Eq. ( 2.43), Eq. ( 2.44) can be implemented as a summation program in parallel proce ss-\ning. First, perform the weighted summations of values on dif ferent nodes simultaneousl..."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "cfa1e4eb-941f-40d6-846a-47cbecf90aa7",
+          "similarity": 0.09637972266602828,
+          "source": "keyword",
+          "content_preview": "--- Page 1 ---\n\narXiv:2501.09223v1  [cs.CL]  16 Jan 2025Foundations of\nLarge Language Models\nTong Xiao and Jingbo Zhu\nJanuary 17, 2025\nNLP Lab, Northeastern University & NiuTrans Research\n\n--- Page 2 ..."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "8e090702-8333-4a56-b487-a9af40c6b128",
+          "similarity": 0.08169878323908676,
+          "source": "keyword",
+          "content_preview": " an output token is generated, shifting the s equence one po-\nsition forward for the next prediction. To do this, the langu age model outputs a distribution\nPr(·|x0,...,x i−1)at each position i, and t..."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "d2cbeaaf-8e6d-4b5b-82cb-903c707623d4",
+          "similarity": 0.07399097124333073,
+          "source": "keyword",
+          "content_preview": "-based methods. For example, as discussed above, we can use a vector database to store\npreviously generated key-value pairs, and thus represent t he context by this external memory\nmodel. Although thi..."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "d13eca2f-542e-40a6-910d-022c32a6e9d2",
+          "similarity": 0.07184197314615168,
+          "source": "keyword",
+          "content_preview": "abeled data. For example, a langua ge model can learn some general\nknowledge of a language by repeatedly predicting masked wor ds in large-scale text. As a result,\nthis pre-trained language model can ..."
+        }
+      ]
+    },
+    {
+      "query": "Limitations of language models for reasoning",
+      "time": 3.6590638160705566,
+      "result_count": 5,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "cfa1e4eb-941f-40d6-846a-47cbecf90aa7",
+          "similarity": 0.19972166360539198,
+          "source": "keyword",
+          "content_preview": "--- Page 1 ---\n\narXiv:2501.09223v1  [cs.CL]  16 Jan 2025Foundations of\nLarge Language Models\nTong Xiao and Jingbo Zhu\nJanuary 17, 2025\nNLP Lab, Northeastern University & NiuTrans Research\n\n--- Page 2 ..."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a01aca94-c777-4935-91e8-f96eb8f9bcb6",
+          "similarity": 0.15230615212702356,
+          "source": "keyword",
+          "content_preview": " correct. For process-based approaches, the mistakes in\nresponse 2 can be considered in reward modeling.\nlearning from reasoning mistakes. Instead, annotating ste ps that the model conﬁdently consider..."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "715782c5-dd36-4b4d-8d9b-3a01464a6e1d",
+          "similarity": 0.14817316804894726,
+          "source": "keyword",
+          "content_preview": "F˜ω,˜θ(xnew) =[\nPr(positive |xnew) Pr(negative |xnew) Pr(neutral |xnew)]\n(1.4)\nAnd we select the label of the entry with the maximum value as o utput. In this example it is\npositive .\nIn general, the ..."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "50f2a94c-bd27-49dd-9814-9e94fb76934e",
+          "similarity": 0.13568938243110162,
+          "source": "keyword",
+          "content_preview": " CoT reasoning, typ-\nically called the few-shot CoT method. By contrast, the zero -shot CoT method does not require\nsuch examples. It instead prompts LLMs to reason step-by-st ep by incorporating spec..."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "d13eca2f-542e-40a6-910d-022c32a6e9d2",
+          "similarity": 0.1316399223850613,
+          "source": "keyword",
+          "content_preview": "abeled data. For example, a langua ge model can learn some general\nknowledge of a language by repeatedly predicting masked wor ds in large-scale text. As a result,\nthis pre-trained language model can ..."
+        }
+      ]
+    },
+    {
+      "query": "What is RLHF?",
+      "time": 3.3453311920166016,
+      "result_count": 5,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "3b39907e-9124-46d0-9043-dfe89cba42ca",
+          "similarity": 0.16163738491923457,
+          "source": "keyword",
+          "content_preview": " of ﬁne-tuning remain critical and should not be overlooked, though\nthey are much lower than those of the pre-training phase.\nWhile we focus on instruction ﬁne-tuning for an illustrativ e example here..."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "a5c8f165-9d90-45ba-9e7b-20df398ada6e",
+          "similarity": 0.10420752142325747,
+          "source": "keyword",
+          "content_preview": " ction. For example, suppose that\nr(x,y,¯yk) = 1 if the segment is classiﬁed as unethical, and r(x,y,¯yk) =−1otherwise6. The\nhinge loss of training binary classiﬁcation models is given by\nLhinge = max..."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "bc1bbb58-102f-46e5-aa41-c0a1ea0b4bc1",
+          "similarity": 0.09219772110614972,
+          "source": "keyword",
+          "content_preview": " supervision from the reward m odel.\nFigure 2.2shows an overview of RLHF. Given that this section serves onl y as a brief intro-\nduction to concepts of LLMs, a detailed discussion of RLHF te chniques ..."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "765d9bd3-e9ee-4fa8-bc02-b6d2fdf8a0eb",
+          "similarity": 0.0856513756855065,
+          "source": "keyword",
+          "content_preview": " the parameters). The reference\nmodel is the baseline LLM that serves as a starting point for p olicy training. In RLHF, it\nrepresents the previous version of the model or a model train ed without hum..."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "e5db5967-e7b2-4ce5-97c2-af3650c5ac29",
+          "similarity": 0.08381128526318196,
+          "source": "keyword",
+          "content_preview": " model inputs involved in sampling. While the form of these\nfunctions may seem complex, their idea is simple: we penaliz e the model if the predicted ranking\nof two outputs differs from the human-labe..."
+        }
+      ]
+    },
+    {
+      "query": "Explain the GPT-4 architecture",
+      "time": 3.65014386177063,
+      "result_count": 5,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "4a61b664-416b-4c84-ba1c-fa2fbca3ce29",
+          "similarity": 0.05122810448990152,
+          "source": "keyword",
+          "content_preview": " and are great at grammar correct ion.\nDEMO You will be provided with a sentence in English. The task is\nto output the correct sentence.\nInput: There is many reasons to celebrate.\nOutput: There are ma..."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "fcfa5567-eb7a-42ce-9ecb-f954ed45cb14",
+          "similarity": 0.04830690784417013,
+          "source": "keyword",
+          "content_preview": " a token xi−1as\ninput and predicts a token xithat maximizes the probability Pr(xi|x0,...,x i−1). It is important\nto note that, despite different implementation details, ma ny LLMs share the same archi..."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "807936d0-b472-4e9b-aa4e-5c63d1be6295",
+          "similarity": 0.037963638714192935,
+          "source": "keyword",
+          "content_preview": " different language phenomena, such as gender,\nethnicity, and dialects. The bias in data is also related to t he diversity issue mentioned above.\nFor example, since many LLMs are trained and aligned w..."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "8e090702-8333-4a56-b487-a9af40c6b128",
+          "similarity": 0.036496808112787646,
+          "source": "keyword",
+          "content_preview": " an output token is generated, shifting the s equence one po-\nsition forward for the next prediction. To do this, the langu age model outputs a distribution\nPr(·|x0,...,x i−1)at each position i, and t..."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "a01aca94-c777-4935-91e8-f96eb8f9bcb6",
+          "similarity": 0.0358274677747331,
+          "source": "keyword",
+          "content_preview": " correct. For process-based approaches, the mistakes in\nresponse 2 can be considered in reward modeling.\nlearning from reasoning mistakes. Instead, annotating ste ps that the model conﬁdently consider..."
+        }
+      ]
+    },
+    {
+      "query": "What is the impact of context window size?",
+      "time": 6.88858962059021,
+      "result_count": 5,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "d2cbeaaf-8e6d-4b5b-82cb-903c707623d4",
+          "similarity": 0.0815629980341332,
+          "source": "keyword",
+          "content_preview": "-based methods. For example, as discussed above, we can use a vector database to store\npreviously generated key-value pairs, and thus represent t he context by this external memory\nmodel. Although thi..."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "dfae93b0-3351-4f01-8e5b-b7ad68c59d96",
+          "similarity": 0.06512721673037376,
+          "source": "keyword",
+          "content_preview": " LLM\nprovides initial values of model parameters used in a differ ent model, and this model is then ﬁne-\ntuned as usual.\n2.3.6.3 Evaluating Long-context LLMs\nEvaluating long-context LLMs is important,..."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "eb993d9d-3fe9-449a-9786-bc75d4c36a01",
+          "similarity": 0.061329356267868174,
+          "source": "keyword",
+          "content_preview": "indeﬁnitely. Another way to achieve inﬁnite memory is to dev elop alternatives to self-attention\nmodels, for example, one can use continuous-space attentio n models to encode context, which\nremoves th..."
+        },
+        {
+          "rank": 4,
+          "chunk_id": "c94b2400-8739-4918-a138-331937923ba8",
+          "similarity": 0.057587148397048385,
+          "source": "keyword",
+          "content_preview": ". This view motivates the extens ion to attention models for\ncombining both local and long-term memories [ Ainslie et al. ,2020 ;Zaheer et al. ,2020 ;\nGupta and Berant ,2020 ]. A simple but widely-use..."
+        },
+        {
+          "rank": 5,
+          "chunk_id": "a0c76e05-029e-408a-a48e-1da17f6a73ed",
+          "similarity": 0.05365871890670275,
+          "source": "keyword",
+          "content_preview": " between the two\ncontext representations.\nOne general framework for achieving this is knowledge disti llation, where ˆyandˆyσcan be\nseen as the predictions of the teacher model and the student m odel,..."
+        }
+      ]
+    }
+  ],
+  "query_times": {
+    "Explain neural architecture of transformers": {
+      "vector_only": 1.1033642292022705,
+      "hybrid": 1.0660302639007568,
+      "hybrid_with_rerank": 4.437288522720337,
+      "hybrid_vs_vector": 0.9661635167124223,
+      "rerank_vs_hybrid": 4.162441417454383
+    },
+    "How does attention help with understanding language?": {
+      "vector_only": 1.0188701152801514,
+      "hybrid": 1.0633032321929932,
+      "hybrid_with_rerank": 2.9733574390411377,
+      "hybrid_vs_vector": 1.0436101876445991,
+      "rerank_vs_hybrid": 2.796340074043397
+    },
+    "Limitations of language models for reasoning": {
+      "vector_only": 1.2137320041656494,
+      "hybrid": 1.0748040676116943,
+      "hybrid_with_rerank": 3.6590638160705566,
+      "hybrid_vs_vector": 0.8855365631975258,
+      "rerank_vs_hybrid": 3.404400789253902
+    },
+    "What is RLHF?": {
+      "vector_only": 1.4579896926879883,
+      "hybrid": 1.0318644046783447,
+      "hybrid_with_rerank": 3.3453311920166016,
+      "hybrid_vs_vector": 0.7077309324292769,
+      "rerank_vs_hybrid": 3.242025964699709
+    },
+    "Explain the GPT-4 architecture": {
+      "vector_only": 1.000927448272705,
+      "hybrid": 1.1702499389648438,
+      "hybrid_with_rerank": 3.65014386177063,
+      "hybrid_vs_vector": 1.1691655983501477,
+      "rerank_vs_hybrid": 3.119114763637075
+    },
+    "What is the impact of context window size?": {
+      "vector_only": 1.0364162921905518,
+      "hybrid": 1.3152797222137451,
+      "hybrid_with_rerank": 6.88858962059021,
+      "hybrid_vs_vector": 1.2690650775411803,
+      "rerank_vs_hybrid": 5.237357122024231
+    }
+  },
+  "summary": {
+    "avg_times": {
+      "vector_only": 1.1385499636332195,
+      "hybrid": 1.1202552715937297,
+      "hybrid_with_rerank": 4.158962408701579
+    },
+    "avg_result_counts": {
+      "vector_only": 0.0,
+      "hybrid": 5.0,
+      "hybrid_with_rerank": 5.0
+    },
+    "avg_overlaps": {
+      "vector_hybrid_overlap": 0.0,
+      "vector_rerank_overlap": 0.0,
+      "hybrid_rerank_overlap": 0.0
+    }
+  }
+}

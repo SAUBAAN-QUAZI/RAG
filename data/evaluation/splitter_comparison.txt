@@ -1,0 +1,20 @@
+Splitter Comparison Results
+==========================
+
+Token Splitter:
+Processing time: 15.87 seconds
+Chunk count: 206
+Average characters per chunk: 3719.37
+Average tokens per chunk: 608.58
+Length variation: 2440.00 characters
+
+Semantic Splitter:
+Processing time: 14.44 seconds
+Chunk count: 141
+Average characters per chunk: 5484.48
+Average tokens per chunk: 896.72
+Length variation: 5172.00 characters
+
+Comparison (Semantic vs Token):
+Chunk count difference: -31.55%
+Processing time difference: -8.98%

@@ -10,13 +10,17 @@ import tempfile
 from pathlib import Path
 from typing import Dict, List, Optional
 import logging
+from datetime import datetime
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile, Request, Query
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from rag.config import API_HOST, API_PORT, DEBUG, ALLOW_CORS, CORS_ORIGINS, DOCUMENTS_DIR
+from rag.config import (
+    API_HOST, API_PORT, DEBUG, ALLOW_CORS, CORS_ORIGINS, DOCUMENTS_DIR, 
+    OPENAI_API_KEY, DATA_DIR, EMBEDDING_MODEL, MAX_RESPONSE_TOKENS
+)
 from rag.retrieval.rag_agent import RAGAgent
 from rag.utils import logger
 
@@ -90,9 +94,9 @@ class MonitoringResponse(BaseModel):
 @app.get("/")
 async def root():
     """
-    Root endpoint.
+    Root endpoint that returns a welcome message.
     """
-    return {"message": "Welcome to the RAG API"}
+    return {"message": "Welcome to the RAG API", "version": "0.1.0"}
 
 
 @app.post("/query", response_model=QueryResponse)
@@ -108,7 +112,22 @@ async def query(request: QueryRequest):
         )
         
     try:
-        answer = rag_agent.query(request.query, request.filters)
+        # Get response from RAG agent
+        response = rag_agent.query(request.query, request.filters)
+        
+        # Handle response that could be either string or dictionary
+        if isinstance(response, dict):
+            logger.info("Received structured response from RAG agent, extracting answer field")
+            answer = response.get("answer", "")
+            # Log additional information that won't be returned to the client
+            if "sources" in response:
+                logger.info(f"Sources: {response['sources']}")
+            if "confidence" in response:
+                logger.info(f"Confidence: {response['confidence']}")
+        else:
+            # Response is already a string
+            answer = response
+            
         return {"answer": answer}
     except Exception as e:
         logger.exception(f"Error processing query: {e}")
@@ -195,6 +214,145 @@ async def upload_document(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.post("/documents/batch")
+async def upload_multiple_documents(
+    files: List[UploadFile] = File(...),
+    title_prefix: Optional[str] = Form(None),
+    author: Optional[str] = Form(None),
+    description: Optional[str] = Form(None),
+):
+    """
+    Upload multiple documents to the RAG system.
+    
+    Documents are processed sequentially. If any document fails, 
+    the endpoint will continue processing the remaining documents.
+    """
+    # Check if RAG agent was successfully initialized
+    if rag_agent is None:
+        raise HTTPException(
+            status_code=503, 
+            detail="RAG system is not available. Check server logs for initialization errors."
+        )
+    
+    # Track processing results
+    results = []
+    successful_count = 0
+    failed_count = 0
+    
+    # Check if there are any files to process
+    if not files or len(files) == 0:
+        return JSONResponse(
+            status_code=400,
+            content={"message": "No files provided for upload."}
+        )
+    
+    # Check if too many files
+    if len(files) > 10:
+        return JSONResponse(
+            status_code=400,
+            content={"message": f"Too many files. Maximum allowed is 10, received {len(files)}."}
+        )
+    
+    # Process each file
+    for idx, file in enumerate(files):
+        file_result = {
+            "filename": file.filename,
+            "status": "pending",
+            "details": {}
+        }
+        
+        try:
+            # Check file size
+            if file.size > MAX_FILE_SIZE:
+                file_result["status"] = "error"
+                file_result["details"] = {
+                    "error": f"File size exceeds maximum allowed size of {MAX_FILE_SIZE/1024/1024}MB"
+                }
+                failed_count += 1
+                continue
+            
+            # Check file type
+            if not file.filename.lower().endswith(".pdf"):
+                file_result["status"] = "error"
+                file_result["details"] = {
+                    "error": "Unsupported file type. Only PDF files are supported."
+                }
+                failed_count += 1
+                continue
+            
+            # Log file info
+            logger.info(f"Processing batch file {idx+1}/{len(files)}: {file.filename}, size: {file.size}")
+            
+            # Create a temporary file
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf", dir=DOCUMENTS_DIR) as temp_file:
+                content = await file.read()
+                temp_file.write(content)
+                temp_path = temp_file.name
+            
+            # Prepare metadata
+            doc_title = f"{title_prefix + ' - ' if title_prefix else ''}{file.filename}"
+            metadata = {
+                "title": doc_title,
+                "author": author or "Unknown",
+                "description": description or "",
+                "original_filename": file.filename,
+                "content_type": file.content_type,
+                "file_size": file.size,
+                "batch_upload": True,
+                "batch_index": idx + 1,
+            }
+            
+            # Process document
+            try:
+                result = rag_agent.add_document(temp_path, **metadata)
+                
+                # Success
+                file_result["status"] = "success"
+                file_result["details"] = {
+                    "message": f"Document '{file.filename}' processed successfully.",
+                    "file_path": temp_path,
+                    "document_id": result.get("document_id", ""),
+                    "chunk_count": result.get("chunk_count", 0),
+                }
+                successful_count += 1
+                
+            except Exception as e:
+                # Document processing error
+                if os.path.exists(temp_path):
+                    os.unlink(temp_path)
+                    
+                file_result["status"] = "error"
+                file_result["details"] = {
+                    "error": f"Error processing document: {str(e)}"
+                }
+                logger.exception(f"Error processing document {file.filename}: {e}")
+                failed_count += 1
+                
+        except Exception as e:
+            # File handling error
+            file_result["status"] = "error"
+            file_result["details"] = {
+                "error": f"Error handling file: {str(e)}"
+            }
+            logger.exception(f"Error handling file {file.filename}: {e}")
+            failed_count += 1
+            
+        # Add result to tracking
+        results.append(file_result)
+    
+    # Return overall results
+    return JSONResponse(
+        status_code=200,
+        content={
+            "message": f"Batch processing complete. {successful_count} successful, {failed_count} failed.",
+            "successful_count": successful_count,
+            "failed_count": failed_count,
+            "total_count": len(files),
+            "results": results
+        }
+    )
+
+
 @app.get("/monitoring", response_model=MonitoringResponse)
 async def monitor_system():
     """
@@ -270,43 +428,33 @@ async def monitor_system():
 @app.get("/health")
 async def health_check():
     """
-    Health check endpoint.
+    Health check endpoint for monitoring.
     """
-    status = "ok"
-    message = "System is healthy"
-    details = {}
+    # Check if OpenAI API key is available
+    api_key_valid = bool(OPENAI_API_KEY) and OPENAI_API_KEY != "your_openai_api_key"
     
-    # Check RAG agent status
-    if rag_agent is None:
-        status = "degraded"
-        message = "RAG agent failed to initialize"
-        details["rag_agent"] = "failed"
-    else:
-        details["rag_agent"] = "ok"
+    # Check if directories are writable
+    data_dir_writable = os.access(DATA_DIR, os.W_OK)
     
-    # Check for environment variables
-    if not os.getenv("OPENAI_API_KEY"):
-        status = "degraded"
-        message = "OpenAI API key is missing"
-        details["openai_api"] = "missing key"
-    else:
-        details["openai_api"] = "configured"
+    # Check embedding model
+    embedding_model_info = {
+        "name": EMBEDDING_MODEL,
+        "valid": EMBEDDING_MODEL in ["text-embedding-3-small", "text-embedding-3-large", "text-embedding-ada-002"]
+    }
     
-    # Check data directories
-    if not os.path.exists(DOCUMENTS_DIR):
-        status = "degraded"
-        message = "Documents directory does not exist"
-        details["documents_dir"] = "missing"
-    else:
-        details["documents_dir"] = "ok"
+    # Determine overall health status
+    is_healthy = api_key_valid and data_dir_writable and embedding_model_info["valid"]
     
-    # Return the health status
     return {
-        "status": status,
-        "message": message,
+        "status": "healthy" if is_healthy else "unhealthy",
+        "timestamp": datetime.now().isoformat(),
         "version": "0.1.0",
-        "port": API_PORT,
-        "details": details
+        "checks": {
+            "api_key": api_key_valid,
+            "data_directory": data_dir_writable,
+            "embedding_model": embedding_model_info
+        },
+        "message": "Welcome to the RAG API. System is operational."
     }
 
 

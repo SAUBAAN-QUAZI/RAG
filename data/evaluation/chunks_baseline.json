@@ -1,0 +1,3710 @@
+[
+  {
+    "chunk_id": "dd8e49d2-cfea-4869-bcee-3f61832d6ffb",
+    "content": "\n\n--- Page 1 ---\n\narXiv:2501.09223v1  [cs.CL]  16 Jan 2025Foundations of\nLarge Language Models\nTong Xiao and Jingbo Zhu\nJanuary 17, 2025\nNLP Lab, Northeastern University & NiuTrans Research\n\n--- Page ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 0,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "e6d39a09-4239-45dc-81ab-371a977dde99",
+    "content": " Whether they w ish to dive deep into a speciﬁc area\nor gain a comprehensive understanding of large language mod els, they will ﬁnd the knowledge\nand insights they need within these \"notes\".\nWe would ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 1,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "32b9f648-f339-4265-bd5e-a7e3d3fedaea",
+    "content": " . . . . 27\n1.3.3 More Efﬁcient Models . . . . . . . . . . . . . . . . . . . . . . . . . . . 27\n1.3.4 Multi-lingual Models . . . . . . . . . . . . . . . . . . . . . . . . . . . . 28\n1.4 Applying BERT ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 2,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "66b11f18-f457-452b-98ef-dbed2e9ed0f8",
+    "content": " . . . . . . . . . . . 80\niv\n\n--- Page 6 ---\n\nv\n2.3.5 Position Extrapolation and Interpolation . . . . . . . . . . . . . . . . . . 82\n2.3.6 Remarks . . . . . . . . . . . . . . . . . . . . . . . . . . ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 3,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "cd0d2534-22f8-4293-a1c0-e098cca64a07",
+    "content": " Alignment 155\n4.1 An Overview of LLM Alignment . . . . . . . . . . . . . . . . . . . . . . . . . . 155\n4.2 Instruction Alignment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 157\n4....",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 4,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "58b45305-1ff5-4ad3-bc9a-1f7f85893318",
+    "content": " ta sks via ﬁne-tuning or prompting. As a\nresult, the paradigm of NLP has been enormously changed. In m any cases, large-scale supervised\nlearning for speciﬁc tasks is no longer required, and instea d...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 5,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "f5f7e23a-d075-47df-84e2-5515d8e74208",
+    "content": "network with parameters θ, and odenotes the output of the neural network. Different problem s\ncan vary based on the form of the output o. For example, in token prediction problems (as in\nlanguage mode...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 6,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "d835698f-f278-4464-88df-598e99129d44",
+    "content": " the model i s optimally adjusted to perform well\non this new type of data. The ﬁne-tuned model is then employed to classify new sequences for\nthis task. An advantage of supervised pre-training is tha...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 7,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "998552e2-d8fa-4e56-8230-efae73623c95",
+    "content": " of unsupervised, supervised, and self-super vised pre-training. In unsupervised pre-training, the\npre-training is performed on large-scale unlabeled data. I t can be viewed as a preliminary step to h...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 8,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "a591a0fb-0ad2-4723-bac2-6aa9a2f4ec5d",
+    "content": " is adapted to\nthe task. A typical way is to ﬁne-tune the model by giving expl icit labeling in downstream tasks.\nWe can train Fω,ˆθ(·)on a labeled dataset, treating it as a common supervised lear nin...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 9,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "162dc299-d133-4d92-ac08-d9b072ede5df",
+    "content": " can classify the text as positive .\nThis example shows a simple prompting method in which we conc atenate the input text with I’m\nto form a prompt. Then, the completion helps decide which lab el is a...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 10,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "c65be296-a560-434f-9e8a-998f4976cf40",
+    "content": ". At\neach position i, the decoder generates a distribution of the next tokens bas ed on its preceding\ntokens {x0,...,x i}, denoted by Prθ(·|x0,...,x i)(orpθ\ni+1for short). Suppose we have the gold-\nst...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 11,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "59a8ab8c-9028-46b8-8be3-a4f7b51be234",
+    "content": "1.2 Self-supervised Pre-training Tasks 9\nx0x1x2x3x4\n(masked)e0 e1 e2 e3 e4EncoderSoftmaxmodel reconstructs the masked tokenE.g., evaluate how well theSelf-supervision\n(a) Pre-trainingx0x1x2x3x4e0 e1 e...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 12,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "74074afd-7a99-4ec0-ba61-8989754e0b38",
+    "content": " as an autoencoding-like process, and the train-\ning objective is to maximize the reconstruction probabilit yPr(x|¯x). Note that there is a simple\nposition-wise alignment between xand¯x. Because an un...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 13,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "eec3229d-7aa4-4014-aa12-9845aa1a3143",
+    "content": ", and only the order in which we predict these token s differs from standard language\nmodeling. For example, consider a sequence of 5 tokens x0x1x2x3x4. Let eirepresent the em-\nbedding ofxi(i.e., comb...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 14,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "e6c352e2-9f5d-4ba6-a8ae-8548df70ece2",
+    "content": " NSP is that a good text encoder should cap ture\nthe relationship between two sentences. To model such a rela tionship, in NSP we can use the\noutput of encoding two consecutive sentences Sent AandSent...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 15,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "c3a30224-8263-45cd-9e17-807f9bf7d8db",
+    "content": "and\nthe other for Sent B. A simple way to do this is to utilize the natural sequence of t wo consecu-\ntive sentences in the text. For example, we obtain a positive sample by using actual consecutive\ns...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 16,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "b07483ad-4b8a-4748-8246-c25633ddd829",
+    "content": " simple idea is to consider text as both the input a nd output of a problem, and so\nwe can directly apply encoder-decoder models. For example, given a text, we can ask a model to\noutput a text describ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 17,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "cb213ed2-5bbb-45e4-bbf5-a1bbba231544",
+    "content": "There have been several powerful methods of self-supervise d learning for either Transformer\nencoders or decoders. Applying these methods to pre-train e ncoder-decoder models is relatively\nstraightfor...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 18,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "2116e4df-fbf9-4f40-962c-8962327879f5",
+    "content": ". Here is an example of input and output for denoisi ng training.\n[CLS] The puppies are [MASK] outside [MASK] house .\n→ ⟨s⟩The puppies are frolicking outside the house .\nBy learning to map from this c...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 19,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "c7aab2aa-d8d9-4db0-9aa3-24af28f1fae0",
+    "content": "-decoder model that can map an inpu t sequence xto an output\n\n--- Page 26 ---\n\n1.2 Self-supervised Pre-training Tasks 19\nsequence y\ny= Decode ω(Encode θ(x))\n= Model θ,ω(x) (1.15)\nwhereθandωare the par...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 20,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "502c1b84-ded7-48e4-ad98-82e5f29b9eee",
+    "content": " leads from\nthe above sequence. The rotated sequence is\nleads to success . Success brings happiness . Hard work Hard workselected\nwhere the subsequence Hard work before leads is appended to the end of...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 21,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "98ab8eb7-0dfa-4e1e-8ba2-f5d08b05939f",
+    "content": "\nIn this section, we introduce BERT models, which are among th e most popular and widely used\npre-trained sequence encoding models in NLP.\n1.3.1 The Standard Model\nThe standard BERT model, which is pr...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 22,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "c396f411-5510-44fc-b50b-d0815d0cb964",
+    "content": "\nwhen the training loss converges.\n1.3.1.1 Loss Functions\nIn general, BERT models are used to represent a single senten ce or a pair of sentences, and thus\ncan handle various downstream language under...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 23,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "691c08aa-48fb-476b-aa72-6846b6cbfd46",
+    "content": " It is [MASK] .[SEP] Ineed [MASK] hat.[SEP] Token:\nReplacement\nKeep selected tokens unchanged with a probability of 10%\n[CLS] It is [MASK] .[SEP] Ineed [MASK] hat . [SEP] Unchanged:\nTrain the Transfor...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 24,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "2d02ea43-081f-4841-a01b-f894caafc76f",
+    "content": " the output representation is a real-valued ve ctor which is produced by the last layer\nof the network.\nThere are several aspects one may consider in developing BER T models.\n•Vocabulary Size (|V|). I...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 25,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "500f12cb-9154-4777-8638-41e7a91f5e50",
+    "content": "��rst train a\nBERT model on relatively short sequences for a large number o f training steps, and then continue\ntraining it on full-length sequences for the remaining trai ning steps.\n1.3.2 More Train...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 26,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "768a758b-1b7d-4c2f-9865-732f4fb839ce",
+    "content": " al. ,2019 ] or a certain percentage of parameters in the networks [ Sanh et al. ,2020 ;Chen et al. ,\n2020 ]. Pruning is also applicable to multi-head attention model s. For example, Michel et al.\n[20...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 27,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "f9c84a8c-badd-42b9-a610-c243b58dc115",
+    "content": " [2019 ] propose an approach to pre-training cross-lingual lan-\nguage models (XLMs ). In their work, a cross-lingual language model can be train ed in either the\ncausal language modeling or masked lan...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 28,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "19b95ddc-df29-4903-b5de-4785591ec6f1",
+    "content": " an extended period,\n\n--- Page 37 ---\n\n30 Pre-training\n[CLS] [MASK]是[MASK]动物。 [SEP] Whales [MASK] [MASK] .[SEP]\n(zh) (zh) (zh) (zh) (zh) (zh) (zh) (en) (en) (en) (en) (en)e0 e1 e2 e3 e4 e5 e6 e7 e8 e9...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 29,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "be7029f6-c3f8-4632-951e-5d4dd9c20e50",
+    "content": " ˆθ+to indicate that\nthe parameters are initialized with ˆθ, and use yω,ˆθ+to denote the model output computed using\nthe parameters ωandˆθ+.\nWith the ﬁne-tuned parameters ˜ωand˜θ, we can apply the mod...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 30,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "5b41c7fa-3971-4aa8-a9c7-1c937922b8f0",
+    "content": " context) [ Zellers et al. ,2018 ], and question-answering inference\n(determine whether an answer corresponds to a given questio n).\n•Regression . Instead of generating a label distribution, we can ha...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 31,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "c9db5dca-f72c-49c8-babf-67374a9eb5a1",
+    "content": " the beginning of the span (denoted by pbeg\nj), and one for generating the probability\nofyjbeing the ending of the span (denoted by pend\nj). The resulting model architecture is\nshown as follows\n[CLS]x...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 32,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "ae43964e-c3a1-4c29-abcd-5bc187228321",
+    "content": " hat they can perform well in the\ndownstream tasks. However, ﬁne-tuning BERT models for spec iﬁc tasks may lead to overﬁtting,\n\n--- Page 42 ---\n\n1.5 Summary 35\nwhich in turn reduces their ability to g...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 33,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "75b7c338-20f3-4783-953b-f7cc94b4ad77",
+    "content": " development of large\nlanguage models (LLMs). This has helped create systems that can understand and generate nat-\nural languages like humans. These systems have even been fou nd to be able to reason,...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 34,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "7173e535-e2b4-4d0b-864e-9401b7a7bef3",
+    "content": "s 37\npowerful Transformer-based models were pre-trained using these word prediction tasks, and suc-\ncessfully applied to a variety of downstream tasks [ Devlin et al. ,2019 ].\nIndeed, training languag...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 35,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "ebfc94a9-79f1-4cc4-975b-d4c8553e3cfe",
+    "content": "s⟩a)\n⟨s⟩a bc arg maxx3∈VPr(x3|⟨s⟩ab) Pr(⟨s⟩)·Pr(a|⟨s⟩)·Pr(b|⟨s⟩a)·\nPr(c|⟨s⟩ab)\n⟨s⟩a b cd arg maxx4∈VPr(x4|⟨s⟩abc)Pr(⟨s⟩)·Pr(a|⟨s⟩)·Pr(b|⟨s⟩a)·\nPr(c|⟨s⟩ab)·Pr(d|⟨s⟩abc)\nTable 2.1: Illustration of gener...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 36,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "a9bb9584-2a4d-4c4b-a90c-fe2d0fcd19c3",
+    "content": " (2.4)\n3Note that∑m\ni=1log Pr(xi|x0,...,x i−1) =∑m\ni=0log Pr(xi|x0,...,x i−1)since log Pr(x0) = 0 .\n\n--- Page 46 ---\n\n2.1 A Brief Introduction to LLMs 39\nor the pre-norm architecture\noutput = LNorm( F...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 37,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "82b93a70-5db4-408a-ab04-885a9056417c",
+    "content": " Pre-normPost-norm or Pre-norm\nSelf-attentionFFNLBlocks\nFig. 2.1: The Transformer-decoder architecture for language modeli ng. The central components are Lstacked Trans-\nformer blocks, each comprising...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 38,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "273abc34-d6f0-4f8e-9680-efb86ebc391d",
+    "content": "24 896 14/2\n7B 28 3,584 28/4\n72B 80 8,192 64/8\nDeepSeek-V3 [ Liu et al. ,2024a ] 671B 61 7,168 128/128\nFalcon [ Penedo et al. ,2023 ]7B 32 4,544 71/71\n40B 60 8,192 128/128\n180B 80 14,848 232/232\nMistr...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 39,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "835a27d0-01b0-4b86-a39b-21c983e5f342",
+    "content": "x m,y1,...,y i−1) (2.15)\nHere∑n\ni=1log Pr(yi|x0,...,x m,y1,...,y i−1)essentially expresses the same thing as the right-\nhand side of Eq. ( 2.2). It models the log probability of predicting tokens from...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 40,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "8bda82c4-8adb-4f2b-8612-78958a791319",
+    "content": "ne-tune the model parameters using\ninstruction-following data. This approach is called instruction ﬁne-tuning .\nAn instruction ﬁne-tuning sample, which is represented by a sequence of tokens, can be s...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 41,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "5fc4274b-89e8-4f3a-aa33-eb8da7ffce53",
+    "content": "-\ntuned with tens or hundreds of thousands of samples, or even f ewer if these samples are of high\nquality [ Zhou et al. ,2023a ;Chen et al. ,2023b ], whereas pre-training such models may require\nbill...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 42,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "141948c0-0371-4dd7-9cff-a7ab39b556cc",
+    "content": " many ﬁne-tuning runs and evaluations. The\ncost and experimental effort of ﬁne-tuning remain critical and should not be overlooked, though\nthey are much lower than those of the pre-training phase.\nWhi...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 43,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "60e130fa-3779-44b3-863a-63842b30de0a",
+    "content": " be seen as following the pre-training + ﬁne-t uning paradigm, and offers a\nrelatively straightforward method to adapt LLMs.\n•Learning from Human Feedback . After an LLM ﬁnishes pre-training and super...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 44,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "a68fd133-df91-4fac-9845-eb82d02f5851",
+    "content": "consumption and the environmental impact of manufacturing and\ndisposal.\nOutput 3 ( y3): Go off-grid. Generate your own renewable energy and colle ct\nrainwater to become completely self-sufﬁcient and r...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 45,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "2e626ef7-5215-4e81-b977-192cec91b47a",
+    "content": " reward model using ranking loss. For example, a pair-wise ranking loss function\ncan be written in the form\nLoss ω(Dr) = −E(x,yk1,yk2)∼D rlog(Sigmoid( Rω(x,yk1)−Rω(x,yk2))) (2.19)\nwhereωrepresents the...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 46,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "d497a13b-c2ef-448c-9e6e-0db6664fdf9c",
+    "content": "cult for humans to provide ou tputs that are well aligned. As an\nalternative, annotating the preferences of a given list of m odel outputs offers a simpler task. By\ndoing so, we can create a model tha...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 47,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "554c0d35-c0e6-4788-8b0c-7255046b3b0c",
+    "content": "in g errors such as syntactic or\nsemantic mistakes in text. For an LLM which is trained on both code and natural language data,\nwe may use it for code debugging6.\nFix the bugs in this C language progr...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 48,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "45da9fa8-d916-4280-a750-7ed5ac359355",
+    "content": "\ndecompose complex reasoning problems into multiple proble m-solving intermediate steps. These\n\n--- Page 61 ---\n\n54 Generative Models\nsteps are demonstrated in prompts so that LLMs can be prompte d to...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 49,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "66a3c035-d520-4bb3-8e4a-f39d8036d843",
+    "content": " ave him 5 more\napples. The next day, Jack gave 3 apples to his friend John. Ho w many apples\ndoes Jack have left in the end?\nLet’s think step by step.\n1. Initial Quantity: Jack starts with 7 apples.\n...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 50,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "a0d46c19-9f56-4ee0-9069-926ec1b425fc",
+    "content": " much training data as possible.\nHowever, larger training datasets do not mean better traini ng results, and the development of\nLLMs raises new issues in creating or collecting these datas ets.\nA ﬁrst...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 51,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "4ec3cd2b-1198-48c7-a03c-300d93230a3b",
+    "content": " not a proble m that is speciﬁc to LLMs but\nexists in many NLP systems. A common example is gender bias, w here LLMs show a preference\nfor one gender over another. This can partly be attributed to cla...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 52,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "c73e055d-e761-4451-a4ee-dd505adb9795",
+    "content": " .\nA widely-used form of the layer normalization function is gi ven by\nLNorm( h) =α·h−µ\nσ+ǫ+β (2.23)\nwhere his ad-dimensional real-valued vector, µis the mean of all the entries of h, andσis the\ncorre...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 53,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "5282e008-2891-4150-875d-ec0f63963a53",
+    "content": ", and b2∈Rdare model parameters. Different choices\nofσ(·)result in different versions of GLU functions. For example, ifσ(·)is deﬁned to be the\nGeLU function, we will have the GeGLU function\nσgeglu(h) ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 54,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "04c97335-c3eb-4135-a81f-46896b264df0",
+    "content": " in\ndeveloping hardware and software systems for stable and efﬁ cient distributed training.\nAn important consideration of distributed training is para llelism. There are several forms\nof parallelism: ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 55,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "b7cc195a-5a3b-4f82-8db9-c91464e6a47b",
+    "content": "and↓denote the forward and\nbackward passes, respectively. Note that this parallelism method forces the workers to run\nin sequence, so a worker has to wait for the previous worker to ﬁnish their job. T...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 56,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "38e783a2-4f8f-4eb1-8f56-24d090bafb3a",
+    "content": "-batches, and thus minimize the idle time of the\n\n--- Page 70 ---\n\n2.2 Training at Scale 63\nworkers. However, in practice, using small micro-batches o ften reduces GPU utilization and\nincreases task-s...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 57,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "1d1a6cf2-ba82-4cbd-93cb-68101d540306",
+    "content": " show that the performance of\ndeep neural networks is a power-law-like function of the tra ining data size. In the beginning, when\nthe amount of training data is not large, the performance of t he mod...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 58,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "c8222eeb-d313-409a-9fb4-d9fdb83f6d63",
+    "content": "·1013)−0.076\n1081092.733.33.63.94.2\nDataset SizeTest LossL(D) = (D\n5.4·1013)−0.095\nFig. 2.4: Test loss against model size ( N) and training dataset size ( D) (data points are plotted for illustrative ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 59,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "21dad59a-65c4-4200-9a9c-58c2ee3c5488",
+    "content": " laws\ncontinuously push the boundaries of AI further away. On the o ther hand, understanding scaling\nlaws helps researchers make decisions in training LLMs. For example, given the computational\nresour...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 60,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "f9470ba3-2994-4b6b-b27e-6a4bc100812b",
+    "content": " applied across var ious deep learning models [ Kim et al. ,\n2023 ]. A commonly used approach is to adopt a low-precision imple mentation of Transformers.\nFor example, we can use 8-bit or 16-bit ﬁxed-...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 61,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "942eb900-a772-4dcd-bdac-2a56e8fbfdf5",
+    "content": "∑\nkj′∈K[nu]exp(βi,j′)\n\nnode nu(2.43)\nwhere the notation kj′∈K[u]represents that kj′is a row vector of K[u]. In a straightforward\nimplementation, we ﬁrst perform the summations {∑\nkj′∈K[u]exp(βi,j′...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 62,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "297aed0a-926c-4fd2-b741-996cab7a7d42",
+    "content": "d+Mask )\n=\nα0,0 0 0 ... 0\nα1,0α1,1 0... 0\nα2,0α2,1α2,2... 0\n...............\nαm−1,0αm−1,1αm−1,2... α m−1,m−1\n(2.46)\nEach row vector[\nαi,0... α i,i0...0]\ncorresponds to a distribution of...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 63,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "2b7fa0ea-ee78-47ba-94ab-123904d76df6",
+    "content": " the form of the\nresulting attention model is given by\nAttqkv(qi,K≤i,V≤i)≈Attlinear(q′\ni,K′\n≤i,V≤i)\n=q′\niµi\nq′\niνi(2.49)\nwhereµiandνiare variables that are computed in the recurrent forms\nµi=µi−1+k′T\n...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 64,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "61061d93-5736-42bf-b03b-9b839cd8b8d3",
+    "content": " make predictions for future tokens. This\nrequires a KV cache where the representations (i.e., keys an d values) of all previously-generated\n\n--- Page 79 ---\n\n72 Generative Models\ntokens are kept, and...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 65,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "dba6d482-bf5c-410a-86aa-3914f34524b1",
+    "content": " Page 80 ---\n\n2.3 Long Sequence Modeling 73\ni. We can extend the moving average to include all the position s up toi. This leads to the\ncumulative average of the keys and values, given in the form\nMem...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 66,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "e53a8455-096c-4b7a-8ec2-80000061eba6",
+    "content": "(qi,[Mem,CMem]) (2.61)\nwhere [Mem,CMem] is a combined memory of Mem andCMem . As with other segment-\nlevel models, the compressive Transformer model operates o n segments of the sequence.\nEach segment...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 67,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "ff1f9f75-411b-4e96-8252-c68dc9fa3378",
+    "content": "Size = 1 ×2MemoryMem = Update( Skv,Mem pre)⇒\n(c) Recurrent Network as Cache\n· · ·\n· · ·\ni i −1 i−2 i−3 i−4 i−5 i−6 i−7Keys\nValuesSize = 4 ×2Memory\nSize = 2 ×2MemoryCompressed\n(d) Hybrid Cache (Compres...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 68,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "3311d400-52bd-475b-b5cf-950d30170fd2",
+    "content": "�Rdis the coefﬁcient vector, which can be the output of a learned gate.\nGiven thek-NN-based memory model described above, the remaining task is to determine\nwhich key-value pairs are retained in the d...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 69,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "e485cc7f-4017-4d6f-bb1e-a6469f889d73",
+    "content": ") systems, the datastore c an also manage texts and provide\naccess to relevant texts for a query. For example, we can stor e a collection of text documents\nin a search engine with full-text indexing, ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 70,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "2f0dc388-11c4-408b-b705-0ca5bdda6588",
+    "content": " to be not v ery good at handling long-distance\ndependencies in sequence modeling in early applications of deep learning to NLP, recent advance-\nments have shown that their variants are now effective ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 71,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "fea81535-b2e6-4e7c-958d-ef6891868695",
+    "content": " sharing acros s heads in multi-head self-attention.\nRecall from Section 2.1.1 that multi-head self-attention uses multiple sets of queri es, keys, and\nvalues (each set is called a head), each perform...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 72,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "6bab5afa-3de4-4c05-b4db-b1f1f215b55b",
+    "content": " be performed across layers. Such a method fa lls into the family of shared\nweight and shared activation methods, which have been exten sively used in Transformers [ Dehghani et al. ,\n2018 ;Lan et al....",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 73,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "760db5bd-808b-47c5-a6ff-ef15496fa9bb",
+    "content": "\nFig. 2.9: Illustrations of different positional embedding methods f or a range of positions. Blue points represent the\npositions that have been observed during training, and red p oints represent the...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 74,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "20e41c9c-3096-4df9-a01b-39bcfe2b7fb4",
+    "content": "j, whereui−jis the variable corresponding to\nthe offseti−j. However, simply assigning a unique value to each offset wil l restrict this model\nto observed offsets. When i−jis larger than the maximum tr...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 75,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "4c32ed05-a5a9-4639-8365-574e695246f7",
+    "content": "(i,j)s in a bucket share the same bias term ub(i−j). Substituting PE(i,j) =ub(i−j)\ninto Eq. ( 2.76), the attention weight for qiandkjbecomes16\nα(i,j) = Softmax(qikT\nj+ub(i−j)√\nd+ Mask(i,j)) (2.81)\nThe...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 76,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "44c5f85d-fc3f-4fe5-a33f-5ea285df645c",
+    "content": ". For\nexample, in statistical machine translation systems, such features are widely used to model word\nreordering problems, resulting in models that can generali ze well across different translation t...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 77,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "d5dc9fed-8257-463e-b59d-97e88a3fa28b",
+    "content": "R(i)∈Rd×dis the rotation matrix representing the rotations performe d on the token\nembedding xi∈Rd.\nFor simplicity, we will ﬁrst consider embeddings with only t wo dimensions and return to a\ndiscussio...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 78,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "a8d9cae2-dd6a-446f-a0a9-2250675bd13d",
+    "content": "in the 2D Euclidean space R2to a complex number\nx′=x1+ix2in the complex space Cvia a bijective linear map. Then, the rotation of xwith the\nangletθcorresponds to the multiplication by eitθ. Given that ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 79,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "55291182-a4e4-4516-bb55-38bd71d366dd",
+    "content": "1+ix2x3+ix4... x d−1+ixd]\n, where\neach consecutive pair of items forms a complex number. Then, the rotary positional embedding in\nthe complex space is given by\nC(x,tθ) =d/2∑\nk=1x′\nkeitθk⃗ ek (2.91)\nwh...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 80,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "67e724d2-b5e4-4d15-934a-f5ef8d058dac",
+    "content": "=[\nθ1,...,θ d/2]\nare the parameters.\nRo(xi,iθ)can be cast in the form of a linear combination of two periodic functions (see Eq.\n(2.93))\ncosiθ=[\ncosiθ1...cosiθd/2]\n(2.95)\nsiniθ=[\nsiniθ1...siniθd/2]\n(2...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 81,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "980da134-2e27-451f-af8f-786e08201c4e",
+    "content": " series problems where th e effects of past inputs continue\nindeﬁnitely. Another way to achieve inﬁnite memory is to dev elop alternatives to self-attention\nmodels, for example, one can use continuous...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 82,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "535c5544-2e3c-4ffe-b359-a780a61d939b",
+    "content": " common\nto ﬁne-tune LLMs to improve their use of retrieval-augmente d inputs. Another example of ﬁne-\ntuning LLMs for long-context modeling is that we train an LLM with full attention models, and\nthen...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 83,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "44c86fa8-13d8-4fad-bbe7-e30624d9f138",
+    "content": " entire context. Instead, it might just rememb er some important parts of the context,\nor even simply recall the answer via the model learned in pre- training. Moreover, the data used\nin many tasks is...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 84,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "17de79e3-a159-4dd1-9258-c700a07f20fc",
+    "content": " or more focused discussions on speciﬁc topics [ Ruan et al. ,2024 ].\n\n--- Page 103 ---\n\nCHAPTER 3\nPrompting\nIn the context of LLMs, prompting refers to the method of providing an LLM with a speciﬁc i...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 85,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "a92f0b54-348b-43c9-b959-5fd8a916729a",
+    "content": "1.1 Basics\nThe term prompt is used in many different ways. In this chapter we deﬁne a prom pt as the input\ntext to an LLM, denoted by x. The LLM generates a text yby maximizing the probability Pr(y|x)...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 86,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "21354ba7-1782-45a1-8598-2bbfce2fed9f",
+    "content": " act as an expert and answer questions from children.\nYou are a computer scientist with extensive knowledge in the ﬁeld\nof deep learning.\nPlease explain the following computer-related concept to a chi...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 87,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "fc4477da-b8f9-46b8-ad26-fbd03ff5f307",
+    "content": " maps some inputs to the corre-\nsponding outputs. The LLM attempts to follow this pattern in making predictions, provided that\nthe prompt includes a sufﬁcient number of demonstrations, a lthough gener...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 88,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "c11fd9e5-92c4-44b6-9b95-2a5e27902ed9",
+    "content": " important w hen we want the output of\nthe LLM to meet certain expectations. For example, suppose w e are curious about climate\nchange. A simple prompt for asking the LLM to provide some inf ormation ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 89,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "0aa65659-f1f3-4148-8607-b4f211a653e3",
+    "content": " to “think” is through multiple r ounds of interaction with\nLLMs. For example, as a ﬁrst step, we can instruct LLMs to solv e the problem directly\nYou will be provided with a math problem. Please solv...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 90,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "7f9a94a4-e64a-479f-b328-120fab1d676f",
+    "content": " ensures clarity. One\nexample is that we deﬁne several ﬁelds for prompts and ﬁll dif ferent information in each\nﬁeld. Another example is we can use code-style prompts for LL Ms which can understand\nan...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 91,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "d7b5a4d7-9815-447c-ae09-1fc145f8638b",
+    "content": " the generated text or words to predeﬁ ned label words.\nOne method to induce output labels from LLMs is to reframe the problem as a cloze task. For\nexample, the following shows a cloze-like prompt for...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 92,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "af1c993f-7c10-415e-bf00-f745f2a351fc",
+    "content": "classiﬁer”-like architectures is also desirable.\n3.1.4.2 Information Extraction\nMany NLP problems can be regarded as information extraction problems, involving the identiﬁ-\ncation or extraction of spe...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 93,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "1e3873f2-b27f-4751-8793-05a4ccada2e8",
+    "content": "\nTom Jenkins likely hasasigniﬁcant roleindirecting theorganization’s activities,\nespecially those related totourism inEurope.\n...\nIf LLMs have been ﬁne-tuned with instruction following for i nformatio...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 94,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "f4debd48-b1f6-4702-8f35-a41fc837aa46",
+    "content": "�然\n翠柳风中舞，\n红花雨后新。\n山明水又绿，\n天宽鸟自频。\nIf the LLM is trained to generate language and code, we can pro mpt it to perform code com-\npletion tasks. Here is an example.\nPlease write aPython functiontocalculateth...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 95,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "40347797-772d-42b3-984c-146bcbe432e5",
+    "content": " for every gam e they\nplay. If each game lasts for 2 hours, how many hours will Jerry spend at\nthe ﬁeld watching his daughters play and practice altogethe r?\nA: Jerry will spend 8games * 2hours per ga...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 96,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "31559360-31b1-4095-bab9-b11508d48119",
+    "content": "ations of detailed reasoning\nprocesses provided in the prompts. To illustrate CoT, we con sider the problem of algebraic calcu-\nlation, as commonly described in the literature. Suppose we are given a ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 97,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "b5bc3bf5-6e3b-4966-b3fc-5069cb9456a8",
+    "content": "ﬁcient ways to adapt LLMs\nto different types of problems. It can even inspire more crea tive solutions by exploring various\nalternative reasoning paths, which might not be obvious whe n arriving at a ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 98,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "d58d5087-1995-400a-9447-3936d24f14f2",
+    "content": " ing5. Another line of research fo-\ncuses on prompting LLMs with multi-round interactions. Thi s involves decomposing complex\nproblems into sub-problems, verifying and reﬁning model ou tputs, employin...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 99,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "c786e4d6-ca82-48b0-9189-92eb0bb00b98",
+    "content": " stepbystep.\n0: empty stack\n1:[; stack: [\n2:{; stack: [{\nSo the answer is }].\nQ: Complete the rest of the sequence, mak-\ning sure that the parentheses are closed prop-\nerly. Input:<[ [\nA:Let’s think s...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 100,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "9c356062-be3a-46e3-8925-36f90e8793a8",
+    "content": "quer paradigm, which\nis often used to design algorithms for computation problems that can be reduced to simpler, more\nmanageable problems. For example, consider a problem of det ermining whether a doc...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 101,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "f75fc8e5-3dd3-4361-a5f1-cb98b0b8df16",
+    "content": "-world problems require complex reasoni ng. One key characteristic of\nthese problems is that the reasoning steps may not be ﬁxed. Th e reasoning path can vary for\ndifferent problems, and each step of ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 102,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "dd34b970-74e4-474e-a0f8-5cedb0129f5c",
+    "content": "ce the answer. For the example above,\n\n--- Page 129 ---\n\n122 Prompting\nwe need to answer the ﬁrst sub-problem by prompting the LLM, l ike this\nThe environmental study conducted from 2015 to 2020 revea...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 103,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "1edd4937-c714-4f93-a440-ac4262d59992",
+    "content": "ﬁne this model is to modify the G(·)function so that the model can dynamically\ngenerate answers. Instead of generating all sub-problems a t one time, we can generate each of\nthem during problem-solvin...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 104,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "d0614e56-6d86-4ab2-92ad-a4db94384375",
+    "content": " met hod is to develop an additional\nneural model to generate simpler questions that address dif ferent aspects of the original question\n[Andreas et al. ,2016 ;Talmor and Berant ,2018 ;Min et al. ,201...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 105,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "d474703d-1477-4305-b747-a053e01866bf",
+    "content": " deal of work o n sequence-to-sequence problems,\nsuch as grammar correction and text rewriting, can also be se en as examples on this theme.\nWe can prompt LLMs to do self-reﬁnement. Consider a simple ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 106,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "4e06b993-17c6-4feb-b92a-00e924e56f9c",
+    "content": "\nall the grammatical errors in the translation”, so that the m odel can focus more on grammatical\nerror correction during reﬁnement.\nA general framework of self-reﬁnement with LLMs involves th ree ste...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 107,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "8c6f915f-6efd-45c7-939d-e08eead2612e",
+    "content": "\nregions liketheAmazon, causing biodiversity loss; andocean degradation,\nhighlighted bycoral reefbleaching andwidespread overﬁshing.\nIdeally, if a strong LLM is adopted, we would like to have it pe rf...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 108,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "97bfeec9-66ea-49b0-89db-c961ec36e1bd",
+    "content": " Chinese sentence:\n一系列考古发现奠定红山文化在中华文明起源研究中的重要地位。\nThe English translation is:\nAvarietyofinnovativetechniques have redeﬁned theimportance ofmodernart\nincontemporary cultural studies.\nPlease ﬁrst detect ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 109,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "7b0ee55b-257c-4009-b548-42eaada355ff",
+    "content": "ent ways. For\nexample, we can select the best prediction by voting or by ide ntifying the one that overlaps the\nmost with others. Another method for model combination is to perform model averaging dur...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 110,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "fcc25be5-8116-4b3a-b451-236a4d4300ca",
+    "content": " to providing diverse prompts for LLMs, another a pproach is to make use of the\ninherent variance in the outputs of LLMs. One simple way to ge nerate multiple outputs is to\nsample outputs from the hyp...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 111,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "651039f0-9cd9-4af0-b64a-93d89765b6ef",
+    "content": " There arethree ﬂips, soonemight incorrectly assume thatthe\nchance ofpicking onespeciﬁc outcome likethiswould be1outof3.Thus, they\nmight conclude thattheprobability ofexactly onehead is1/3 = 33.3%.\nPr...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 112,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "2525c50d-4658-4391-bdbd-f37e7e41dd19",
+    "content": "--- Page 141 ---\n\n134 Prompting\nLLM2\nLLM1LLM2\nPrompt Prediction2\nPrediction1Prediction3Combine/Select\nFinal\nPrediction\n(a) Model Ensembling\nLLM Prompt2\nPrompt1Prompt3\nPrediction2\nPrediction1Prediction...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 113,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "154f8a03-a6d9-4daf-816b-4e224f4f0148",
+    "content": " 2028 or LA28, is an upcoming intern ational multi-sport\nevent scheduled to take place from July 14-30, 2028, in the Un ited States. ...\n(The Sporting News)\nIn 2028, Los Angeles will become the third ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 114,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "3e7be31c-c585-4d04-aa92-2b4b6cf3ee36",
+    "content": " a universal prompting strategy t hat can adapt to different tasks. In\nmany cases, we need to control how much we depend on the retrie ved context to make predictions.\nSometimes, LLMs must derive resp...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 115,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "77a107b4-8491-4acd-a3a3-940fdd396fe0",
+    "content": " the vol ume of the\npool by using the formula for the volume of a rectangular pris m: Length ×\nWidth ×Depth.Therefore, The volume is 10m×4m×2m={tool:\ncalculator, expres sion: 10*4*2}m3. Next, to ﬁnd o...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 116,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "115f313c-3d7e-4853-b3f6-c7f19aa17b0d",
+    "content": " methods aim to auto-\nmatically create, optimize, and represent prompts so that t he downstream tasks can be addressed\nmore effectively and efﬁciently. In particular, we conside r three issues here.\n•...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 117,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "14b37b2a-5660-4b34-a51c-d8930f4833a8",
+    "content": "’s method for illustrating LLM-based\nprompt optimization. It involves the following steps.\n•Initialization . LetCrepresent the pool of the candidate prompts we intend to expl ore. The\nﬁrst step is to ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 118,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "aa5b52b0-57d0-4bbc-b289-d142bef3f27a",
+    "content": " and modiﬁcations, for each t oken. A given prompt can be edited\ninto new prompts by applying these operations [ Prasad et al. ,2023 ]. Also, further evaluation and\npruning can be applied to ﬁlter out...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 119,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "08529848-7d96-4c21-bf85-04c62baaa49c",
+    "content": " and testing\nthese instructions on downstream tasks is computationally expensive. This makes the optimization\nmethods costly to apply, and exploring a wide variety of inst ructions poses signiﬁcant ch...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 120,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "d3449c6a-c5c0-409f-af60-5f83c33be700",
+    "content": " L LM inference applications where\nthe same prompt is repeatedly used.\n3.3.2.1 Adapting LLMs with Less Prompting\nOne obvious way to adapt an LLM for a particular task is to simp ly ﬁne-tune the model ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 121,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "788ade93-39ba-43f1-b38f-2cec49b574a0",
+    "content": " distillation [ Snell et al. ,2022 ]. The teacher model is a standard LLM, which takes both\nthe context and the user input as model input and produces a pr ediction as model output. Then, we simplify ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 122,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "800c29d6-0417-4718-8d8e-32655ac1a660",
+    "content": " can be deﬁned as the KL\ndivergence between the two output distributions\nLoss = KL(Pt||Ps\nθ) (3.16)\nwhere\nPt= Prt(·|c,z) (3.17)\nPs\nθ= Prs\nθ(·|c′,z) (3.18)\nAlthough we have restricted ourselves to know...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 123,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "80c1a303-8583-4cf9-8a21-6951a3697934",
+    "content": " each pi∈Rdcan be seen as a learnable parameter. During training, pl\n0pl\n1...pl\nnare trained\nas usual, and the parameters of the original Transformer mod el are kept ﬁxed.\nFigure 3.5shows an illustrat...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 124,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "ffdb5948-112a-45a9-9dbf-ba388997cb2c",
+    "content": " hl+1\n0 hl+1\n1 hl+1\n3 hl+1\n4 hl+1\n5Layer l+ 1· · · · · · · · · · · · · · ·Loss Loss\n· · · · · · · · · · · · · · ·\nLook out !小心 !trainable preﬁxes\nUser Input LLM Prediction Soft Prompt\nFig. 3.5: Illust...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 125,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "dc5fecdd-2bf1-450a-afcb-d69d6ec87f8e",
+    "content": " are compressed and repre-\nsented as a few pseudo tokens, which are appended to each inpu t sequence. The embeddings of\nthese pseudo tokens are optimized to mimic the predictions o f a standard-prompt...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 126,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "63cafe2e-1f6f-4cf9-9217-d70e69792a3b",
+    "content": " ( 3.15) and ( 3.16). For example, a simple training\nobjective is given by\nˆσ= arg max\nσlog Pr(ˆ y|σ,z) (3.24)\nAlternatively, we can minimize the KL divergence between th e output distributions, givin...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 127,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "2dadb1c7-3aea-4d24-953e-3b845699fc31",
+    "content": " a segment zi=zi\n1...zi\nmi, along with the previous context rep-\nresentationσ<iand the summary tokens ⟨g1⟩,...,⟨gκ⟩as input, and use an LLM to produce the\ncorresponding hidden representation sequence ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 128,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "e75a489a-7a3a-4709-9808-5c94076ea408",
+    "content": " ,2023c ;Jiang et al. ,2023b ]. Another method involves framing\nthe problem as a sequence-to-sequence task. With labeled da ta for text simpliﬁcation, we can\ntrain an encoder-decoder model to transfor...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 129,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "33180b6e-ca20-4d66-8446-2d293e18601b",
+    "content": " et al. ,2023a ], efﬁcient prompting [ Chang et al. ,2024 ], and general prompt engineering\n[Liu et al. ,2023c ;Chen et al. ,2023a ].\n\n--- Page 161 ---\n\n154 Prompting\nNote that although we would ideal...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 130,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "498d7ab7-ffe4-4daf-860f-94c71eab99f6",
+    "content": " Here we consider three widely-used approa ches to aligning LLMs.\nThe ﬁrst approach is to ﬁne-tune LLMs with labeled data. This approach is straightforward\nas it simply extends the pre-existing traini...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 131,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "c32de16e-847a-43dc-88cc-8d40e7744b2e",
+    "content": "ce time is to rescore the outputs\nof an LLM. For example, we could develop a scoring system to si mulate human feedback on the\noutputs of the LLM (like a reward model) and prioritize those that receiv...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 132,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "e61e3474-bba8-4f3e-9c55-76cd87b4e394",
+    "content": " gift card.\nClick here to claim now.\nProvide a solution to the following technical issue. First, check for ...\nIssue: my computer is running slow and often freezes.\n\n--- Page 165 ---\n\n158 Alignment\nwh...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 133,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "2990f727-34eb-43a6-ab53-8d292019c99c",
+    "content": "x3y1x1x2x3y1y2Input Output\n(a) Forward Passx0x1x2x3y1x1x2x3y1y2Loss = 0 Loss ̸= 0\n(b) Backward Pass\nFig. 4.2: Illustration of supervised ﬁne-tuning for LLMs. We concate nate the input and the output i...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 134,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "75b54c1c-6e9c-4fdf-8400-aefc4fe58b5d",
+    "content": " \nset to 0+\nlog Pr θ(yK|x1,y1,...,xK) \nloss computation(4.6)\nThe trick here is that we ignore the loss for generating user i nputs, as illustrated in Figure 4.3.\nHence we only compute the proba...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 135,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "f20f99a4-7c73-46eb-a48a-433baebc1338",
+    "content": " on the conversational history. The conve rsation progresses by alternating between the user and the\nchatbot. In SFT, we treat the entire conversation as a sequen ce, just like in standard LLMs, but c...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 136,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "2c55e006-529d-43ac-b6ca-13e5a440229a",
+    "content": " LLM, as described in the previous subsec tion.\nOne difﬁculty here is that there are many, many different way s to write prompt templates\nfor the same task, and different people may produce prompt te ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 137,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "f0e921a0-5a12-41b1-8811-f663e37d47f3",
+    "content": "a n-annotated data for LLM ﬁne-tuning\nis often inefﬁcient. Moreover, the coverage of such data can be limited, and the data may even\ncontain biases introduced by the annotators themselves. An alternat...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 138,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "8b3a49c4-f735-4dc4-9e64-f737fbf38751",
+    "content": "\nschematic illustration of self-instruct. Here we give a bri ef outline of the key steps involved.\n• The self-instruct algorithm maintains a pool of tasks. Ini tially it contains a number of seed\nhand...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 139,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "ca2334f2-79d7-4cc4-934d-5fb953680b3a",
+    "content": " synthetic data as supervision signals in a more adva nced ﬁne-\ntuning process [ Chen et al. ,2024b ]. More recently, there has also been considerable interest in\nusing synthetic data in the pre-train...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 140,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "927185f1-c4e2-42a8-b65d-c209b73b5d5e",
+    "content": "tuning process [ Xia et al. ,2024 ]. In fact, most of these methods can be seen as instances of la rger\nfamilies of data selection and ﬁltering methods. And it is of ten the case that using higher qua...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 141,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "36fa991f-ae64-4e16-97e9-9dce53138873",
+    "content": ", when we say this model can generalize within a given task\n(indicated by the instruction c∗), we mean that there may be a value ǫsuch that the average\nperformance on new inputs is above this value:\n1...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 142,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "898a4e9b-9209-4731-9a2f-6cb81e8c89e5",
+    "content": " quality of the instr uction-response dataset. Given these\nlimitations, we would instead like to employ preference mod els as an additional ﬁne-tuning step\nfollowing instruction ﬁne-tuning, so the LLM...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 143,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "83f9b059-1c53-4ee3-88cd-9ca56ac49679",
+    "content": "answers might be difﬁcult, or sometimes infeasible. For exa mple, when faced with an extremely\nlong document, the experts would ﬁnd it challenging to ident ify any inconsistencies, subtle biases,\nor m...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 144,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "0a43e1d2-659b-4d9a-86ba-c4047c74abe7",
+    "content": " gap between the ceiling model and the\nweak model can be recovered by the weak-to-strong model. A PG R of 1 indicates that the weak-\nto-strong ﬁne-tuning can completely closes the performanc e gap, wh...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 145,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "85a1a1b3-79a7-4338-a404-5ffa6a7c136c",
+    "content": "-trai ning and ﬁne-tuning is to use\nthem to do data selection or ﬁltering. Given a sequence, we ca n compute the likelihood\nor cross-entropy using a small model. These quantities can t hen be used as ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 146,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "bfe12807-410b-400c-a91a-2faed9bfb839",
+    "content": " multiple\noutputs via sampling\nPrediction y2Prediction y1Objective (RL Loss Minimization):\nminL(x,{y1,y2},r)Reward Model Human preference datatrain\nwhere\nL(·): loss function\nr(·): reward model\n(b) Rei...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 147,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "11995e76-6a39-4948-9244-352d34a3e4a0",
+    "content": "denotes the reward the agent receives for taking the\nactionaat the statesand moving to the next state s′. If the state-action sequence is given,\nwe can denote the reward at the time step tasrt=r(st,at...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 148,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "f23169d3-72eb-4b9c-8792-20a8b6947d61",
+    "content": " re-\nward (orreturn ) the agent receives over the long run. Given a state-action s equenceτ=\n{(s1,a1),...,(sT,aT)}1, the cumulative reward over this sequence can be written as\nR(τ) =T∑\nt=1rt (4.17)\nTh...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 149,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "405a3b9d-e0c6-46a2-80ad-714751c19afe",
+    "content": "In some cases, we will assume that every sequence in Dis equally probable (i.e., Prθ(τ) =\n1/|D|). In this case we can simplify Eq. ( 4.20) and need only consider the terms∂log Pr θ(τ)\n∂θand\nR(τ):\n∂J(θ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 150,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "db627204-ff70-4cc6-aac6-d84df5c0e196",
+    "content": "1rt−b.2Here, the baseline can be interpreted as a reference\npoint. By centering the rewards around this baseline, we rem ove systematic biases in the reward\nsignal, making the updates more stable and ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 151,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "7e556c10-c0f4-41de-84b3-4404d0fe327d",
+    "content": " time step t, which quantiﬁes the relative\nbeneﬁt of the action atcompared to the expected value of following the policy from t he statest\nonward.\nBy using the advantage function A(st,at), the gradien...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 152,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "4de34392-f545-4f13-bdb9-0ffc304d5b30",
+    "content": " subsection, both x\n3The training loss for the value network (or critic network) i n A2C is generally formulated as the mean squared\nerror between the computed return rt+γV(st+1)and the predicted stat...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 153,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "5cae4c2f-a746-4c11-babd-605bac09b14e",
+    "content": " and most com-\nmon forms of human feedback used in RLHF. In this setting, eac h time, two outputs (ya,yb)are\nrandonly drawn from the candidate pool {y1,...,yN}. Human experts are then presented with\nt...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 154,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "fec05dd6-4560-47ca-9b19-2148106048d6",
+    "content": "LM) via the A2C method.\nRecall from Section 4.3.1 that a state-action sequence or trajectory τcan be evaluated by the utility\nfunction\nU(τ;θ) =T∑\nt=1logπθ(at|st)A(st,at) (4.39)\nwhereA(st,at)is the adv...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 155,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "1f0e3cb8-311c-4091-83a6-adb6467b001d",
+    "content": " actionatis more favored by\nthe current policy compared to the reference policy. By cont rast, whenπθ(at|st)\nπθref(at|st)<1, the action\natis less favored by the current policy4.\n4Consider a more gener...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 156,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "e40289d2-99b6-4472-9eca-e857ef7ee29d",
+    "content": "πθ(at|st)\nπθref(at|st),bound(πθ(at|st)\nπθref(at|st),1−ǫ,1 +ǫ))\n(4.50)\nHere the function bound(πθ(at|st)\nπθref(at|st),1−ǫ,1 +ǫ)constrains the ratio function to the range [1−\nǫ,1 +ǫ].\nA further improvem...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 157,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "2d063394-5c41-426c-b2e9-f931d78e8620",
+    "content": "(·)whereφdenotes the parameters). The reward model learns from\nhuman preference data to predict the reward for each pair of i nput and output token se-\nquences. It is a Transformer decoder followed by...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 158,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "01b3727c-6acc-4c63-b2f7-13bf8aae66ff",
+    "content": "D∑T\nt=1\n[\nrt+γVω(x,y<t+1)−Vω(x,y<t)]2\n∗∗rt=r(x,y<t+1)denotes the reward received as step t.\n∗∗Atdenotes the advantage at step t, and can be deﬁned as rt+γVω(x,y<t+1)−Vω(x,y<t)\nFig. 4.9: Illustration o...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 159,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "7e0fa8b5-5e65-4dec-b19c-627fe91a0370",
+    "content": " just pairwise comparisons. One\nsuch model is the Plackett-Luce model , which generalizes the Bradley-Terry model to handle\nmultiple items in a ranking [ Plackett ,1975 ]. In the Plackett-Luce model, ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 160,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "77dd2519-28c2-43bf-97da-00b8b1ce70ab",
+    "content": " feedback ϕ(x,y). For example, the loss function could be\nLpoint =−E[ϕ(x,y)−r(x,y)]2(4.62)\nWhile pointwise methods are conceptually simpler and can di rectly guide the reward model to\n\n--- Page 196 --...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 161,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "5c4c30bb-7369-4701-a464-427056184617",
+    "content": " mitigating sparse rew ards in detail here, an interesting\nquestion arises: why are sparse rewards so successful in RLH F? Recall from Section 4.3.1 that\nthe supervision signal received at each time s...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 162,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "e38f5190-9cb3-426a-ada2-77b300c701cf",
+    "content": " general sentiment anal-\nysis.\nFor the problem of reward modeling, we often need to model dif ferent parts of a sequence as\nwell. A simple and straightforward way to do this is to divide a sequence in...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 163,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "8177af2b-fbaf-4a72-bfb8-65f6555ee739",
+    "content": " identify natural breaks in the se-\nquence. Another approach is to use dynamic segmentation met hods based on the complexity of\n6To allow the reward model to output categories, we can replac e the lin...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 164,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "362632f1-d7c6-44e3-adff-a15709c4e2bb",
+    "content": " et al. ,2022 ], which refers to the phenomenon where the agent attempts to trick the reward model but fails to\nalign its actions with the true intended objectives of the ta sk. Imagine a student who ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 165,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "f75407eb-4eba-413d-8d5c-f43bfd4befba",
+    "content": " model r(x,y). The training objective is thus\ngiven by\n˜θ= arg min\nθEx∼DEy∼πθ(·|x)[−r(x,y)\nloss+β(logπθ(y|x)−logπθref(y|x))  \npenalty](4.73)\nNote that in this optimization problem, only the te...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 166,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "d01051e6-4368-4652-8000-76ffa2780c16",
+    "content": ")]]\n= arg min\nθEx∼D[\nKL(πθ(·|x)||π∗(·|x))\n\nKL divergence−logZ(x)\nconstant wrt. θ]\n(4.77)\nSince logZ(x)is independent of θ, it does not affect the result of the arg minθoperation,\nand can be re...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 167,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "2a3d0fbf-e906-4b84-854d-ddc7e356517c",
+    "content": " lignment, especially when\ndeveloping and applying reward models via reinforcement le arning is challenging.\nDPO can broadly be viewed as an ofﬂine reinforcement learning method, where the training\nda...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 168,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "79627895-db48-407c-aaad-b0a6914be5bf",
+    "content": " training the\nreward model, as discussed in Section 4.4.1 .\nFor data generation, although it is easy to scale up, it is oft en necessary to ensure the data is\naccurate and diverse. Here, the data qual...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 169,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "ccc08a7c-4aaf-4fda-9488-1d1feb4ab9dc",
+    "content": " To do this, we need to develop a model to give a su pervision signal at each\nstep, and develop loss functions that can make use of such sup ervision signals.\nFigure 4.11 shows two LLM outputs for an ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 170,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "80307a14-f0f0-4c05-a9b2-e4cfd90e99d2",
+    "content": " responses are consider ed correct. For process-based approaches, the mistakes in\nresponse 2 can be considered in reward modeling.\nlearning from reasoning mistakes. Instead, annotating ste ps that the...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 171,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "ee49aef5-6cd6-44c5-85be-fe968b08f775",
+    "content": " and improving efﬁci ency.\n4.4.5 Inference-time Alignment\nIn this section we explored a variety of methods to align mode ls with human preferences and an-\nnotations. However, one of the signiﬁcant lim...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 172,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "f04a2c9e-00ea-47ae-925f-1e2d4256aa5f",
+    "content": "b ].\n4.5 Summary\nIn this chapter, we have explored a range of techniques for al igning LLMs. In particular, we\nhave discussed ﬁne-tuning methods that enable LLMs to follo w instructions and align them...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 173,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "ee863950-7579-45d1-88d8-36d417260973",
+    "content": "aligned”\noutcomes that still technically satisfy the objective but i n a harmful or counterproductive way.\nThese challenges have motivated and are motivating AI resea rch towards more aligned sys-\ntem...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 174,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "2c100656-94f6-47a4-a9c9-95d31c49a010",
+    "content": ", Amar Shah, and Yosh ua Bengio. Unitary evolution recurrent\nneural networks. In International conference on machine learning , pages 1120–1128, 2016.\n[Aschenbrenner, 2024] Leopold Aschenbrenner. Situ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 175,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "8777c9e7-c3fb-4252-b59b-14aa2b8cad5c",
+    "content": ".gov/2011/RTE/ , 2011.\n[Besta et al., 2024] Maciej Besta, Nils Blach, Ales Kubicek, Robert Gerstenberger, Michal Podstawski,\nLukas Gianinazzi, Joanna Gajda, Tomasz Lehmann, Hubert Nie wiadomski, Piotr...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 176,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "8f29f123-d527-4c28-a6c9-5eb7835617d9",
+    "content": "id\nPalangi, Marco Túlio Ribeiro, and Yi Zhang. Sparks of artiﬁc ial general intelligence: Early experiments\nwith gpt-4. arXiv preprint arXiv:2303.12712 , 2023.\n[Bulatov et al., 2022] Aydar Bulatov, Yu...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 177,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "f968e408-5d52-4fcd-a2d9-d35aa07f872d",
+    "content": "with fewer data. arXiv preprint arXiv:2307.08701 , 2023b.\n[Chen et al., 2024] Lichang Chen, Shiyang Li, Jun Yan, Hai Wan g, Kalpa Gunaratna, Vikas Yadav, Zheng\nTang, Vijay Srinivasan, Tianyi Zhou, Hen...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 178,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "ab10a84d-570e-4756-8c0f-9daaab93983e",
+    "content": "odkumar Prabhakaran, Emily Reif, Nan Du, Ben Hu tchinson, Reiner Pope, James Bradbury,\nJacob Austin, Michael Isard, Guy Gur-Ari, Pengcheng Yin, To ju Duke, Anselm Levskaya, Sanjay Ghe-\nmawat, Sunipa D...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 179,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "d3959eb4-7683-4a6b-9efc-379c7df8ba5d",
+    "content": "ikay Khandelwal , Naman Goyal, Vishrav Chaudhary, Guil-\nlaume Wenzek, Francisco Guzmán, Édouard Grave, Myle Ott, Lu ke Zettlemoyer, and Veselin Stoyanov.\nUnsupervised cross-lingual representation lear...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 180,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "356b4084-5473-4b66-b209-1fc81537fb6b",
+    "content": " 3369–3391, 2022.\n[Devlin et al., 2019] Jacob Devlin, Ming-Wei Chang, Kenton L ee, and Kristina Toutanova. Bert: Pre-\ntraining of deep bidirectional transformers for language u nderstanding. In Procee...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 181,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "34241675-bc97-4da7-8b2b-fa55b9258d52",
+    "content": " methods that learn from human feedback. Advances in Neural Information Processing Systems , 36,\n2024.\n[Eisenstein et al., 2023] Jacob Eisenstein, Chirag Nagpal, Alekh Agarwal, Ahmad Beirami, Alex D’A...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 182,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "5946166c-44d3-4cb1-8edc-730e84e3e097",
+    "content": " Sandipan Kundu, Saurav Kada-\nvath, Scott Johnston, Shauna Kravec, Sheer El Showk, Tamera Lanham, Timothy Telleen-Lawton, Tom\nHenighan, Tristan Hume, Yuntao Bai, Zac Hatﬁeld-Dodds, Ben Mann, Dario Amo...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 183,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "01ab5ebf-4cbd-4148-b0f9-0561f0f9eb68",
+    "content": "avo de Rosa, Olli Saarikivi, Adil\nSalim, Shital Shah, Harkirat Singh Behl, Xin Wang, Sébastie n Bubeck, Ronen Eldan, Adam Tauman\nKalai, Yin Tat Lee, and Yuanzhi Li. Textbooks are all you need .arXiv p...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 184,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "2d6d3b62-730a-4921-a13f-5e1f024af213",
+    "content": "nan,\nand Dawn Song. Pretrained transformers improve out-of-dis tribution robustness. In Proceedings of the\n58th Annual Meeting of the Association for Computational Li nguistics , pages 2744–2751, 2020...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 185,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "6d04b798-3f81-4be8-9e13-2230a428702d",
+    "content": "-based sear ch algorithms in NLP. In Proceedings\nof Human Language Technologies: The 2009 Annual Conference of the North American Chapter of the\nAssociation for Computational Linguistics, Companion Vo...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 186,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "95900356-713b-4501-9255-1acb28ce63f8",
+    "content": ".\n[Jurafsky and Martin, 2008] Dan Jurafsky and James H. Martin .Speech and Language Processing (2nd\ned.). Prentice Hall, 2008.\n[Kahneman, 2011] Daniel Kahneman. Thinking, fast and slow . macmillan, 20...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 187,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "6cbeeb50-6420-42b0-a1ba-0fbb7d4d23fe",
+    "content": "z, Tom Everitt, Ramana Kumar, Zac Kenton, Jan Leike, and Shane Legg. Speciﬁ-\ncation gaming: the ﬂip side of ai ingenuity. https://deepmind.google/discover/blog/\nspecification-gaming-the-flip-side-of-a...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 188,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "98de0a5c-30b7-4139-9f05-e20839dd4970",
+    "content": "3] Bei Li, Rui Wang, Junliang Guo, Kaitao Song, Xu Tan, Hany Hassan, Arul Menezes, Tong\nXiao, Jiang Bian, and JingBo Zhu. Deliberate then generate: Enhanced prompting framework for text\ngeneration. ar...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 189,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "4ccaebba-32de-44a1-abee-fdd6d3d37da0",
+    "content": "5 Summary 213\nZhao, Chengqi Deng, Chenyu Zhang, Chong Ruan, et al. Deepsee k-v3 technical report. arXiv preprint\narXiv:2412.19437 , 2024a.\n[Liu et al., 2022] Jiachang Liu, Dinghan Shen, Yizhe Zhang, W...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 190,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "19b6f562-d622-41e1-b343-27e153b25497",
+    "content": "ig,\nJonathan May, and Luke Zettlemoyer. Mega: Moving average eq uipped gated attention. In The Eleventh\nInternational Conference on Learning Representations , 2023.\n[Ma et al., 2024] Xuezhe Ma, Xiaome...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 191,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "92a478e4-5434-4aa6-8293-10ea5e628e33",
+    "content": " ystems - Volume 2 , pages 3111–3119, 2013b.\n[Min et al., 2019] Sewon Min, Victor Zhong, Luke Zettlemoyer , and Hannaneh Hajishirzi. Multi-hop read-\ning comprehension through question decomposition an...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 192,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "1bbe1b50-6e4d-4ad3-941b-d9d6fe9b2f03",
+    "content": "1.\n\n--- Page 222 ---\n\n4.5 Summary 215\n[Ng et al., 1999] Andrew Y Ng, Daishi Harada, and Stuart J Russ ell. Policy invariance under reward\ntransformations: Theory and application to reward shaping . In...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 193,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "fa32bfde-7b33-4716-b8ce-8eba83392c22",
+    "content": " Jeffrey Quesnelle, Honglu Fa n, and Enrico Shippole. YaRN: Efﬁcient con-\ntext window extension of large language models. In The Twelfth International Conference on Learning\nRepresentations , 2024.\n[P...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 194,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "b835db42-541d-4353-926d-dee3cc596a32",
+    "content": " Clark, Gretchen Krueger, and Ilya\nSutskever. Learning transferable visual models from natur al language supervision. In International\nconference on machine learning , pages 8748–8763. PMLR, 2021.\n[Ra...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 195,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "edcfe620-dee4-48f7-bee6-f7310ee90975",
+    "content": " Nihal Nayak,\nDebajyoti Datta, Jonathan Chang, Mike Tian-Jian Jiang, Han Wang, Matteo Manica, Sheng Shen,\nZheng Xin Yong, Harshit Pandey, Rachel Bawden, Thomas Wang, Trishala Neeraj, Jos Rozen, Abhees...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 196,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "64bc6ad2-be82-4103-a0f7-2fa3c33d075a",
+    "content": ": O ne write-head is all you need. arXiv preprint\narXiv:1911.02150 , 2019.\n[Shazeer, 2020] Noam Shazeer. Glu variants improve transfo rmer. arXiv preprint arXiv:2002.05202 , 2020.\n[Shen et al., 2020] ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 197,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "c083f69e-9d01-4437-a154-e64acf3164ee",
+    "content": ". Sequence to sequence learning with\nneural networks. Advances in neural information processing systems , 27, 2014.\n[Sutton and Barto, 2018] Richard S. Sutton and Andrew G. Bart o.Reinforcement Learni...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 198,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "20ffdf94-b92b-4732-8a9e-c7b534963f95",
+    "content": "oura, Marie-Ann e Lachaux, Thibaut Lavril, Jenya Lee,\nDiana Liskovich, Yinghai Lu, Yuning Mao, Xavier Martinet, T odor Mihaylov, Pushkar Mishra, Igor\nMolybog, Yixin Nie, Andrew Poulton, Jeremy Reizens...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 199,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "568c2e38-22ff-4611-a493-feb97c9789bc",
+    "content": " Xuezhi Wang, Jason Wei, Dale Schuurmans, Quoc V Le, Ed H Chi, Sharan Narang,\nAakanksha Chowdhery, and Denny Zhou. Self-consistency imp roves chain of thought reasoning in lan-\nguage models. In Procee...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 200,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "2e5e07ad-3cba-4e85-9817-50ecf8ea7a09",
+    "content": "] Jason Wei, Yi Tay, Rishi Bommasani, Colin R affel, Barret Zoph, Sebastian Borgeaud,\nDani Yogatama, Maarten Bosma, Denny Zhou, Donald Metzler, E d H. Chi, Tatsunori Hashimoto, Oriol\nVinyals, Percy Li...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 201,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "1218c01f-8e7c-4dd6-9d9e-29876e9e43e2",
+    "content": " al., 2024] Mengzhou Xia, Sadhika Malladi, Suchin Gur urangan, Sanjeev Arora, and Danqi Chen.\nLess: Selecting inﬂuential data for targeted instruction t uning. arXiv preprint arXiv:2402.04333 , 2024.\n...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 202,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "cba6e1e5-cf7b-43b4-90c8-1df45c56567f",
+    "content": "iguation rivaling supervised methods.\nInProceedings of the 33rd annual meeting of the association fo r computational linguistics , pages 189–\n196, 1995.\n[Yu et al., 2023] Zihan Yu, Liang He, Zhen Wu, ...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 203,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "02338093-190b-40eb-8f9f-21d5ed72ff8c",
+    "content": "Xiv:2305.11206 , 2023a.\n[Zhou et al., 2023] Denny Zhou, Nathanael Schärli, Le Hou, Ja son Wei, Nathan Scales, Xuezhi Wang, Dale\nSchuurmans, Claire Cui, Olivier Bousquet, Quoc V . Le, and Ed H. Chi. Le...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 204,
+      "total_chunks": 206
+    }
+  },
+  {
+    "chunk_id": "4c1bb8d5-65d0-40ce-af1f-acc18ef53c59",
+    "content": " 43,154\ninterference, 30\ninternal memories, 74\nInterpolation, 82\nirreducible error, 63\nkey-value cache, 68\nKV cache, 68\nlabel mapping, 105\nLearning from Human Feedback, 47\nleast-to-most prompting, 119...",
+    "metadata": {
+      "source": "data\\documents\\LLM book.pdf",
+      "filename": "LLM book.pdf",
+      "file_type": "pdf",
+      "producer": "GPL Ghostscript 10.01.2",
+      "creationdate": "D:20250116201348-05'00'",
+      "moddate": "D:20250116201348-05'00'",
+      "creator": "LaTeX with hyperref",
+      "page_count": 231,
+      "timestamp": "2025-03-14T14:55:22.955529",
+      "doc_id": "2efaccdfb6ce9728",
+      "chunk_index": 205,
+      "total_chunks": 206
+    }
+  }
+]

@@ -1,0 +1,102 @@
+{
+  "metrics": {
+    "precision": 0.5,
+    "recall": 1.0,
+    "f1": 0.6666666666666666,
+    "mrr": 1.0,
+    "ndcg": 1.0,
+    "latency": 0.7319297790527344
+  },
+  "details": {
+    "per_query": {
+      "Basic LLM definition query": {
+        "query": "What are large language models?",
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666,
+        "mrr": 1.0,
+        "ndcg": 1.0,
+        "latency": 0.7362000942230225,
+        "retrieved_ids": [
+          "72f80a0d0fe781a8",
+          "86ebf89873b14c45",
+          "81f6ca27534022fc",
+          "01e5246396f56338",
+          "e944efc521b07286",
+          "94fdcaccf6e4232e",
+          "88035bb4a07f11ae",
+          "763b2f3380ad8dda",
+          "393d627c45da8706",
+          "3eb0ec13b980aca6"
+        ],
+        "relevant_ids": [
+          "86ebf89873b14c45",
+          "01e5246396f56338",
+          "e944efc521b07286",
+          "94fdcaccf6e4232e",
+          "393d627c45da8706"
+        ],
+        "results_count": 10
+      },
+      "Transformer architecture explanation": {
+        "query": "How does the transformer architecture work?",
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666,
+        "mrr": 1.0,
+        "ndcg": 1.0,
+        "latency": 0.7447977066040039,
+        "retrieved_ids": [
+          "7e50577222aac10b",
+          "45cfbd636699d0e7",
+          "0f5b1ae9206c1d0a",
+          "393d627c45da8706",
+          "410dad6170826ef7",
+          "cba032a57ada2df2",
+          "808ec4ed6117434d",
+          "99df9d134f8a74ab",
+          "1e0983597b61131c",
+          "570656a5c1117373"
+        ],
+        "relevant_ids": [
+          "7e50577222aac10b",
+          "45cfbd636699d0e7",
+          "0f5b1ae9206c1d0a",
+          "cba032a57ada2df2",
+          "1e0983597b61131c"
+        ],
+        "results_count": 10
+      },
+      "LLM limitations query": {
+        "query": "What are the limitations of large language models?",
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666,
+        "mrr": 1.0,
+        "ndcg": 1.0,
+        "latency": 0.7147915363311768,
+        "retrieved_ids": [
+          "72f80a0d0fe781a8",
+          "86ebf89873b14c45",
+          "81f6ca27534022fc",
+          "01e5246396f56338",
+          "e944efc521b07286",
+          "94fdcaccf6e4232e",
+          "2494b46ffd18db50",
+          "88035bb4a07f11ae",
+          "763b2f3380ad8dda",
+          "393d627c45da8706"
+        ],
+        "relevant_ids": [
+          "86ebf89873b14c45",
+          "e944efc521b07286",
+          "94fdcaccf6e4232e",
+          "763b2f3380ad8dda",
+          "393d627c45da8706"
+        ],
+        "results_count": 10
+      }
+    }
+  },
+  "timestamp": "2025-03-14T14:10:37.971911"
+}
