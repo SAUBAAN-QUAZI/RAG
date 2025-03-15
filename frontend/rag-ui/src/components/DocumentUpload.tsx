@@ -24,7 +24,7 @@ const DocumentUpload: React.FC = () => {
     message?: string;
     details?: {
       chunk_count: number;
-      [key: string]: any; // Include any other properties that might be in details
+      [key: string]: number | string | boolean | object | null | undefined;
     };
   }
   
