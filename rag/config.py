@@ -55,7 +55,7 @@ CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "150"))
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-large")
 
 # Vector database settings
-VECTOR_DB_TYPE = os.getenv("VECTOR_DB_TYPE", "chroma")
+VECTOR_DB_TYPE = os.getenv("VECTOR_DB_TYPE", "qdrant")  # Only Qdrant is supported
 VECTOR_DB_PATH = os.getenv("VECTOR_DB_PATH", str(VECTORS_DIR))
 
 # Cloud vector DB settings (for deployment)

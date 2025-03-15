@@ -232,7 +232,7 @@ class Retriever:
     def __init__(
         self,
         embedding_service: Optional[EmbeddingService] = None,
-        vector_store_type: Optional[str] = None,
+        vector_store_type: Optional[str] = None,  # Kept for backward compatibility
         collection_name: str = "rag_collection",
         persist_directory: Union[str, Path] = VECTORS_DIR,
         top_k: int = TOP_K_RESULTS,
@@ -245,7 +245,7 @@ class Retriever:
         
         Args:
             embedding_service: Service for generating embeddings
-            vector_store_type: Type of vector store to use (defaults to config VECTOR_DB_TYPE)
+            vector_store_type: Type of vector store to use (only 'qdrant' is supported)
             collection_name: Name of the collection to use
             persist_directory: Directory to persist the vector store
             top_k: Number of results to return

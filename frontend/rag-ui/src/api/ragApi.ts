@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError } from 'axios';
 import config from '../config';
 
 // Network health check state
@@ -84,6 +84,16 @@ export interface QueryRequest {
  */
 export interface QueryResponse {
   answer: string;
+}
+
+/**
+ * Interface for document upload result
+ */
+interface DocumentUploadResult {
+  id: string;
+  filename: string;
+  status: 'success' | 'error';
+  message?: string;
 }
 
 /**
@@ -217,7 +227,7 @@ export const ragApi = {
   async uploadMultipleDocuments(
     files: File[],
     metadata?: { titlePrefix?: string; author?: string; description?: string }
-  ): Promise<{ message: string; successful_count: number; failed_count: number; results: any[] }> {
+  ): Promise<{ message: string; successful_count: number; failed_count: number; results: DocumentUploadResult[] }> {
     const formData = new FormData();
     
     // Append all files

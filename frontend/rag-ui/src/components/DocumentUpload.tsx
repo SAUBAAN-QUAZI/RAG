@@ -3,7 +3,6 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { ragApi } from '../api/ragApi';
-import config from '../config';
 
 /**
  * Document upload component that supports both single and multiple file uploads
@@ -16,7 +15,20 @@ const DocumentUpload: React.FC = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
-  const [batchResults, setBatchResults] = useState<any[] | null>(null);
+  
+  // Define a more specific type for batch results
+  interface BatchUploadResult {
+    id: string;
+    filename: string;
+    status: 'success' | 'error';
+    message?: string;
+    details?: {
+      chunk_count: number;
+      [key: string]: any; // Include any other properties that might be in details
+    };
+  }
+  
+  const [batchResults, setBatchResults] = useState<BatchUploadResult[] | null>(null);
 
   // Handle file drop
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -83,10 +95,13 @@ const DocumentUpload: React.FC = () => {
     return () => clearInterval(interval);
   };
 
-  // Remove a file from the list
+  // Remove a file from the list (currently unused but kept for future use)
+  // Commented out to satisfy ESLint while preserving for future functionality
+  /*
   const removeFile = (indexToRemove: number) => {
     setFiles(prevFiles => prevFiles.filter((_, index) => index !== indexToRemove));
   };
+  */
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
@@ -357,7 +372,7 @@ const DocumentUpload: React.FC = () => {
                   <div>
                     {result.status === 'success' ? (
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        Success ({result.details.chunk_count} chunks)
+                        Success {result.details && `(${result.details.chunk_count} chunks)`}
                       </span>
                     ) : (
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
