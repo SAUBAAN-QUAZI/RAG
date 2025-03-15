@@ -6,7 +6,7 @@ This module coordinates embedding and search to retrieve relevant documents.
 
 from pathlib import Path
 import re
-from typing import Dict, List, Optional, Union, Tuple
+from typing import Dict, List, Optional, Union, Tuple, Any
 from collections import Counter
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -343,6 +343,143 @@ class Retriever:
                 
         logger.info(f"Added {len(chunks)} chunks to retrieval system")
     
+    def _analyze_query_and_adjust_params(self, query: str) -> Dict[str, Any]:
+        """
+        Analyze a user query and adjust retrieval parameters accordingly.
+        
+        This method examines query characteristics such as length, complexity, and intent
+        to optimize retrieval parameters for better results. It handles different types
+        of queries differently:
+        
+        1. Short factual queries: More results with higher threshold
+        2. Long complex queries: Fewer, more targeted results
+        3. Section-specific queries: Special handling for chapter and section references
+        4. Technical queries: Balanced vector and keyword weights
+        
+        Args:
+            query: The user's query string
+            
+        Returns:
+            Dictionary of adjusted parameters
+        """
+        # Clean the query
+        clean_query = query.strip().lower()
+        
+        # Default parameters
+        params = {
+            "top_k": self.top_k,
+            "similarity_threshold": self.similarity_threshold,
+            "vector_weight": 0.5,  # Balance between vector and keyword search
+            "keyword_weight": 0.5,
+            "enable_reranking": self.enable_reranking,
+        }
+        
+        # Check query length (word count)
+        words = clean_query.split()
+        word_count = len(words)
+        
+        # Track query characteristics
+        is_long_query = word_count > 15
+        is_short_query = word_count < 5
+        
+        # Check for presence of technical terms using a simple heuristic
+        technical_terms = ["algorithm", "function", "method", "api", "framework", 
+                           "library", "implementation", "architecture", "model",
+                           "system", "protocol", "interface", "component", "module"]
+        
+        has_technical_terms = any(term in clean_query for term in technical_terms)
+        
+        # Detect if query is about finding a specific section
+        section_patterns = [
+            r"chapter\s+(\d+|[ivxlcdm]+)",  # chapter 1, chapter iv
+            r"section\s+(\d+(\.\d+)*)",     # section 1, section 1.2
+            r"part\s+(\d+|[ivxlcdm]+)",     # part 1, part ii
+            r"page\s+(\d+)",                # page 42
+            r"paragraph\s+(\d+)",           # paragraph 3
+            r"appendix\s+([a-z]|\d+)",      # appendix a, appendix 1
+            r"figure\s+(\d+(\.\d+)*)",      # figure 1, figure 2.3
+            r"table\s+(\d+(\.\d+)*)",       # table 1, table 4.2
+            r"in\s+chapter\s+(\d+|[ivxlcdm]+)",  # in chapter 1
+            r"from\s+section\s+(\d+(\.\d+)*)",   # from section 1.2
+        ]
+        
+        # Extract structural references with their positions
+        structural_references = []
+        for pattern in section_patterns:
+            matches = re.finditer(pattern, clean_query, re.IGNORECASE)
+            for match in matches:
+                ref_type = match.group(0).split()[0].lower()  # chapter, section, etc.
+                ref_value = match.group(1)                    # the number/identifier
+                structural_references.append({
+                    "type": ref_type,
+                    "value": ref_value,
+                    "span": match.span(),
+                    "original": match.group(0)
+                })
+        
+        # Sort references by their position in the query
+        structural_references.sort(key=lambda x: x["span"][0])
+        
+        # If we have structural references, adjust parameters for targeted retrieval
+        if structural_references:
+            # Get the first reference (typically most important)
+            primary_ref = structural_references[0]
+            
+            # Create a more targeted search query that focuses on finding the specific section
+            # Keep the original query but boost the reference
+            logger.info(f"Query contains reference to {primary_ref['type']} {primary_ref['value']}")
+            
+            # For explicit section requests, prioritize keyword search more
+            params["top_k"] = max(self.top_k + 4, 8)  # Increase result count
+            params["similarity_threshold"] = 0.3  # Lower threshold to get more matches
+            params["vector_weight"] = 0.3  # Reduce vector search weight
+            params["keyword_weight"] = 0.7  # Increase keyword weight
+            params["enable_reranking"] = True  # Always rerank for section queries
+            
+            # For chapter/section queries, add special keyword boosting
+            if "explain" in clean_query and any(ref["type"] == "chapter" for ref in structural_references):
+                # This is likely a query asking to explain a chapter
+                chapter_ref = next(ref for ref in structural_references if ref["type"] == "chapter")
+                # Structure-aware retrieval adjustments
+                params["top_k"] = max(self.top_k + 6, 10)  # Get more results for chapters
+                params["similarity_threshold"] = 0.25  # Lower threshold substantially
+            
+            return params
+            
+        # For long queries, prefer more targeted retrieval
+        if is_long_query:
+            params["top_k"] = max(3, self.top_k - 2)  # Reduce result count
+            params["similarity_threshold"] = min(0.7, self.similarity_threshold + 0.1)  # Increase threshold
+            params["vector_weight"] = 0.7  # Prioritize vector search for semantic understanding
+            params["keyword_weight"] = 0.3
+        
+        # For short queries, get more results with lower threshold
+        elif is_short_query:
+            params["top_k"] = min(12, self.top_k + 4)  # Increase result count
+            params["similarity_threshold"] = max(0.4, self.similarity_threshold - 0.1)  # Decrease threshold
+            # Balance between vector and keyword for short queries
+            params["vector_weight"] = 0.5
+            params["keyword_weight"] = 0.5
+        
+        # For technical queries, use a balanced approach
+        if has_technical_terms:
+            params["vector_weight"] = 0.6  # Slightly favor vector search
+            params["keyword_weight"] = 0.4
+            params["enable_reranking"] = True  # Enable reranking for technical queries
+        
+        # For typical knowledge-seeking queries, favor vector search
+        if any(w in query.lower() for w in ["what", "how", "explain", "describe", "why"]):
+            params["vector_weight"] = 0.6
+            params["keyword_weight"] = 0.4
+        
+        # For specific information lookup, favor keyword search
+        if any(w in query.lower() for w in ["where", "when", "who", "which", "find"]):
+            params["vector_weight"] = 0.4
+            params["keyword_weight"] = 0.6
+        
+        logger.info(f"Adjusted retrieval parameters for query: {params}")
+        return params
+
     def retrieve(
         self,
         query: str,
@@ -350,45 +487,84 @@ class Retriever:
         filter_dict: Optional[Dict] = None,
     ) -> List[Dict]:
         """
-        Retrieve relevant document chunks for a query using hybrid search and reranking.
+        Retrieve relevant documents for a query with dynamic parameter adjustment.
+        
+        This enhanced retrieval method:
+        1. Analyzes the query to dynamically adjust retrieval parameters
+        2. Performs hybrid search combining vector and keyword approaches
+        3. Applies document coherence boosting in result ranking
+        4. Optionally reranks results with cross-encoder for improved relevance
         
         Args:
             query: Query text
-            top_k: Number of results to return (overrides instance setting)
+            top_k: Maximum number of results to return (overrides dynamic adjustment if provided)
             filter_dict: Dictionary of metadata filters
             
         Returns:
-            List of dictionaries containing retrieved chunks and similarity scores
+            List of retrieved documents with similarity scores
         """
-        logger.info(f"Retrieving documents for query: {query}")
+        if not query or not query.strip():
+            logger.warning("Empty query provided to retriever")
+            return []
+            
+        # Dynamically adjust retrieval parameters based on query
+        params = self._analyze_query_and_adjust_params(query)
         
-        # Use instance top_k if not specified
-        if top_k is None:
-            top_k = self.top_k
+        # Override with explicit top_k if provided
+        if top_k is not None:
+            params["top_k"] = top_k
         
-        # Step 1: Perform vector search
-        vector_results = self._vector_search(query, top_k * 2, filter_dict)  # Get more results for reranking
+        # Get search results using adjusted parameters
+        search_limit = max(params["top_k"] * 3, 10)  # Get more results for reranking
+        
+        # Vector search
+        logger.info(f"Searching vector store with top_k={params['top_k']}, search_limit={search_limit}, filters={filter_dict}")
+        vector_results = self._vector_search(query, top_k=search_limit, filter_dict=filter_dict)
         logger.info(f"Vector search returned {len(vector_results)} results")
         
-        # Step 2: Perform keyword search if enabled
+        # Keyword search if hybrid search is enabled
         keyword_results = []
-        if self.enable_hybrid_search and self.keyword_searcher is not None:
-            keyword_results = self.keyword_searcher.search(query, top_k=top_k)
+        if self.enable_hybrid_search:
+            logger.info(f"Performing keyword search for query: {query}")
+            keyword_results = self.keyword_searcher.search(query, top_k=search_limit)
             logger.info(f"Keyword search returned {len(keyword_results)} results")
         
-        # Step 3: Merge results
+        # Merge results with enhanced merging that considers document coherence
         merged_results = self._merge_results(vector_results, keyword_results)
-        logger.info(f"Merged results: {len(merged_results)} documents")
         
-        # Step 4: Apply reranking if enabled
-        if self.enable_reranking and self.reranker is not None:
-            results = self.reranker.rerank(query, merged_results, top_k=top_k)
+        # Apply custom weights for vector and keyword results
+        for result in merged_results:
+            if "source" in result:
+                if result["source"] == "vector":
+                    result["similarity"] = result["similarity"] * params["vector_weight"]
+                elif result["source"] == "keyword":
+                    result["similarity"] = result["similarity"] * params["keyword_weight"]
+        
+        # Re-sort after applying weights
+        merged_results.sort(key=lambda x: x.get("similarity", 0), reverse=True)
+        
+        # Filter by similarity threshold
+        threshold_results = [
+            r for r in merged_results 
+            if r.get("similarity", 0) >= params["similarity_threshold"]
+        ]
+        
+        # If we don't have enough results after threshold filtering, use at least a minimum number
+        min_results = min(3, len(merged_results))
+        if len(threshold_results) < min_results:
+            threshold_results = merged_results[:min_results]
+        
+        # Apply cross-encoder reranking if enabled
+        final_results = threshold_results
+        if params["enable_reranking"] and self.reranker and len(threshold_results) > 1:
+            logger.info(f"Reranking {len(threshold_results)} documents using cross-encoder")
+            final_results = self.reranker.rerank(query, threshold_results, top_k=params["top_k"])
+            logger.info(f"Reranked documents, returning top {len(final_results)} results")
         else:
-            # Just sort by similarity and take top_k
-            results = sorted(merged_results, key=lambda x: x.get("similarity", 0), reverse=True)[:top_k]
+            # Limit to top_k without reranking
+            final_results = threshold_results[:params["top_k"]]
         
-        logger.info(f"Retrieved {len(results)} documents for query")
-        return results
+        return final_results
     
     def _vector_search(
         self,
@@ -429,43 +605,131 @@ class Retriever:
         keyword_results: List[Dict],
     ) -> List[Dict]:
         """
-        Merge vector and keyword search results with deduplication.
+        Merge vector search and keyword search results with intelligent weighting.
+        
+        This enhanced merging algorithm:
+        1. Considers both relevance scores and result positions
+        2. Boosts results that appear in both vector and keyword searches
+        3. Groups related document chunks for more coherent context
+        4. Considers document structure for better result organization
         
         Args:
             vector_results: Results from vector search
             keyword_results: Results from keyword search
             
         Returns:
-            Merged and deduplicated results with updated scores
+            Merged and reranked search results
         """
-        if not keyword_results:
-            return vector_results
-        
-        # Create ID mapping for vector results for deduplication
-        vector_ids = {r.get("chunk_id", i): i for i, r in enumerate(vector_results)}
-        
-        # Merge results with deduplication
-        merged_results = vector_results.copy()
-        
-        for kw_result in keyword_results:
-            chunk_id = kw_result.get("chunk_id")
+        if not vector_results and not keyword_results:
+            return []
             
-            if chunk_id in vector_ids:
-                # Document exists in vector results, update score
-                vector_idx = vector_ids[chunk_id]
-                vector_score = vector_results[vector_idx].get("similarity", 0)
-                keyword_score = kw_result.get("similarity", 0)
-                
-                # Combine scores: 70% vector, 30% keyword
-                combined_score = 0.7 * vector_score + 0.3 * keyword_score
-                merged_results[vector_idx]["similarity"] = combined_score
-                merged_results[vector_idx]["source"] = "hybrid"
-            else:
-                # New document, add to results
-                merged_results.append(kw_result)
+        # Create dictionaries for faster lookup
+        vector_dict = {r["chunk_id"]: r for r in vector_results}
+        keyword_dict = {r["chunk_id"]: r for r in keyword_results}
         
-        # Sort by similarity
-        merged_results.sort(key=lambda x: x.get("similarity", 0), reverse=True)
+        # Find document IDs for all results to enable structural grouping
+        all_chunks = {}  # Maps chunk_id to result
+        doc_to_chunks = {}  # Maps doc_id to a list of its chunks
+        
+        # Process vector results
+        for i, result in enumerate(vector_results):
+            chunk_id = result["chunk_id"]
+            doc_id = result.get("metadata", {}).get("doc_id", "unknown")
+            
+            # Add position info to help with ranking
+            result["vector_rank"] = i + 1
+            
+            # Store in mappings
+            all_chunks[chunk_id] = result
+            
+            # Group by document
+            if doc_id not in doc_to_chunks:
+                doc_to_chunks[doc_id] = []
+            doc_to_chunks[doc_id].append(chunk_id)
+            
+        # Process keyword results
+        for i, result in enumerate(keyword_results):
+            chunk_id = result["chunk_id"]
+            doc_id = result.get("metadata", {}).get("doc_id", "unknown")
+            
+            # Add position info
+            result["keyword_rank"] = i + 1
+            
+            # Update existing result or add new one
+            if chunk_id in all_chunks:
+                # Update existing chunk with keyword info
+                all_chunks[chunk_id]["keyword_rank"] = i + 1
+                # Average the scores for chunks that appear in both results
+                vector_score = all_chunks[chunk_id].get("similarity", 0)
+                keyword_score = result.get("similarity", 0)
+                # Boost scores for results in both lists
+                all_chunks[chunk_id]["similarity"] = (vector_score + keyword_score) * 1.2
+            else:
+                # Add new chunk from keyword results
+                all_chunks[chunk_id] = result
+                
+                # Group by document
+                if doc_id not in doc_to_chunks:
+                    doc_to_chunks[doc_id] = []
+                doc_to_chunks[doc_id].append(chunk_id)
+        
+        # Calculate final scores with a weighted approach
+        merged_results = []
+        for chunk_id, result in all_chunks.items():
+            # Default ranks if not present
+            vector_rank = result.get("vector_rank", len(vector_results) + 1 if vector_results else 1)
+            keyword_rank = result.get("keyword_rank", len(keyword_results) + 1 if keyword_results else 1)
+            
+            # Normalize ranks to [0, 1] range where 1 is best
+            norm_vector_rank = 1.0 - min(1.0, vector_rank / (len(vector_results) + 1)) if vector_results else 0
+            norm_keyword_rank = 1.0 - min(1.0, keyword_rank / (len(keyword_results) + 1)) if keyword_results else 0
+            
+            # Weight vector results more heavily but consider both
+            weighted_score = (norm_vector_rank * 0.7) + (norm_keyword_rank * 0.3)
+            
+            # Apply boost for results in both searches
+            if "vector_rank" in result and "keyword_rank" in result:
+                weighted_score *= 1.2
+                
+            # Find neighboring chunks and apply coherence boost
+            doc_id = result.get("metadata", {}).get("doc_id", "unknown")
+            doc_chunks = doc_to_chunks.get(doc_id, [])
+            
+            # Calculate position within document (if available)
+            chunk_index = -1
+            if "metadata" in result and "chunk_index" in result["metadata"]:
+                chunk_index = result["metadata"]["chunk_index"]
+                
+            # Check for chunks adjacent to high-scoring ones
+            for other_id in doc_chunks:
+                if other_id == chunk_id:
+                    continue
+                    
+                other_result = all_chunks[other_id]
+                other_index = other_result.get("metadata", {}).get("chunk_index", -1)
+                
+                # If the chunks are adjacent in the document, boost scoring
+                if chunk_index >= 0 and other_index >= 0 and abs(chunk_index - other_index) == 1:
+                    # Apply a smaller boost for adjacency
+                    weighted_score *= 1.05
+            
+            # Store the final score
+            result["final_score"] = weighted_score
+            merged_results.append(result)
+            
+        # Sort by final score
+        merged_results.sort(key=lambda x: x.get("final_score", 0), reverse=True)
+        
+        # Remove temporary ranking fields
+        for result in merged_results:
+            if "vector_rank" in result:
+                del result["vector_rank"]
+            if "keyword_rank" in result:
+                del result["keyword_rank"]
+            if "final_score" in result:
+                # Rename to similarity for consistency with original implementation
+                result["similarity"] = result["final_score"]
+                del result["final_score"]
         
         return merged_results
     
@@ -476,74 +740,77 @@ class Retriever:
         filter_dict: Optional[Dict] = None,
     ) -> str:
         """
-        Get relevant context for a query as a string.
+        Get a formatted context string from the most relevant documents.
+        
+        This method retrieves documents based on the query, then formats them
+        into a single context string for use in augmented generation.
         
         Args:
-            query: Query text
-            top_k: Number of results to return
-            filter_dict: Dictionary of metadata filters
+            query: The user query
+            top_k: Number of results to retrieve (overrides default)
+            filter_dict: Optional metadata filters
             
         Returns:
-            str: Concatenated content of retrieved chunks
+            String containing formatted relevant context
         """
-        # Retrieve relevant chunks
-        results = self.retrieve(query=query, top_k=top_k, filter_dict=filter_dict)
+        # Analyze the query to detect if it's about a specific chapter or section
+        clean_query = query.strip().lower()
+        is_chapter_query = re.search(r"chapter\s+(\d+|[ivxlcdm]+)", clean_query, re.IGNORECASE) is not None
         
-        # Debug log the raw results
-        logger.info(f"Raw results count: {len(results)}")
-        for i, result in enumerate(results):
-            chunk_id = result.get("chunk_id", "unknown")
-            similarity = result.get("similarity", 0)
-            source = result.get("source", "unknown")
-            content_preview = result.get("content", "")[:50] if result.get("content") else "No content"
-            logger.info(f"Result {i+1}: chunk_id={chunk_id}, similarity={similarity:.4f}, source={source}, preview={content_preview}...")
+        # Retrieve relevant documents
+        results = self.retrieve(query, top_k, filter_dict)
         
-        # TEMPORARY FIX: Even if results are empty, create a fallback response
+        # Handle the case where no results are found
         if not results:
-            # Force a search with increased top_k and no filtering
-            logger.warning("No results found. Attempting broader search...")
-            # Search vector store directly with increased top_k
-            query_embedding = self.embedding_service.embed_query(query)
-            direct_results = self.vector_store.search(
-                query_embedding=query_embedding,
-                top_k=10,  # Increased from default
-                filter_dict=None,  # No filtering
-            )
-            
-            if direct_results:
-                logger.info(f"Direct search found {len(direct_results)} results")
-                results = direct_results
-            else:
-                logger.warning("No relevant context found for query even with broad search")
-                return ""
-            
-        # Format chunks with metadata
-        formatted_chunks = []
+            return "No relevant information found."
+        
+        # Special handling for chapter queries - attempt to order by document position
+        if is_chapter_query:
+            # Try to extract the chapter number from the query
+            chapter_match = re.search(r"chapter\s+(\d+|[ivxlcdm]+)", clean_query, re.IGNORECASE)
+            if chapter_match:
+                chapter_number = chapter_match.group(1)
+                logger.info(f"Creating context for chapter {chapter_number} query")
+                
+                # Sort results if they have page numbers to maintain document order
+                has_page_numbers = all('page_number' in result.get('metadata', {}) for result in results)
+                if has_page_numbers:
+                    results = sorted(results, key=lambda x: x.get('metadata', {}).get('page_number', 0))
+        
+        # Format the context
+        context_parts = []
         
         for i, result in enumerate(results):
-            content = result.get("content", "No content available")
+            # Format metadata for the context
             metadata = result.get("metadata", {})
-            similarity = result.get("similarity", 0)
-            source = result.get("source", "vector")
+            source = metadata.get("source", "Unknown")
+            page_info = f"page {metadata.get('page_number', 'unknown')}" if "page_number" in metadata else ""
             
-            # Include relevant metadata in context
-            doc_source = metadata.get("source", "Unknown")
-            if "page_count" in metadata and "chunk_index" in metadata:
-                page_info = f"Page {metadata.get('chunk_index', 0) + 1} of {metadata.get('page_count', 1)}"
-            else:
-                page_info = ""
+            # Clean up source path for display
+            if isinstance(source, str):
+                source = os.path.basename(source)
+            
+            # Format the header for each context chunk
+            header = f"Document {i+1}: {source}"
+            if page_info:
+                header += f" ({page_info})"
+            
+            # Add document section information if available
+            if "section" in metadata:
+                header += f" - {metadata['section']}"
+            elif "chapter" in metadata:
+                header += f" - Chapter {metadata['chapter']}"
                 
-            # Format chunk with metadata
-            formatted_chunk = (
-                f"[Document {i+1}] {doc_source} {page_info}\n"
-                f"{content}\n"
-                f"Relevance: {similarity:.2f} (via {source})\n"
-            )
+            # Format the content
+            content = result.get("content", "").strip()
             
-            formatted_chunks.append(formatted_chunk)
-            
-        # Combine chunks into a single context string
-        context = "\n\n".join(formatted_chunks)
-        logger.info(f"Created context with {len(formatted_chunks)} chunks, total length: {len(context)} characters")
+            # Add to context parts
+            context_parts.append(f"{header}\n{content}")
+        
+        # Join all parts with clear separators
+        context = "\n\n" + "\n\n---\n\n".join(context_parts)
+        
+        # Log context creation
+        logger.info(f"Created context with {len(results)} chunks, total length: {len(context)} characters ")
         
         return context 

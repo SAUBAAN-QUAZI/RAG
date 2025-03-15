@@ -249,18 +249,26 @@ const DocumentUpload: React.FC = () => {
           )}
         </div>
 
-        {/* Progress bar */}
+        {/* Show upload progress bar */}
         {isUploading && (
-          <div className="w-full bg-gray-200 rounded-full h-2.5">
-            <div 
-              className="bg-blue-600 h-2.5 rounded-full transition-all duration-300" 
-              style={{ width: `${uploadProgress}%` }}
-            ></div>
-            <p className="text-sm text-gray-500 mt-1 text-center">
-              {uploadProgress < 100 
-                ? `Processing documents: ${uploadProgress}%` 
-                : 'Processing complete!'}
-            </p>
+          <div className="mb-6">
+            <div className="w-full bg-gray-200 rounded-full h-4 mb-2">
+              <div
+                className="bg-blue-600 h-4 rounded-full transition-all duration-300"
+                style={{ width: `${uploadProgress}%` }}
+              ></div>
+            </div>
+            <div className="text-sm text-gray-600">
+              {uploadProgress < 50 ? (
+                <span>Uploading document... {uploadProgress}%</span>
+              ) : uploadProgress < 95 ? (
+                <span>Processing document... {uploadProgress}%</span>
+              ) : uploadProgress < 100 ? (
+                <span>Almost done... {uploadProgress}%</span>
+              ) : (
+                <span>Upload complete! 100%</span>
+              )}
+            </div>
           </div>
         )}
 
@@ -372,6 +380,16 @@ const DocumentUpload: React.FC = () => {
           <li>Documents will be chunked and embedded for retrieval</li>
           <li>After uploading, you can query the documents in the Chat tab</li>
         </ul>
+      </div>
+
+      {/* Add a note about processing time */}
+      <div className="text-sm text-gray-500 mt-6">
+        <p><strong>Note:</strong> The upload process consists of two phases:</p>
+        <ol className="list-decimal ml-5 mt-2">
+          <li>File transfer to the server (typically quick)</li>
+          <li>Document processing, embedding, and storage (may take several minutes for large documents)</li>
+        </ol>
+        <p className="mt-2">Please wait for the entire process to complete before querying your documents.</p>
       </div>
     </div>
   );

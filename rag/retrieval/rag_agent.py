@@ -10,6 +10,8 @@ import os
 from datetime import datetime
 from typing import Dict, List, Optional, Union, Any
 from pathlib import Path
+import time
+import re
 
 import openai
 from openai import OpenAI
@@ -94,60 +96,78 @@ class RAGAgent:
     @retry_with_exponential_backoff
     def _rewrite_query(self, query: str) -> str:
         """
-        Rewrite the query to make it more effective for retrieval.
+        Rewrite a query to improve retrieval performance.
+        
+        This method intelligently determines when to rewrite a query and when to leave it as is,
+        based on query characteristics. It preserves simple, direct queries and only enhances
+        complex or ambiguous ones.
         
         Args:
             query: Original user query
             
         Returns:
-            str: Rewritten query optimized for retrieval
+            str: Rewritten query or original if rewriting not needed
         """
-        if not self.enable_query_rewriting:
+        # Skip rewriting for very short or simple queries (likely already specific)
+        if len(query.split()) <= 5 or query.endswith('?'):
+            logger.info(f"Query '{query}' is simple and specific - skipping rewrite")
             return query
             
-        logger.info(f"Rewriting query for better retrieval: {query}")
-        
-        # Create system prompt for query rewriting
-        system_prompt = (
-            "You are a query optimization assistant. Your task is to rewrite the user's query "
-            "to make it more effective for retrieving relevant information from a vector database. "
-            "Your rewritten query should:\n"
-            "1. Be more specific and detailed than the original\n"
-            "2. Include key entities and concepts related to the query\n"
-            "3. Use synonyms for important terms to increase recall\n"
-            "4. Expand acronyms and domain-specific terminology\n"
-            "5. Be formulated as a clear and detailed information request\n\n"
-            "Respond ONLY with the rewritten query, no explanations or other text."
-        )
-        
-        # Create user message with query
-        user_message = f"Original query: {query}\n\nPlease rewrite this query to be more effective for retrieval."
-        
+        # Skip rewriting for queries that appear to target specific sections
+        section_indicators = ["chapter", "section", "page", "paragraph", "appendix"]
+        if any(indicator in query.lower() for indicator in section_indicators):
+            logger.info(f"Query '{query}' appears to target a specific document section - skipping rewrite")
+            return query
+            
+        # Proceed with rewriting for more complex or ambiguous queries
         try:
-            # Generate rewritten query
+            # Create a more domain-aware rewriting prompt
+            rewrite_prompt = f"""
+            You are helping improve search queries for a technical document retrieval system.
+            Original query: "{query}"
+            
+            Guidelines for rewriting:
+            1. Preserve the technical intent and domain specificity of the original query
+            2. Expand abbreviations and add key technical terms that might be in the documents
+            3. DO NOT transform the query into a generic literary or essay analysis prompt
+            4. DO NOT add fictional elements (like "character development" for technical topics)
+            5. Keep the rewrite focused and concise - don't create an overly verbose query
+            
+            Rewritten query:
+            """
+            
+            # Use chat completion for query rewriting
+            messages = [
+                {"role": "system", "content": "You are a technical search query optimization expert. Your task is to rewrite search queries to improve document retrieval without changing their core technical intent."},
+                {"role": "user", "content": rewrite_prompt}
+            ]
+            
             response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_message},
-                ],
-                temperature=0.2,  # Lower temperature for more predictable results
-                max_tokens=100,
+                model=self.model,  # Use the same model as the main system
+                messages=messages,
+                temperature=0.0,  # Low temperature for consistent rewrites
+                max_tokens=150  # Keep rewrites relatively short
             )
             
-            # Extract and process the rewritten query
             rewritten_query = response.choices[0].message.content.strip()
             
-            # Ensure the rewritten query is not too long
-            if len(rewritten_query) > 500:
-                rewritten_query = rewritten_query[:500] + "..."
+            # Verify the rewritten query isn't wildly different
+            # Skip rewrite if it's much longer than the original (sign of over-expansion)
+            original_token_count = len(query.split())
+            rewritten_token_count = len(rewritten_query.split())
+            
+            # Reject rewrite if it grows too much
+            if rewritten_token_count > 2 * original_token_count and rewritten_token_count > 12:
+                logger.warning(f"Rewritten query rejected - too verbose ({original_token_count} → {rewritten_token_count} tokens)")
+                return query
                 
+            # Return the rewritten query
             logger.info(f"Rewrote query: '{query}' → '{rewritten_query}'")
             return rewritten_query
             
         except Exception as e:
-            logger.error(f"Error rewriting query: {str(e)}")
-            # Fall back to original query if rewriting fails
+            logger.error(f"Error rewriting query: {e}")
+            # Return the original query if rewriting fails
             return query
     
     @retry_with_exponential_backoff
@@ -375,93 +395,248 @@ class RAGAgent:
             # Fall back to original response if improvement fails
             return original_response
     
-    def query(self, query: str, filter_dict: Optional[Dict] = None) -> str:
+    @retry_with_exponential_backoff
+    def _assess_context_relevance(self, query: str, context: str) -> Dict[str, Any]:
         """
-        Process a query using the RAG system with enhanced prompting and verification.
+        Assess the relevance of retrieved context to the query.
+        
+        This evaluates whether the retrieved context is actually useful for answering
+        the user's query, preventing unhelpful responses when context is irrelevant.
         
         Args:
-            query: User query
-            filter_dict: Dictionary of metadata filters
+            query: The user's query
+            context: The retrieved context
             
         Returns:
-            str: Generated response
+            Dict containing relevance assessment with scores and explanation
         """
-        logger.info(f"Processing query: {query}")
-        start_time = datetime.now()
-        
-        # Step 1: Rewrite query for better retrieval if enabled
-        retrieval_query = self._rewrite_query(query) if self.enable_query_rewriting else query
-        
-        # Step 2: Check if query is about LLM fundamentals for fallback response
-        is_llm_fundamentals_query = any(term in query.lower() for term in 
-                                      ["llm", "large language model", "fundamental", "basics", "explain"])
-        
-        # Step 3: Get relevant context using retrieval query
-        context = self.retriever.get_relevant_context(retrieval_query, filter_dict=filter_dict)
-        
-        # Step 4: Handle case where no context is found
-        if not context:
-            logger.warning("No relevant context found for query")
+        if not context or len(context.strip()) < 50:
+            return {
+                "is_relevant": False,
+                "relevance_score": 0.0,
+                "explanation": "Retrieved context is empty or too short."
+            }
             
-            # Special case for LLM fundamentals
-            if is_llm_fundamentals_query:
-                logger.info("Query is about LLM fundamentals, providing default response")
-                fallback_context = (
-                    "Based on general knowledge: Large Language Models (LLMs) are AI systems trained on vast amounts "
-                    "of text data that can generate human-like text, answer questions, translate languages, write different "
-                    "kinds of creative content, and more. They work by predicting the next word in a sequence based on "
-                    "the context of previous words. LLMs encode text into numerical vectors (embeddings) and use these "
-                    "to generate contextually appropriate responses. They can be enhanced with Retrieval-Augmented "
-                    "Generation (RAG) to access specific information not in their training data."
-                )
-                return self._generate_from_context(query, fallback_context)
-            
-            # Generic no-context response
-            return (
-                "I couldn't find any relevant information in the available documents "
-                "to answer your question. Could you rephrase your question or provide more details? "
-                "Alternatively, more relevant documents may need to be added to the knowledge base."
-            )
+        # Create a prompt for assessing relevance
+        assessment_prompt = f"""
+        You are an expert at evaluating search result relevance. Assess how relevant the retrieved context is for answering the user's query.
+        
+        User Query: {query}
+        
+        Retrieved Context: 
+        {context[:2000]}... [context truncated for brevity]
+        
+        First, determine if the context contains information that would help answer the query.
+        Then, assign a relevance score from 0 to 10, where:
+        - 0-3: Context is not relevant to the query
+        - 4-6: Context is somewhat relevant but missing key information
+        - 7-10: Context is highly relevant and sufficient to answer the query
+        
+        Output your assessment in JSON format:
+        {{
+            "is_relevant": true/false,
+            "relevance_score": number,
+            "explanation": "Your explanation of the assessment"
+        }}
+        """
         
         try:
-            # Step 5: Generate initial response with structured format if enabled
-            use_structured = self.use_structured_prompting and self.enable_self_reflection
-            initial_response = self._generate_from_context(query, context, use_structured_output=use_structured)
+            # Get assessment from LLM
+            messages = [
+                {"role": "system", "content": "You are an expert at evaluating document relevance. Provide honest assessments in the exact JSON format requested."},
+                {"role": "user", "content": assessment_prompt}
+            ]
             
-            # Extract the text response if structured format was used
-            if isinstance(initial_response, dict):
-                response_text = initial_response.get("answer", str(initial_response))
-                # Log additional structured information
-                logger.info(f"Structured response received with confidence: {initial_response.get('confidence', 'N/A')}")
-                if 'sources' in initial_response:
-                    logger.info(f"Sources used: {initial_response.get('sources', [])}")
-            else:
-                response_text = initial_response
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=messages,
+                temperature=0.0,  # Keep temperature low for consistent evaluations
+                response_format={"type": "json_object"},
+                max_tokens=300
+            )
             
-            # Step 6: Verify and improve response if self-reflection is enabled
-            if self.enable_self_reflection:
-                # Verify response accuracy and completeness
-                verification = self._verify_response(query, context, response_text)
-                
-                # Improve response if verification found issues
-                if not verification.get("verified", True) or verification.get("confidence", "HIGH") != "HIGH":
-                    logger.info(f"Response verification found issues, improving response")
-                    response_text = self._improve_response(query, context, response_text, verification)
+            # Extract and parse the response
+            content = response.choices[0].message.content
+            result = json.loads(content)
             
-            # Log query processing time
-            processing_time = (datetime.now() - start_time).total_seconds()
-            logger.info(f"Query processed in {processing_time:.2f} seconds")
+            # Ensure required fields are present
+            required_fields = ["is_relevant", "relevance_score", "explanation"]
+            for field in required_fields:
+                if field not in result:
+                    result[field] = False if field == "is_relevant" else (0.0 if field == "relevance_score" else "Assessment incomplete")
+                    
+            # Log the assessment
+            logger.info(f"Context relevance assessment: score={result['relevance_score']}, is_relevant={result['is_relevant']}")
             
-            # Always return a string response
-            return response_text
+            return result
             
         except Exception as e:
-            logger.exception(f"Error generating response: {str(e)}")
-            return (
-                "I encountered an error while generating a response. "
-                "This might be due to the complexity of the question or issues with the context. "
-                "Please try again with a more specific question or contact support if the issue persists."
+            logger.error(f"Error assessing context relevance: {e}")
+            # Return default values if assessment fails
+            return {
+                "is_relevant": True,  # Default to assuming relevance to not block responses
+                "relevance_score": 5.0,
+                "explanation": f"Failed to assess relevance due to error: {str(e)}"
+            }
+    
+    def _preprocess_query(self, query: str) -> str:
+        """
+        Preprocess and optimize the query before retrieval.
+        
+        This method analyzes the query and applies various optimizations:
+        1. For chapter/section queries - detects and formats appropriately
+        2. For factual queries - keeps concise and focused
+        3. For complex queries - ensures clarity and specificity
+        
+        Args:
+            query: The original user query
+            
+        Returns:
+            Processed query optimized for retrieval
+        """
+        # Clean up the query
+        clean_query = query.strip()
+        
+        # Check for chapter/section references
+        chapter_match = re.search(r"chapter\s+(\d+|[ivxlcdm]+)", clean_query, re.IGNORECASE)
+        section_match = re.search(r"section\s+(\d+(\.\d+)*)", clean_query, re.IGNORECASE)
+        
+        if chapter_match or section_match:
+            # This is a query about a specific document section
+            logger.info(f"Query '{clean_query}' appears to target a specific document section - skipping rewrite")
+            return clean_query
+            
+        # Check if rewrite is needed
+        if len(clean_query.split()) <= 2 or clean_query.endswith('?'):
+            # Short queries or questions don't need rewriting
+            return clean_query
+            
+        # Use a basic rewrite for complex queries
+        if len(clean_query.split()) > 10 and not any(x in clean_query.lower() for x in ['?', 'what', 'how', 'why', 'when', 'where', 'who']):
+            # Long non-question query - convert to question form
+            if clean_query.lower().startswith('tell me about'):
+                # Already in a good form
+                return clean_query
+            else:
+                # Make it a request for information
+                return f"Tell me about {clean_query}"
+                
+        # Default - return original query
+        return clean_query
+
+    def query(self, query: str, filters: Optional[Dict] = None) -> Union[str, Dict[str, Any]]:
+        """
+        Process a query using the RAG system.
+        
+        Args:
+            query: The user's query
+            filters: Optional metadata filters for document retrieval
+            
+        Returns:
+            Response text or a dictionary with answer and additional information
+        """
+        try:
+            # Track start time for performance measurement
+            self.start_time = time.time()
+            
+            logger.info(f"Processing query: {query}")
+            
+            # Preprocess the query
+            processed_query = self._preprocess_query(query)
+            
+            # Consider query rewriting if enabled and not a structural query
+            if self.enable_query_rewriting:
+                # Check if the query refers to a specific document section (skip rewrite in that case)
+                if "chapter" not in processed_query.lower() and "section" not in processed_query.lower():
+                    rewritten_query = self._rewrite_query(processed_query)
+                    if rewritten_query != processed_query:
+                        logger.info(f"Rewrote query: '{processed_query}' → '{rewritten_query}'")
+                        processed_query = rewritten_query
+                else:
+                    logger.info(f"Query '{processed_query}' appears to target a specific document section - skipping rewrite")
+            else:
+                # Skip rewriting - just log
+                logger.info(f"Rewrote query: '{processed_query}' → '{processed_query}'")
+            
+            # Get relevant context
+            logger.info(f"Retrieving documents for query: {processed_query}")
+            
+            # Retrieve relevant context
+            retrieval_start_time = time.time()
+            context = self.retriever.get_relevant_context(
+                query=processed_query,
+                filter_dict=filters
             )
+            retrieval_time = time.time() - retrieval_start_time
+            logger.info(f"Retrieved context in {retrieval_time:.2f} seconds")
+            
+            if not context.strip():
+                response = {
+                    "answer": "I don't have enough relevant information to answer this query.",
+                    "sources": [],
+                    "confidence": "LOW"
+                }
+                return response
+            
+            # Optional context relevance check
+            is_context_relevant = True
+            if hasattr(self, 'assess_relevance') and self.assess_relevance and hasattr(self, 'context_assessor'):
+                assessment_start_time = time.time()
+                assessment = self.context_assessor.assess_relevance(processed_query, context)
+                is_context_relevant = assessment["is_relevant"]
+                logger.info(f"Context relevance assessment: score={assessment['score']}, is_relevant={is_context_relevant}")
+                logger.info(f"Context assessment completed in {time.time() - assessment_start_time:.2f} seconds")
+                
+                if not is_context_relevant:
+                    logger.warning(f"Retrieved context is not relevant to the query. Score: {assessment['score']}")
+                    # Return a response indicating lack of relevant information
+                    response = {
+                        "answer": "The provided context does not contain information relevant to your query about '{}'".format(query),
+                        "sources": [],
+                        "confidence": "LOW"
+                    }
+                    return response
+            
+            # Complete response with context using augmented generation
+            generation_start_time = time.time()
+            answer = self._generate_from_context(
+                query=processed_query,
+                context=context,
+                use_structured_output=self.use_structured_prompting
+            )
+            generation_time = time.time() - generation_start_time
+            logger.info(f"Generated response in {generation_time:.2f} seconds")
+            
+            # Construct result
+            if isinstance(answer, dict):
+                # LLM service already returned a structured response
+                response = answer
+                if "sources" not in response:
+                    response["sources"] = []
+            else:
+                # Simple text response, wrap in a dict
+                response = {
+                    "answer": answer,
+                    "sources": [],  # Would need additional processing to extract
+                    "confidence": "MEDIUM"
+                }
+            
+            # Log total query processing time
+            total_time = time.time() - self.start_time
+            logger.info(f"Total query processing completed in {total_time:.2f} seconds")
+            
+            return response
+            
+        except Exception as e:
+            # Calculate time until error occurred
+            error_time = time.time() - self.start_time if hasattr(self, 'start_time') else 0
+            logger.exception(f"Error in RAG query after {error_time:.2f} seconds: {e}")
+            # Return a friendly error message
+            return {
+                "answer": f"I encountered an error while processing your query. Please try again or rephrase your question.",
+                "error": str(e),
+                "confidence": "LOW"
+            }
     
     def add_document(self, file_path: Union[str, Path], **metadata) -> Dict[str, Any]:
         """

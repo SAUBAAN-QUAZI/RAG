@@ -11,8 +11,9 @@ from pathlib import Path
 from typing import Dict, List, Optional
 import logging
 from datetime import datetime
+import time
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile, Request, Query
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile, Request, Query, BackgroundTasks
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -65,6 +66,73 @@ except Exception as e:
 
 # Maximum file size: 50MB
 MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB in bytes
+
+# Document processing tracker
+document_processing_status = {}
+
+# Function to process document in the background
+def process_document_task(file_path: str, doc_id: str, metadata: dict):
+    """
+    Process a document in the background
+    """
+    try:
+        logger.info(f"Starting background processing of document {doc_id}")
+        document_processing_status[doc_id] = "processing"
+        
+        # Process the document
+        result = rag_agent.add_document(file_path, **metadata)
+        
+        # Update the status
+        document_processing_status[doc_id] = "complete"
+        logger.info(f"Document processing completed for {doc_id}: {result}")
+    except Exception as e:
+        # Update status on error
+        document_processing_status[doc_id] = "error"
+        
+        # Clean up the temporary file in case of processing error
+        if os.path.exists(file_path):
+            os.unlink(file_path)
+            
+        logger.exception(f"Error processing document: {e}")
+
+# Function to process a single document from a batch
+def process_batch_document_task(file_path: str, doc_id: str, metadata: dict, file_result: dict):
+    """
+    Process a single document from a batch in the background
+    """
+    try:
+        logger.info(f"Starting background processing of batch document {doc_id}")
+        document_processing_status[doc_id] = "processing"
+        
+        # Process the document
+        result = rag_agent.add_document(file_path, **metadata)
+        
+        # Update the status
+        document_processing_status[doc_id] = "complete"
+        
+        # Update file result with success info
+        file_result["status"] = "success"
+        file_result["details"].update({
+            "message": f"Document processed successfully.",
+            "chunk_count": result.get("chunk_count", 0),
+        })
+        
+        logger.info(f"Batch document processing completed for {doc_id}: {result}")
+    except Exception as e:
+        # Update status on error
+        document_processing_status[doc_id] = "error"
+        
+        # Update file result with error info
+        file_result["status"] = "error"
+        file_result["details"].update({
+            "error": f"Error processing document: {str(e)}"
+        })
+        
+        # Clean up the temporary file in case of processing error
+        if os.path.exists(file_path):
+            os.unlink(file_path)
+            
+        logger.exception(f"Error processing batch document: {e}")
 
 
 class QueryRequest(BaseModel):
@@ -136,6 +204,7 @@ async def query(request: QueryRequest):
 
 @app.post("/documents")
 async def upload_document(
+    background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
     title: Optional[str] = Form(None),
     author: Optional[str] = Form(None),
@@ -176,6 +245,12 @@ async def upload_document(
             temp_file.write(content)
             temp_path = temp_file.name
         
+        # Get document ID for tracking
+        doc_id = os.path.basename(temp_path)
+        
+        # Initialize status in the tracker
+        document_processing_status[doc_id] = "uploading"
+        
         # Prepare metadata
         metadata = {
             "title": title or file.filename,
@@ -184,27 +259,26 @@ async def upload_document(
             "original_filename": file.filename,
             "content_type": file.content_type,
             "file_size": file.size,
+            "processing_status": "processing",  # Add processing status
+            "upload_time": datetime.now().isoformat(),
+            "source_document_id": doc_id,  # Add source document ID to help with existence checking
         }
         
-        # Process document
-        try:
-            rag_agent.add_document(temp_path, **metadata)
-            
-            # Return success response
-            return JSONResponse(
-                status_code=200,
-                content={
-                    "message": f"Document '{file.filename}' uploaded and processed successfully.",
-                    "file_path": temp_path,
-                    "metadata": metadata,
-                },
-            )
-        except Exception as e:
-            # Clean up the temporary file in case of processing error
-            if os.path.exists(temp_path):
-                os.unlink(temp_path)
-            logger.exception(f"Error processing document: {e}")
-            raise HTTPException(status_code=500, detail=f"Error processing document: {str(e)}")
+        # Schedule the background task to process the document
+        background_tasks.add_task(process_document_task, temp_path, doc_id, metadata)
+        
+        # Return an initial response to indicate the upload was successful
+        # and processing has started
+        return JSONResponse(
+            status_code=202,  # 202 Accepted to indicate processing
+            content={
+                "message": f"Document '{file.filename}' uploaded and is being processed.",
+                "file_path": temp_path,
+                "document_id": doc_id,
+                "status": "processing",  # This status reflects that the upload succeeded and processing has started
+                "metadata": metadata,
+            },
+        )
             
     except HTTPException:
         # Re-raise HTTPExceptions
@@ -214,8 +288,125 @@ async def upload_document(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.get("/documents/{document_id}/status")
+async def check_document_status(document_id: str):
+    """
+    Check the processing status of a document.
+    
+    This endpoint allows clients to poll for the completion status of document processing.
+    """
+    # Check if RAG agent was successfully initialized
+    if rag_agent is None:
+        raise HTTPException(
+            status_code=503, 
+            detail="RAG system is not available. Check server logs for initialization errors."
+        )
+    
+    try:
+        # First check our in-memory tracker
+        if document_id in document_processing_status:
+            status = document_processing_status[document_id]
+            
+            if status == "complete":
+                return {
+                    "document_id": document_id,
+                    "status": "complete",
+                    "message": "Document has been fully processed and is ready for querying."
+                }
+            elif status == "error":
+                return {
+                    "document_id": document_id,
+                    "status": "error",
+                    "message": "Document processing failed. Please try uploading again."
+                }
+            elif status == "processing":
+                return {
+                    "document_id": document_id,
+                    "status": "processing",
+                    "message": "Document is still being processed. Please check again later."
+                }
+            # For "uploading" status or any other status, continue with checks below
+        
+        # Check if document exists in the vector store (as a backup)
+        document_exists = rag_agent.retriever.vector_store.document_exists(document_id)
+        
+        if document_exists:
+            # Document exists in the vector store, which means processing is complete
+            # Also update our tracker
+            document_processing_status[document_id] = "complete"
+            return {
+                "document_id": document_id,
+                "status": "complete",
+                "message": "Document has been fully processed and is ready for querying."
+            }
+        
+        # Check if document file exists (meaning it was uploaded but processing may not be complete)
+        # Look for either the temporary file or the processed JSON file
+        temp_path = Path(DOCUMENTS_DIR) / f"{document_id}"
+        json_path = Path(DOCUMENTS_DIR) / f"{document_id}.json"
+        
+        # Get creation time of the temp file if it exists
+        created_time = None
+        if temp_path.exists():
+            created_time = temp_path.stat().st_ctime
+        elif json_path.exists():
+            created_time = json_path.stat().st_ctime
+        
+        if temp_path.exists() or json_path.exists():
+            # Document exists but processing may still be ongoing
+            
+            # Check if the document has been processing for too long (over 5 minutes)
+            # This prevents endless polling loops
+            if created_time and (time.time() - created_time) > 300:  # 5 minutes timeout
+                # Update our tracker
+                document_processing_status[document_id] = "timeout"
+                return {
+                    "document_id": document_id,
+                    "status": "timeout",
+                    "message": "Document processing is taking longer than expected. It may still be processing in the background, or there might be an issue with the document."
+                }
+                
+            return {
+                "document_id": document_id,
+                "status": "processing",
+                "message": "Document is still being processed. Please check again later."
+            }
+        
+        # Document not found in tracker or on disk
+        # Check if it was previously tracked but now files are gone
+        if document_id in document_processing_status:
+            status = document_processing_status[document_id]
+            if status == "error":
+                return {
+                    "document_id": document_id,
+                    "status": "error",
+                    "message": "Document processing failed. Please try uploading again."
+                }
+            else:
+                # Was in the tracker but files are gone - something went wrong
+                document_processing_status[document_id] = "error"
+                return {
+                    "document_id": document_id,
+                    "status": "error",
+                    "message": "Document files not found. Processing may have failed."
+                }
+        
+        # Document truly not found
+        raise HTTPException(
+            status_code=404,
+            detail=f"Document with ID {document_id} not found."
+        )
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(f"Error checking document status: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.post("/documents/batch")
 async def upload_multiple_documents(
+    background_tasks: BackgroundTasks,
     files: List[UploadFile] = File(...),
     title_prefix: Optional[str] = Form(None),
     author: Optional[str] = Form(None),
@@ -224,7 +415,7 @@ async def upload_multiple_documents(
     """
     Upload multiple documents to the RAG system.
     
-    Documents are processed sequentially. If any document fails, 
+    Documents are processed in the background. If any document fails, 
     the endpoint will continue processing the remaining documents.
     """
     # Check if RAG agent was successfully initialized
@@ -269,6 +460,7 @@ async def upload_multiple_documents(
                     "error": f"File size exceeds maximum allowed size of {MAX_FILE_SIZE/1024/1024}MB"
                 }
                 failed_count += 1
+                results.append(file_result)
                 continue
             
             # Check file type
@@ -278,6 +470,7 @@ async def upload_multiple_documents(
                     "error": "Unsupported file type. Only PDF files are supported."
                 }
                 failed_count += 1
+                results.append(file_result)
                 continue
             
             # Log file info
@@ -288,6 +481,12 @@ async def upload_multiple_documents(
                 content = await file.read()
                 temp_file.write(content)
                 temp_path = temp_file.name
+            
+            # Get document ID for tracking
+            doc_id = os.path.basename(temp_path)
+            
+            # Initialize status in the tracker
+            document_processing_status[doc_id] = "uploading"
             
             # Prepare metadata
             doc_title = f"{title_prefix + ' - ' if title_prefix else ''}{file.filename}"
@@ -300,33 +499,31 @@ async def upload_multiple_documents(
                 "file_size": file.size,
                 "batch_upload": True,
                 "batch_index": idx + 1,
+                "processing_status": "processing",
+                "upload_time": datetime.now().isoformat(),
+                "source_document_id": doc_id,
             }
             
-            # Process document
-            try:
-                result = rag_agent.add_document(temp_path, **metadata)
-                
-                # Success
-                file_result["status"] = "success"
-                file_result["details"] = {
-                    "message": f"Document '{file.filename}' processed successfully.",
-                    "file_path": temp_path,
-                    "document_id": result.get("document_id", ""),
-                    "chunk_count": result.get("chunk_count", 0),
-                }
-                successful_count += 1
-                
-            except Exception as e:
-                # Document processing error
-                if os.path.exists(temp_path):
-                    os.unlink(temp_path)
-                    
-                file_result["status"] = "error"
-                file_result["details"] = {
-                    "error": f"Error processing document: {str(e)}"
-                }
-                logger.exception(f"Error processing document {file.filename}: {e}")
-                failed_count += 1
+            # Update file result for successful upload (but still processing)
+            file_result["status"] = "processing"
+            file_result["details"] = {
+                "message": f"Document '{file.filename}' uploaded and is being processed.",
+                "file_path": temp_path,
+                "document_id": doc_id,
+            }
+            successful_count += 1
+            
+            # Add file result to tracking
+            results.append(file_result)
+            
+            # Schedule background processing for this document
+            background_tasks.add_task(
+                process_batch_document_task,
+                temp_path, 
+                doc_id, 
+                metadata,
+                file_result
+            )
                 
         except Exception as e:
             # File handling error
@@ -334,17 +531,17 @@ async def upload_multiple_documents(
             file_result["details"] = {
                 "error": f"Error handling file: {str(e)}"
             }
-            logger.exception(f"Error handling file {file.filename}: {e}")
+            logger.exception(f"Error handling batch file {file.filename}: {e}")
             failed_count += 1
             
-        # Add result to tracking
-        results.append(file_result)
+            # Add result to tracking
+            results.append(file_result)
     
     # Return overall results
     return JSONResponse(
-        status_code=200,
+        status_code=202,  # 202 Accepted to indicate processing in progress
         content={
-            "message": f"Batch processing complete. {successful_count} successful, {failed_count} failed.",
+            "message": f"Batch upload initiated. {successful_count} uploaded successfully, {failed_count} failed. Processing will continue in the background.",
             "successful_count": successful_count,
             "failed_count": failed_count,
             "total_count": len(files),

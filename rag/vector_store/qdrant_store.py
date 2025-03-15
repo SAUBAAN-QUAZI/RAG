@@ -885,4 +885,57 @@ class QdrantStore(VectorStore):
         """
         # This method is required by the VectorStore abstract base class
         # Reuse our existing get_stats method
-        return self.get_stats() 
+        return self.get_stats()
+    
+    def document_exists(self, document_id: str) -> bool:
+        """
+        Check if a document exists in the vector store.
+        
+        Args:
+            document_id: ID of the document to check
+            
+        Returns:
+            bool: True if the document exists in the vector store, False otherwise
+        """
+        logger.info(f"Checking if document {document_id} exists in vector store")
+        
+        try:
+            # Create a filter to search for the document ID
+            filter_condition = Filter(
+                must=[
+                    qdrant_models.FieldCondition(
+                        key="metadata.source_document_id",
+                        match=qdrant_models.MatchValue(value=document_id),
+                    )
+                ]
+            )
+            
+            # Use the proper endpoint format instead of constructing the full URL
+            # The _make_request method will handle the URL construction
+            payload = {
+                "filter": filter_condition.dict(by_alias=True),
+                "limit": 1  # We only need one result to confirm existence
+            }
+            
+            # Call _make_request with just the endpoint path, not the full URL
+            response = self._make_request(
+                "POST", 
+                f"collections/{self.collection_name}/points/scroll", 
+                data=payload
+            )
+            
+            # If we get any results, the document exists
+            # The response is already a dictionary, don't call .json() on it
+            if response and "result" in response:
+                exists = len(response.get("result", {}).get("points", [])) > 0
+                
+                if exists:
+                    logger.info(f"Document {document_id} exists in vector store")
+                else:
+                    logger.info(f"Document {document_id} does not exist in vector store")
+                    
+                return exists
+            return False
+        except Exception as e:
+            logger.error(f"Error checking if document exists in vector store: {str(e)}")
+            return False 

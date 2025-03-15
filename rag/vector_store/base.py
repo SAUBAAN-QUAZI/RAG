@@ -89,4 +89,17 @@ class VectorStore(ABC):
         Returns:
             Dict: Statistics about the vector store
         """
+        pass
+    
+    @abstractmethod
+    def document_exists(self, document_id: str) -> bool:
+        """
+        Check if a document exists in the vector store.
+        
+        Args:
+            document_id: ID of the document to check
+            
+        Returns:
+            bool: True if the document exists in the vector store, False otherwise
+        """
         pass 
