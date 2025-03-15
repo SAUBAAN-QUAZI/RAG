@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { ragApi } from '../api/ragApi';
+import ErrorDisplay from './ErrorDisplay';
 
 interface Message {
   id: string;
@@ -18,6 +19,8 @@ const Chat: React.FC = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [failedQuery, setFailedQuery] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom when messages change
@@ -26,26 +29,34 @@ const Chat: React.FC = () => {
   }, [messages]);
 
   // Send a message to the RAG system
-  const sendMessage = async () => {
-    if (!input.trim() || isLoading) return;
+  const sendMessage = async (queryText = input, isRetry = false) => {
+    if ((!queryText.trim() && !isRetry) || isLoading) return;
 
-    // Create a new user message
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content: input,
-      sender: 'user',
-      timestamp: new Date(),
-    };
+    const query = queryText.trim();
+    
+    // Don't add a new user message if we're retrying
+    if (!isRetry) {
+      // Create a new user message
+      const userMessage: Message = {
+        id: Date.now().toString(),
+        content: query,
+        sender: 'user',
+        timestamp: new Date(),
+      };
 
-    // Add the user message to the chat
-    setMessages((prev) => [...prev, userMessage]);
-    setInput('');
+      // Add the user message to the chat
+      setMessages((prev) => [...prev, userMessage]);
+      setInput('');
+    }
+    
     setError(null);
     setIsLoading(true);
 
     try {
+      console.log(`${isRetry ? 'Retrying' : 'Sending'} query: ${query.substring(0, 30)}${query.length > 30 ? '...' : ''}`);
+      
       // Query the RAG system
-      const response = await ragApi.query({ query: userMessage.content });
+      const response = await ragApi.query({ query });
 
       // Create a new assistant message
       const assistantMessage: Message = {
@@ -57,9 +68,24 @@ const Chat: React.FC = () => {
 
       // Add the assistant message to the chat
       setMessages((prev) => [...prev, assistantMessage]);
+      
+      // Clear any failed query state
+      setFailedQuery(null);
+      setRetryCount(0);
     } catch (error) {
-      console.error('Query error:', error);
-      setError(error instanceof Error ? error.message : 'Failed to get response');
+      console.error('Chat query error:', error);
+      
+      // Store the failed query for retry
+      setFailedQuery(query);
+      
+      // Increment retry count if this was a retry attempt
+      if (isRetry) {
+        setRetryCount(prev => prev + 1);
+      }
+      
+      // Set error message with proper formatting
+      const errorMessage = error instanceof Error ? error.message : 'Failed to get response';
+      setError(errorMessage.replace(/\n/g, '<br>'));
     } finally {
       setIsLoading(false);
     }
@@ -69,6 +95,13 @@ const Chat: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     sendMessage();
+  };
+  
+  // Handle retry
+  const handleRetry = () => {
+    if (failedQuery) {
+      sendMessage(failedQuery, true);
+    }
   };
 
   // Format timestamp
@@ -117,11 +150,13 @@ const Chat: React.FC = () => {
       </div>
 
       {/* Error message */}
-      {error && (
-        <div className="bg-red-100 text-red-700 p-3 rounded-md mb-4">
-          Error: {error}
-        </div>
-      )}
+      <ErrorDisplay 
+        error={error}
+        onRetry={failedQuery ? handleRetry : undefined}
+        retryCount={retryCount}
+        isRetrying={isLoading && !!failedQuery}
+        maxRetries={3}
+      />
 
       {/* Input form */}
       <form onSubmit={handleSubmit} className="flex space-x-2">
