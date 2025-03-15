@@ -368,7 +368,7 @@ async function uploadMultipleDocuments(
               status: string; 
               details?: { 
                 document_id: string;
-                [key: string]: any;
+                [key: string]: unknown;
               } 
             }) => {
               // If not processing or no details, return as is

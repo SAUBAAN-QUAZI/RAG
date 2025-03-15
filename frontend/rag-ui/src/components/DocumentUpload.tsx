@@ -100,7 +100,7 @@ const DocumentUpload: React.FC = () => {
         });
       }
     }
-  }, []);
+  }, [MAX_BATCH_SIZE, MAX_FILE_SIZE]);
 
   // Configure dropzone
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
