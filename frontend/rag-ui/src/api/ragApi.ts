@@ -11,7 +11,7 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
   // Add timeout to prevent hanging requests
-  timeout: 30000, // 30 seconds
+  timeout: 300000, // 5 minutes
   // Add better retry behavior
   validateStatus: status => status < 500, // Treat 500+ as errors
 });
@@ -183,11 +183,13 @@ export const ragApi = {
    * Upload a document to the RAG system
    * @param file - Document file
    * @param metadata - Document metadata
+   * @param onProgress - Optional callback for upload progress
    * @returns Upload result
    */
   async uploadDocument(
     file: File,
-    metadata?: { title?: string; author?: string; description?: string }
+    metadata?: { title?: string; author?: string; description?: string },
+    onProgress?: (percentage: number) => void
   ): Promise<{ message: string }> {
     const formData = new FormData();
     formData.append('file', file);
@@ -209,6 +211,12 @@ export const ragApi = {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        onUploadProgress: (progressEvent) => {
+          if (onProgress && progressEvent.total) {
+            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            onProgress(percentCompleted);
+          }
+        },
       });
       
       return response.data;
@@ -222,11 +230,13 @@ export const ragApi = {
    * Upload multiple documents to the RAG system
    * @param files - Array of document files
    * @param metadata - Document metadata
+   * @param onProgress - Optional callback for upload progress
    * @returns Upload result with batch statistics
    */
   async uploadMultipleDocuments(
     files: File[],
-    metadata?: { titlePrefix?: string; author?: string; description?: string }
+    metadata?: { titlePrefix?: string; author?: string; description?: string },
+    onProgress?: (percentage: number) => void
   ): Promise<{ message: string; successful_count: number; failed_count: number; results: DocumentUploadResult[] }> {
     const formData = new FormData();
     
@@ -255,6 +265,12 @@ export const ragApi = {
         },
         // Increase timeout for large batch uploads
         timeout: 300000, // 5 minutes
+        onUploadProgress: (progressEvent) => {
+          if (onProgress && progressEvent.total) {
+            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            onProgress(percentCompleted);
+          }
+        },
       });
       
       return response.data;

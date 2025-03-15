@@ -8,13 +8,17 @@ import { ragApi } from '../api/ragApi';
  * Document upload component that supports both single and multiple file uploads
  */
 const DocumentUpload: React.FC = () => {
+  // Define file size constants
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+  const MAX_BATCH_SIZE = 20 * 1024 * 1024; // 20MB total
+  
   const [files, setFiles] = useState<File[]>([]);
   const [titlePrefix, setTitlePrefix] = useState('');
   const [author, setAuthor] = useState('');
   const [description, setDescription] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
+  const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' | 'warning' } | null>(null);
   
   // Define a more specific type for batch results
   interface BatchUploadResult {
@@ -51,17 +55,47 @@ const DocumentUpload: React.FC = () => {
         });
         return;
       }
+
+      // Check file size limits
+      const oversizedFiles = pdfFiles.filter(file => file.size > MAX_FILE_SIZE);
+      if (oversizedFiles.length > 0) {
+        setMessage({
+          text: `${oversizedFiles.length} files exceed the maximum size of ${(MAX_FILE_SIZE / (1024 * 1024)).toFixed(1)}MB: ${oversizedFiles.map(f => f.name).join(', ')}`,
+          type: 'error',
+        });
+        
+        // Filter out oversized files if there are any valid files
+        const validFiles = pdfFiles.filter(file => file.size <= MAX_FILE_SIZE);
+        if (validFiles.length > 0) {
+          setFiles(validFiles);
+          setMessage({
+            text: `${oversizedFiles.length} files were removed because they exceed the ${(MAX_FILE_SIZE / (1024 * 1024)).toFixed(1)}MB limit. Proceeding with ${validFiles.length} valid files.`,
+            type: 'warning',
+          });
+        }
+        return;
+      }
+      
+      // Check total batch size
+      const totalSize = pdfFiles.reduce((acc, file) => acc + file.size, 0);
+      if (totalSize > MAX_BATCH_SIZE) {
+        setMessage({
+          text: `Total upload size (${(totalSize / (1024 * 1024)).toFixed(2)}MB) exceeds the maximum of ${(MAX_BATCH_SIZE / (1024 * 1024))}MB.`,
+          type: 'error',
+        });
+        return;
+      }
       
       setFiles(pdfFiles);
       setMessage(null);
       
       // Calculate total size
-      const totalSizeMB = pdfFiles.reduce((acc, file) => acc + file.size, 0) / (1024 * 1024);
+      const totalSizeMB = totalSize / (1024 * 1024);
       
       // Show a warning for large uploads
-      if (totalSizeMB > 5) {
+      if (totalSizeMB > 2) {
         setMessage({
-          text: `This is a large upload (${totalSizeMB.toFixed(2)} MB total). Processing may take several minutes.`,
+          text: `This is a large upload (${totalSizeMB.toFixed(2)}MB total). Processing may take several minutes.`,
           type: 'info',
         });
       }
@@ -78,21 +112,9 @@ const DocumentUpload: React.FC = () => {
     multiple: true,
   });
 
-  // Progress tracking function
-  const trackProgress = () => {
-    // Simulated progress for processing - actual upload progress is handled by axios
-    // This just gives user feedback that something is happening during server processing
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += 1;
-      if (progress >= 95) {
-        clearInterval(interval);
-        return;
-      }
-      setUploadProgress(progress);
-    }, 1000);
-    
-    return () => clearInterval(interval);
+  // Track upload progress (for actual uploads, no longer simulated)
+  const updateUploadProgress = (progress: number) => {
+    setUploadProgress(progress);
   };
 
   // Remove a file from the list (currently unused but kept for future use)
@@ -117,103 +139,53 @@ const DocumentUpload: React.FC = () => {
 
     setIsUploading(true);
     setUploadProgress(0);
+    setMessage(null);
     setBatchResults(null);
-    setMessage({
-      text: `Uploading and processing ${files.length} document${files.length > 1 ? 's' : ''}. This may take a few minutes...`,
-      type: 'info',
-    });
-    
-    // Start progress tracking
-    const stopTracking = trackProgress();
 
     try {
-      // Set up a timeout to check server status if it takes too long
-      const timeoutCheck = setTimeout(() => {
-        if (isUploading) {
-          setMessage({
-            text: 'Still processing... For large documents, this can take several minutes.',
-            type: 'info',
-          });
-        }
-      }, 60000); // Show extra message after 1 minute
-      
-      // Use batch upload if multiple files, otherwise use single upload
-      let response;
-      if (files.length > 1) {
-        response = await ragApi.uploadMultipleDocuments(files, {
-          titlePrefix,
-          author: author || undefined,
-          description: description || undefined,
-        });
-        
-        // Store detailed results for display
-        if (response.results) {
-          setBatchResults(response.results);
-        }
-      } else {
-        response = await ragApi.uploadDocument(files[0], {
-          title: titlePrefix ? `${titlePrefix} - ${files[0].name}` : undefined,
-          author: author || undefined,
-          description: description || undefined,
-        });
-      }
-
-      clearTimeout(timeoutCheck);
-      setUploadProgress(100);
-      
-      setMessage({
-        text: response.message,
-        type: 'success',
-      });
-
-      // Reset form on success
-      setFiles([]);
-      // Don't reset metadata fields to allow for continued uploads with same metadata
-    } catch (error) {
-      console.error('Upload error:', error);
-      
-      // Define proper error types
-      interface ServerError {
-        response?: {
-          data: unknown;
-          status: number;
-          headers: unknown;
+      if (files.length === 1) {
+        // Single file upload
+        const file = files[0];
+        const metadata = {
+          title: titlePrefix ? `${titlePrefix} - ${file.name}` : file.name,
+          author,
+          description,
         };
-        request?: unknown;
-        message?: string;
-      }
-      
-      // Enhanced error logging
-      const serverError = error as ServerError;
-      
-      if (serverError.response) {
-        // The request was made and the server responded with a status code
-        console.error('Server response:', serverError.response.data);
-        console.error('Status code:', serverError.response.status);
-        
+
+        // Use the onProgress callback to update progress
+        await ragApi.uploadDocument(file, metadata, updateUploadProgress);
+
+        // Upload successful
         setMessage({
-          text: `Server error: ${serverError.response.status} - ${JSON.stringify(serverError.response.data)}`,
-          type: 'error',
-        });
-      } else if (serverError.request) {
-        // The request was made but no response was received
-        console.error('No response received:', serverError.request);
-        
-        setMessage({
-          text: 'No response received from server. It might be down or unreachable.',
-          type: 'error',
+          text: 'Document uploaded successfully!',
+          type: 'success',
         });
       } else {
-        // Something happened in setting up the request that triggered an error
-        console.error('Error message:', serverError.message);
-        
+        // Multiple files upload
+        const metadata = {
+          titlePrefix,
+          author,
+          description,
+        };
+
+        // Use the onProgress callback to update progress
+        const result = await ragApi.uploadMultipleDocuments(files, metadata, updateUploadProgress);
+
+        // Show batch results
         setMessage({
-          text: `Error: ${serverError.message}`,
-          type: 'error',
+          text: `Upload complete! Successfully processed ${result.successful_count} out of ${result.successful_count + result.failed_count} documents.`,
+          type: result.failed_count === 0 ? 'success' : 'warning',
         });
+        setBatchResults(result.results);
       }
+    } catch (error) {
+      // Handle upload errors
+      console.error('Upload error:', error);
+      setMessage({
+        text: `Error uploading document(s): ${error instanceof Error ? error.message : 'Unknown error'}`,
+        type: 'error',
+      });
     } finally {
-      stopTracking();
       setIsUploading(false);
     }
   };
@@ -230,7 +202,9 @@ const DocumentUpload: React.FC = () => {
               ? 'bg-green-100 text-green-700' 
               : message.type === 'error'
                 ? 'bg-red-100 text-red-700'
-                : 'bg-blue-100 text-blue-700'
+                : message.type === 'info'
+                  ? 'bg-blue-100 text-blue-700'
+                  : 'bg-yellow-100 text-yellow-700'
           }`}
         >
           {message.text}
