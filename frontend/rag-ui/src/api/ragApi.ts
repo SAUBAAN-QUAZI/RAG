@@ -6,12 +6,12 @@ let isNetworkIssueReported = false;
 
 // Create an axios instance with default config
 const api = axios.create({
-  baseURL: config.apiUrl,
+  baseURL: '/api',
   headers: {
     'Content-Type': 'application/json',
   },
   // Add timeout to prevent hanging requests
-  timeout: 300000 , // 5 minutes
+  timeout: 300000, // 5 minutes
   // Add better retry behavior
   validateStatus: status => status < 500, // Treat 500+ as errors
 });
