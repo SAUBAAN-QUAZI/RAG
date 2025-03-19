@@ -4,7 +4,7 @@ openai==1.65.5
 httpx==0.28.1
 fastapi==0.104.1
 uvicorn==0.24.0
-pydantic==2.5.2
+pydantic==2.10.3
 python-multipart==0.0.6
 
 # Document processing
