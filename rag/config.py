@@ -100,4 +100,4 @@ API_SECRET_KEY = os.getenv("API_SECRET_KEY", "development_secret_key")
 
 # CORS settings
 ALLOW_CORS = os.getenv("ALLOW_CORS", "True").lower() == "true"
-CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:3000,https://yourdomain.com").split(",") 
+CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:3000,https://rag-mocha.vercel.app").split(",") 
