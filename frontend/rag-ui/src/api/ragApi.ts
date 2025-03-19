@@ -6,7 +6,7 @@ let isNetworkIssueReported = false;
 
 // Create an axios instance with default config
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: config.apiUrl,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -16,8 +16,22 @@ const api = axios.create({
   validateStatus: status => status < 500, // Treat 500+ as errors
 });
 
+// Fix URL paths for API calls
+const resolveApiPath = (path: string) => {
+  // Ensure path starts with a slash if not empty
+  if (path && !path.startsWith('/')) {
+    path = '/' + path;
+  }
+  return path;
+};
+
 // Add request interceptor for logging
 api.interceptors.request.use(request => {
+  // Fix URL paths to ensure they're properly formatted
+  if (request.url) {
+    request.url = resolveApiPath(request.url);
+  }
+
   console.log(`API Request: ${request.method?.toUpperCase()} ${request.baseURL}${request.url}`);
   
   // Reset network issue flag for new requests
@@ -143,7 +157,7 @@ async function withRetry<T>(fn: () => Promise<T>, retries = 2, delay = 1000): Pr
  */
 async function checkDocumentStatus(documentId: string): Promise<{ status: string; message: string; document_id: string }> {
   try {
-    const response = await api.get(`/api/documents/${documentId}/status`);
+    const response = await api.get(`/documents/${documentId}/status`);
     return response.data;
   } catch (error) {
     console.error('Error checking document status:', error);
@@ -483,7 +497,7 @@ async function checkHealth(): Promise<{ message: string }> {
  */
 async function listDocuments(): Promise<Array<{ id: string; name: string; status: string; metadata: Record<string, any> }>> {
   try {
-    const response = await api.get('/api/documents');
+    const response = await api.get('/documents');
     return response.data;
   } catch (error) {
     console.error('Error listing documents:', error);
@@ -496,7 +510,7 @@ async function listDocuments(): Promise<Array<{ id: string; name: string; status
  */
 async function deleteDocument(documentId: string): Promise<{ status: string; message: string }> {
   try {
-    const response = await api.delete(`/api/documents/${documentId}`);
+    const response = await api.delete(`/documents/${documentId}`);
     return response.data;
   } catch (error) {
     console.error(`Error deleting document ${documentId}:`, error);
@@ -511,7 +525,7 @@ export const ragApi = {
   async query(queryRequest: QueryRequest): Promise<QueryResponse> {
     try {
       // Use the new API endpoint
-      const response = await withRetry(() => api.post('/api/query', queryRequest));
+      const response = await withRetry(() => api.post('/query', queryRequest));
       
       if (response.status === 200) {
         return response.data;
