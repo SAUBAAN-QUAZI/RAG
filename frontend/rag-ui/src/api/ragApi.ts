@@ -1,100 +1,122 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosInstance } from 'axios';
 import config from '../config';
+
+/**
+ * Helper to safely check if we're in a browser environment
+ * This pattern is reliable for Next.js's React Server Components
+ */
+const isBrowser = (): boolean => {
+  return typeof window !== 'undefined' && typeof window.document !== 'undefined';
+};
 
 // Network health check state
 let isNetworkIssueReported = false;
 
-// Create an axios instance with default config
-const api = axios.create({
-  baseURL: config.apiUrl,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  // Add timeout to prevent hanging requests
-  timeout: 300000, // 5 minutes
-  // Add better retry behavior
-  validateStatus: status => status < 500, // Treat 500+ as errors
-});
+// Placeholder for the API client
+let api: AxiosInstance | null = null;
 
-// Log the API configuration
-console.log('API Client Configuration:', {
-  baseURL: api.defaults.baseURL,
-  environment: process.env.NODE_ENV,
-  version: config.version
-});
+// Initialize the API client (safe for SSR)
+const initializeApi = (): void => {
+  // Only initialize in browser environments
+  if (!isBrowser()) return;
 
-// Safety check - we should never use localhost in production
-if (process.env.NODE_ENV === 'production' && api.defaults.baseURL?.includes('localhost')) {
-  console.error('CRITICAL ERROR: Using localhost in production environment!');
-  // Force override to production URL
-  api.defaults.baseURL = 'https://rag-bpql.onrender.com';
-  console.log('Forced API URL to:', api.defaults.baseURL);
-}
+  // Create an axios instance with default config
+  api = axios.create({
+    baseURL: config.apiUrl,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    // Add timeout to prevent hanging requests
+    timeout: 300000, // 5 minutes
+    // Add better retry behavior
+    validateStatus: status => status < 500, // Treat 500+ as errors
+  });
 
-// Fix URL paths for API calls
-const resolveApiPath = (path: string) => {
-  // Ensure path starts with a slash if not empty
-  if (path && !path.startsWith('/')) {
-    path = '/' + path;
-  }
-  return path;
-};
+  // Log the API configuration
+  console.log('API Client Configuration:', {
+    baseURL: api.defaults.baseURL,
+    environment: process.env.NODE_ENV,
+    version: config.version
+  });
 
-// Add request interceptor for logging
-api.interceptors.request.use(request => {
-  // Fix URL paths to ensure they're properly formatted
-  if (request.url) {
-    request.url = resolveApiPath(request.url);
+  // Safety check - we should never use localhost in production
+  if (process.env.NODE_ENV === 'production' && api.defaults.baseURL?.includes('localhost')) {
+    console.error('CRITICAL ERROR: Using localhost in production environment!');
+    // Force override to production URL
+    api.defaults.baseURL = 'https://rag-bpql.onrender.com';
+    console.log('Forced API URL to:', api.defaults.baseURL);
   }
 
-  console.log(`API Request: ${request.method?.toUpperCase()} ${request.baseURL}${request.url}`);
-  
-  // Reset network issue flag for new requests
-  if (request.url !== '/health') {
-    isNetworkIssueReported = false;
-  }
-  
-  return request;
-});
+  // Fix URL paths for API calls
+  const resolveApiPath = (path: string) => {
+    // Ensure path starts with a slash if not empty
+    if (path && !path.startsWith('/')) {
+      path = '/' + path;
+    }
+    return path;
+  };
 
-// Add response interceptor for logging
-api.interceptors.response.use(
-  response => {
-    console.log(`API Response: ${response.status} ${response.statusText}`);
-    return response;
-  },
-  error => {
-    // Log the error details
-    if (axios.isAxiosError(error)) {
-      const axiosError = error as AxiosError;
-      
-      // Log the basic error info
-      console.error('API Error:', {
-        message: axiosError.message,
-        code: axiosError.code,
-        status: axiosError.response?.status,
-        statusText: axiosError.response?.statusText,
-        url: axiosError.config?.url
-      });
-      
-      // Check for backend connection issues
-      if (!axiosError.response) {
-        if (!isNetworkIssueReported) {
-          console.error('Network Error: Unable to connect to backend API');
-          isNetworkIssueReported = true;
-        }
-      } else {
-        // Log the error response data
-        console.error('API Error Response:', axiosError.response.data);
-      }
-    } else {
-      console.error('Unexpected Error:', error);
+  // Add request interceptor for logging
+  api.interceptors.request.use(request => {
+    // Fix URL paths to ensure they're properly formatted
+    if (request.url) {
+      request.url = resolveApiPath(request.url);
+    }
+
+    console.log(`API Request: ${request.method?.toUpperCase()} ${request.baseURL}${request.url}`);
+    
+    // Reset network issue flag for new requests
+    if (request.url !== '/health') {
+      isNetworkIssueReported = false;
     }
     
-    // Re-throw the error for the caller to handle
-    return Promise.reject(error);
-  }
-);
+    return request;
+  });
+
+  // Add response interceptor for logging
+  api.interceptors.response.use(
+    response => {
+      console.log(`API Response: ${response.status} ${response.statusText}`);
+      return response;
+    },
+    error => {
+      // Log the error details
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        
+        // Log the basic error info
+        console.error('API Error:', {
+          message: axiosError.message,
+          code: axiosError.code,
+          status: axiosError.response?.status,
+          statusText: axiosError.response?.statusText,
+          url: axiosError.config?.url
+        });
+        
+        // Check for backend connection issues
+        if (!axiosError.response) {
+          if (!isNetworkIssueReported) {
+            console.error('Network Error: Unable to connect to backend API');
+            isNetworkIssueReported = true;
+          }
+        } else {
+          // Log the error response data
+          console.error('API Error Response:', axiosError.response.data);
+        }
+      } else {
+        console.error('Unexpected Error:', error);
+      }
+      
+      // Re-throw the error for the caller to handle
+      return Promise.reject(error);
+    }
+  );
+};
+
+// Initialize the API client if in browser
+if (isBrowser()) {
+  initializeApi();
+}
 
 /**
  * Interface for query request parameters
@@ -171,8 +193,15 @@ async function withRetry<T>(fn: () => Promise<T>, retries = 2, delay = 1000): Pr
  * Function to check document status
  */
 async function checkDocumentStatus(documentId: string): Promise<{ status: string; message: string; document_id: string }> {
+  if (!isBrowser() || !api) {
+    throw new Error('API client is not available in server environment');
+  }
+  
+  // Store a reference to the API instance to satisfy TypeScript
+  const apiClient = api;
+  
   try {
-    const response = await api.get(`/documents/${documentId}/status`);
+    const response = await apiClient.get(`/documents/${documentId}/status`);
     return response.data;
   } catch (error) {
     console.error('Error checking document status:', error);
@@ -188,6 +217,13 @@ async function uploadDocument(
   metadata?: { title?: string; author?: string; description?: string },
   onProgress?: (percentage: number) => void
 ): Promise<DocumentUploadResult> {
+  if (!isBrowser() || !api) {
+    throw new Error('API client is not available in server environment');
+  }
+
+  // Store a reference to the API instance to satisfy TypeScript
+  const apiClient = api;
+
   const formData = new FormData();
   formData.append('file', file);
   
@@ -215,7 +251,7 @@ async function uploadDocument(
     }
     
     // Set up the upload request with progress tracking
-    const response = await api.post<DocumentUploadResult>('/documents', formData, {
+    const response = await apiClient.post<DocumentUploadResult>('/documents', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -332,6 +368,13 @@ async function uploadMultipleDocuments(
   failed_count: number; 
   results: BatchUploadResultItem[] 
 }> {
+  if (!isBrowser() || !api) {
+    throw new Error('API client is not available in server environment');
+  }
+
+  // Store a reference to the API instance to satisfy TypeScript
+  const apiClient = api;
+
   const formData = new FormData();
   
   // Add all files
@@ -364,7 +407,7 @@ async function uploadMultipleDocuments(
     }
     
     // Set up the upload request with progress tracking
-    const response = await api.post('/documents/batch', formData, {
+    const response = await apiClient.post('/documents/batch', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -497,9 +540,16 @@ async function uploadMultipleDocuments(
  * Function to check health of the backend API
  */
 async function checkHealth(): Promise<{ message: string }> {
+  if (!isBrowser() || !api) {
+    return { message: 'API health check not available in server environment' };
+  }
+  
+  // Store a reference to the API instance to satisfy TypeScript
+  const apiClient = api;
+  
   try {
     // Set a shorter timeout for health check
-    const response = await api.get('/health', { timeout: 5000 });
+    const response = await apiClient.get('/health', { timeout: 5000 });
     return response.data;
   } catch (error) {
     console.error('Health check failed:', error);
@@ -511,8 +561,15 @@ async function checkHealth(): Promise<{ message: string }> {
  * Function to list all documents
  */
 async function listDocuments(): Promise<Array<{ id: string; name: string; status: string; metadata: Record<string, any> }>> {
+  if (!isBrowser() || !api) {
+    throw new Error('API client is not available in server environment');
+  }
+  
+  // Store a reference to the API instance to satisfy TypeScript
+  const apiClient = api;
+  
   try {
-    const response = await api.get('/documents');
+    const response = await apiClient.get('/documents');
     return response.data;
   } catch (error) {
     console.error('Error listing documents:', error);
@@ -524,8 +581,15 @@ async function listDocuments(): Promise<Array<{ id: string; name: string; status
  * Function to delete a document
  */
 async function deleteDocument(documentId: string): Promise<{ status: string; message: string }> {
+  if (!isBrowser() || !api) {
+    throw new Error('API client is not available in server environment');
+  }
+  
+  // Store a reference to the API instance to satisfy TypeScript
+  const apiClient = api;
+  
   try {
-    const response = await api.delete(`/documents/${documentId}`);
+    const response = await apiClient.delete(`/documents/${documentId}`);
     return response.data;
   } catch (error) {
     console.error(`Error deleting document ${documentId}:`, error);
@@ -538,9 +602,16 @@ export const ragApi = {
    * Send a query to the RAG system
    */
   async query(queryRequest: QueryRequest): Promise<QueryResponse> {
+    if (!isBrowser() || !api) {
+      throw new Error('API client is not available in server environment');
+    }
+    
+    // Store a reference to the API instance to satisfy TypeScript
+    const apiClient = api;
+    
     try {
       // Use the new API endpoint
-      const response = await withRetry(() => api.post('/query', queryRequest));
+      const response = await withRetry(() => apiClient.post('/query', queryRequest));
       
       if (response.status === 200) {
         return response.data;

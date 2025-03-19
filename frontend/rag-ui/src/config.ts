@@ -2,6 +2,9 @@
  * Frontend configuration settings
  */
 
+// Helper to check if we're running in browser
+const isBrowser = typeof window !== 'undefined';
+
 // Default API URL (fallback if not set in .env.local)
 const DEFAULT_API_URL = 'http://localhost:8000';
 
@@ -10,8 +13,10 @@ const getEnvVar = (key: string, defaultValue: string): string => {
   const envKey = `NEXT_PUBLIC_${key}`;
   const value = process.env[envKey];
   
-  // Log the environment variable value being used
-  console.log(`Config: Reading ${envKey}=${value || '(not set, using default)'}`);
+  // Only log in browser to avoid SSR logs
+  if (isBrowser) {
+    console.log(`Config: Reading ${envKey}=${value || '(not set, using default)'}`);
+  }
   
   return value || defaultValue;
 };
@@ -40,12 +45,16 @@ const getApiUrl = (): string => {
   const apiUrl = getEnvVar('API_URL', DEFAULT_API_URL);
   
   // Force override in production to prevent localhost
-  if (process.env.NODE_ENV === 'production' && apiUrl.includes('localhost')) {
+  if (isBrowser && process.env.NODE_ENV === 'production' && apiUrl.includes('localhost')) {
     console.warn('CONFIG WARNING: Using localhost in production! Forcing to use Render backend');
     return 'https://rag-bpql.onrender.com';
   }
   
-  console.log(`Config: Using API URL: ${apiUrl}`);
+  // Only log in browser to avoid SSR logs
+  if (isBrowser) {
+    console.log(`Config: Using API URL: ${apiUrl}`);
+  }
+  
   return apiUrl;
 };
 
