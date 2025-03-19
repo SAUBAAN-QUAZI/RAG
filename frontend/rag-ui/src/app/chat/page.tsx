@@ -1,6 +1,17 @@
-import React from "react";
-import Chat from "../../components/Chat";
+'use client';
+
+import React from 'react';
+import { Box, Heading } from '@chakra-ui/react';
+import Layout from '../../components/Layout';
+import Chat from '../../components/Chat';
 
 export default function ChatPage() {
-  return <Chat />;
+  return (
+    <Layout>
+      <Box>
+        <Heading mb={6}>Chat with Documents</Heading>
+        <Chat />
+      </Box>
+    </Layout>
+  );
 } 

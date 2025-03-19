@@ -13,6 +13,9 @@ tiktoken==0.5.2
 spacy==3.7.2
 nltk==3.8.1
 
+# Ragie integration
+ragie>=2.0.0
+
 # Vector operations and storage
 numpy==1.26.2
 qdrant-client==1.7.0

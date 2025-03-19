@@ -50,530 +50,532 @@ api.interceptors.response.use(
       
       // Check for backend connection issues
       if (!axiosError.response) {
-        // Only report network issue once to avoid console spam
         if (!isNetworkIssueReported) {
-          console.error('Backend connection issue detected. This may indicate that the server is down, overloaded, or experiencing network issues.');
+          console.error('Network Error: Unable to connect to backend API');
           isNetworkIssueReported = true;
         }
-        
-        // Provide detailed troubleshooting steps in the error message
-        error.message = `Network error: Please check your connection and ensure the backend server is running.\n\nTroubleshooting steps:\n1. Verify the backend server is running (command: python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000)\n2. Check if API URL (${config.apiUrl}) is correct in .env.local\n3. Look for CORS errors in browser dev tools`;
-      } else if (axiosError.response.status === 404) {
-        error.message = `API endpoint not found: ${axiosError.config?.url}. Please check the URL and server configuration.`;
-      } else if (axiosError.response.status === 403) {
-        error.message = 'Access forbidden. You might need to authenticate or check permissions.';
-      } else if (axiosError.response.status >= 500) {
-        error.message = `Server error (${axiosError.response.status}): ${axiosError.response.statusText || 'Unknown server error'}. Please try again later or check server logs.`;
+      } else {
+        // Log the error response data
+        console.error('API Error Response:', axiosError.response.data);
       }
+    } else {
+      console.error('Unexpected Error:', error);
     }
     
+    // Re-throw the error for the caller to handle
     return Promise.reject(error);
   }
 );
 
 /**
- * Interface for query request
+ * Interface for query request parameters
+ * Updated to support Ragie-specific features
  */
 export interface QueryRequest {
   query: string;
-  filters?: Record<string, unknown>;
+  document_ids?: string[];
+  metadata_filter?: Record<string, any>;
+  rerank?: boolean;
+  top_k?: number;
+  show_timings?: boolean;
 }
 
 /**
  * Interface for query response
+ * Updated to support Ragie's more detailed response format
  */
 export interface QueryResponse {
-  answer: string;
+  query: string;
+  response: string;
+  chunks?: Array<{
+    text: string;
+    score: number;
+    metadata: Record<string, any>;
+    document_id: string;
+  }>;
+  document_ids?: string[];
+  timings?: Record<string, number>;
 }
 
 /**
  * Interface for document upload result
  */
-interface DocumentUploadResult {
-  id: string;
-  filename: string;
-  status: 'success' | 'error';
-  message?: string;
+export interface DocumentUploadResult {
+  message: string;
+  document_id?: string;
+  ragie_document_id?: string;
+  status?: string;
+  metadata?: Record<string, any>;
 }
 
 /**
- * Utility function to retry API calls
- * @param fn Function to retry
- * @param retries Number of retries
- * @param delay Delay between retries in ms
+ * Interface for batch upload result item
+ */
+export interface BatchUploadResultItem {
+  id: string;
+  filename: string;
+  status: 'success' | 'error' | 'processing';
+  message?: string;
+  ragie_document_id?: string;
+  details?: any;
+}
+
+/**
+ * Function to retry API calls with exponential backoff
  */
 async function withRetry<T>(fn: () => Promise<T>, retries = 2, delay = 1000): Promise<T> {
   try {
     return await fn();
   } catch (error) {
-    if (retries <= 0) throw error;
+    if (retries === 0) {
+      throw error;
+    }
     
-    console.log(`Retrying in ${delay}ms... (${retries} attempts left)`);
+    console.log(`API call failed, retrying in ${delay}ms (${retries} retries left)`);
     await new Promise(resolve => setTimeout(resolve, delay));
-    return withRetry(fn, retries - 1, delay * 1.5);
+    
+    return withRetry(fn, retries - 1, delay * 2);
   }
 }
 
 /**
- * Check the processing status of a document
- * @param documentId - Document ID to check
- * @returns Document status information
+ * Function to check document status
  */
 async function checkDocumentStatus(documentId: string): Promise<{ status: string; message: string; document_id: string }> {
   try {
-    const response = await api.get<{ status: string; message: string; document_id: string }>(
-      `/documents/${documentId}/status`
-    );
+    const response = await api.get(`/api/documents/${documentId}/status`);
     return response.data;
   } catch (error) {
     console.error('Error checking document status:', error);
-    throw error;
+    throw new Error('Unable to check document status');
   }
 }
 
 /**
- * Upload a document to the RAG system
- * @param file - Document file
- * @param metadata - Document metadata
- * @param onProgress - Optional callback for upload progress
- * @returns Upload result
+ * Function to upload a document
  */
 async function uploadDocument(
   file: File,
   metadata?: { title?: string; author?: string; description?: string },
   onProgress?: (percentage: number) => void
-): Promise<{ message: string }> {
+): Promise<DocumentUploadResult> {
   const formData = new FormData();
   formData.append('file', file);
   
+  // Add metadata if provided
   if (metadata?.title) {
     formData.append('title', metadata.title);
   }
-  
   if (metadata?.author) {
     formData.append('author', metadata.author);
   }
-  
   if (metadata?.description) {
     formData.append('description', metadata.description);
   }
   
   try {
-    // Initial file upload (just sends the file to the server)
-    const response = await api.post('/documents', formData, {
+    // Calculate timeout based on file size for large files
+    const timeout = Math.min(
+      config.baseTimeout + (file.size / 1024 / 1024) * config.timeoutPerMb,
+      config.maxTimeout
+    );
+    
+    // Report initial upload starting
+    if (onProgress) {
+      onProgress(0);
+    }
+    
+    // Set up the upload request with progress tracking
+    const response = await api.post<DocumentUploadResult>('/documents', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      onUploadProgress: (progressEvent) => {
-        if (onProgress && progressEvent.total) {
-          // This only tracks the HTTP upload progress, not the backend processing
-          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          // Report this as 50% of the total process (upload is first half, processing is second half)
-          onProgress(Math.min(50, percentCompleted));
+      timeout,
+      onUploadProgress: progressEvent => {
+        if (progressEvent.total && onProgress) {
+          // Calculate upload progress (0-80%)
+          const percentage = Math.min(
+            80, // Cap at 80% to show that processing still needs to happen
+            Math.round((progressEvent.loaded / progressEvent.total) * 100 * 0.8)
+          );
+          onProgress(percentage);
         }
       },
     });
     
-    // Get the document ID from the response
-    const documentId = response.data.document_id;
-    
-    if (!documentId) {
-      throw new Error('Document upload failed: No document ID returned');
-    }
-    
-    // Poll for document processing status
-    const maxAttempts = 20; // Reduced maximum number of polling attempts
-    const pollInterval = 3000; // Poll every 3 seconds
-    let currentAttempt = 0;
-    
-    return new Promise((resolve, reject) => {
-      const pollStatus = async () => {
-        try {
+    // Function to handle document status polling
+    const pollStatus = async () => {
+      try {
+        let processingComplete = false;
+        let retries = 10;
+        let delayMs = 1000;
+        let currentProgress = 80;
+        
+        const documentId = response.data.document_id;
+        if (!documentId) {
+          throw new Error("No document ID returned from server");
+        }
+        
+        while (!processingComplete && retries > 0) {
+          // Wait before checking status
+          await new Promise(resolve => setTimeout(resolve, delayMs));
+          
           // Check document status
           const statusResponse = await checkDocumentStatus(documentId);
+          console.log(`Document status: ${JSON.stringify(statusResponse)}`);
           
+          // Update progress based on status
           if (statusResponse.status === 'complete') {
-            // Processing is complete, resolve with success
             if (onProgress) {
-              onProgress(100); // Set progress to 100%
+              onProgress(100);
             }
-            resolve({ message: statusResponse.message || 'Document processed successfully.' });
-            return;
-          } else if (statusResponse.status === 'timeout') {
-            // Processing timed out on the server side
-            if (onProgress) {
-              onProgress(95); // Set progress to 95% to indicate it's almost done but had issues
-            }
-            resolve({ 
-              message: 'Document upload completed, but processing is taking longer than expected. ' +
-                     'The document may be available soon or there might be an issue with processing.'
-            });
-            return;
-          } else if (statusResponse.status === 'processing') {
-            // Still processing, update progress if callback provided
-            if (onProgress) {
-              // Calculate progress between 50% (upload complete) and 95% (processing almost done)
-              // We leave some room before 100% to avoid misleading users
-              const processingPercent = 50 + Math.min(45, (currentAttempt / maxAttempts) * 45);
-              onProgress(Math.round(processingPercent));
-            }
-            
-            // Check if we've reached the maximum number of attempts
-            if (currentAttempt >= maxAttempts) {
-              // We've waited long enough, let the user know it's still processing
-              if (onProgress) {
-                onProgress(95); // Set to 95% to indicate it's almost done
-              }
-              resolve({ 
-                message: 'Document upload completed, but processing is taking longer than expected. ' +
-                       'The document will be available soon.'
-              });
-              return;
-            }
-            
-            // Increment attempt counter and poll again after interval
-            currentAttempt++;
-            setTimeout(pollStatus, pollInterval);
+            processingComplete = true;
           } else if (statusResponse.status === 'error') {
-            // Processing error
-            reject(new Error(`Document processing failed: ${statusResponse.message}`));
-          } else {
-            // Unknown status
-            reject(new Error(`Unknown document status: ${statusResponse.status}`));
+            throw new Error(`Error processing document: ${statusResponse.message}`);
+          } else if (statusResponse.status === 'processing') {
+            // Increment progress for processing (80-95%)
+            if (onProgress && currentProgress < 95) {
+              currentProgress += 1.5;
+              onProgress(Math.round(currentProgress));
+            }
+            
+            // Increase delay for next check
+            delayMs = Math.min(delayMs * 1.5, 10000);
+            retries--;
+          } else if (statusResponse.status === 'timeout') {
+            // Document is still processing but taking longer than expected
+            if (onProgress) {
+              onProgress(95); // Cap at 95%
+            }
+            
+            // Increase delay significantly
+            delayMs = 10000;
+            retries--;
           }
-        } catch (error) {
-          console.error('Error polling document status:', error);
-          reject(error);
         }
-      };
-      
-      // Start polling
-      setTimeout(pollStatus, pollInterval);
-    });
+        
+        if (!processingComplete) {
+          // We've polled several times but the document is still processing
+          // Return success but note that processing continues
+          return {
+            message: 'Document uploaded and is still being processed. It will be available for querying soon.',
+            document_id: documentId,
+            ragie_document_id: response.data.metadata?.ragie_document_id
+          };
+        }
+        
+        return {
+          message: 'Document uploaded and processed successfully.',
+          document_id: documentId,
+          ragie_document_id: response.data.metadata?.ragie_document_id
+        };
+      } catch (error) {
+        console.error('Error during document status polling:', error);
+        throw error;
+      }
+    };
+    
+    if (response.status === 202) {
+      // Document accepted for processing, start polling for status
+      return await pollStatus();
+    } else {
+      throw new Error(`Unexpected response status: ${response.status}`);
+    }
   } catch (error) {
     console.error('Error uploading document:', error);
+    if (onProgress) {
+      onProgress(0);
+    }
     throw error;
   }
 }
 
 /**
- * Upload multiple documents to the RAG system
- * @param files - Array of document files
- * @param metadata - Document metadata
- * @param onProgress - Optional callback for upload progress
- * @returns Upload result with batch statistics
+ * Function to upload multiple documents
  */
 async function uploadMultipleDocuments(
   files: File[],
   metadata?: { titlePrefix?: string; author?: string; description?: string },
   onProgress?: (percentage: number) => void
-): Promise<{ message: string; successful_count: number; failed_count: number; results: DocumentUploadResult[] }> {
+): Promise<{ 
+  message: string; 
+  successful_count: number; 
+  failed_count: number; 
+  results: BatchUploadResultItem[] 
+}> {
   const formData = new FormData();
   
-  // Append all files
-  for (const file of files) {
+  // Add all files
+  files.forEach(file => {
     formData.append('files', file);
-  }
+  });
   
-  // Add metadata
+  // Add metadata if provided
   if (metadata?.titlePrefix) {
     formData.append('title_prefix', metadata.titlePrefix);
   }
-  
   if (metadata?.author) {
     formData.append('author', metadata.author);
   }
-  
   if (metadata?.description) {
     formData.append('description', metadata.description);
   }
   
   try {
-    // Initial batch upload (just sends the files to the server)
+    // Calculate timeout based on combined file size
+    const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+    const timeout = Math.min(
+      config.baseTimeout + (totalSize / 1024 / 1024) * config.timeoutPerMb,
+      config.maxTimeout
+    );
+    
+    // Report initial upload starting
+    if (onProgress) {
+      onProgress(0);
+    }
+    
+    // Set up the upload request with progress tracking
     const response = await api.post('/documents/batch', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      // Increase timeout for large batch uploads
-      timeout: 300000, // 5 minutes
-      onUploadProgress: (progressEvent) => {
-        if (onProgress && progressEvent.total) {
-          // This only tracks the HTTP upload progress, not the backend processing
-          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          // Report this as 50% of the total process (upload is first half, processing is second half)
-          onProgress(Math.min(50, percentCompleted));
+      timeout,
+      onUploadProgress: progressEvent => {
+        if (progressEvent.total && onProgress) {
+          // Calculate upload progress (0-70%)
+          const percentage = Math.min(
+            70, // Cap at 70% to show that processing still needs to happen
+            Math.round((progressEvent.loaded / progressEvent.total) * 100 * 0.7)
+          );
+          onProgress(percentage);
         }
       },
     });
     
-    // Get the document IDs from the response
-    const results = response.data.results || [];
-    const documentIds = results
-      .filter((result: { status: string; details?: { document_id: string } }) => 
-        result.status === 'processing' && result.details?.document_id)
-      .map((result: { details: { document_id: string } }) => result.details.document_id);
-    
-    // If there are no document IDs to track, return the response data as is
-    if (documentIds.length === 0) {
-      if (onProgress) {
-        onProgress(100); // Set progress to 100%
-      }
-      return response.data;
-    }
-    
-    // Poll for document processing status
-    const maxAttempts = 20; // Reduced maximum number of polling attempts
-    const pollInterval = 3000; // Poll every 3 seconds
-    let currentAttempt = 0;
-    
-    return new Promise((resolve, reject) => {
-      const pollStatus = async () => {
-        try {
-          // Check status of all documents
-          const statuses = await Promise.all(
-            documentIds.map((id: string) => checkDocumentStatus(id).catch(() => ({ 
-              status: 'error', 
-              message: 'Failed to check status', 
-              document_id: id 
-            })))
-          );
-          
-          // Count documents by status
-          const complete = statuses.filter(s => s.status === 'complete').length;
-          const processing = statuses.filter(s => s.status === 'processing').length;
-          const error = statuses.filter(s => s.status === 'error').length;
-          const timedOut = statuses.filter(s => s.status === 'timeout').length;
-          
-          // Calculate overall progress
-          const totalDocs = documentIds.length;
-          const completionRatio = (complete + timedOut + error) / totalDocs;
-          
-          // Update progress if callback provided
-          if (onProgress) {
-            // Calculate progress between 50% (upload complete) and 95% (processing almost done)
-            const processingPercent = 50 + Math.min(45, completionRatio * 45);
-            // Add some progress based on the number of attempts to show activity
-            const attemptProgress = Math.min(5, (currentAttempt / maxAttempts) * 5);
-            onProgress(Math.round(processingPercent + attemptProgress));
-          }
-          
-          // If all documents are processed (complete, timeout, or error), resolve
-          if (complete + error + timedOut === totalDocs) {
-            if (onProgress) {
-              onProgress(100); // Set progress to 100%
-            }
-            
-            // Update the original response with the final statuses
-            const updatedResults = response.data.results.map((result: { 
-              status: string; 
-              details?: { 
-                document_id: string;
-                [key: string]: unknown;
-              } 
-            }) => {
-              // If not processing or no details, return as is
-              if (result.status !== 'processing' || !result.details) {
-                return result;
-              }
-              
-              // Now we know details exists
-              const documentId = result.details.document_id;
-              if (!documentId) {
-                return result;
-              }
-              
-              // Find the status for this document
-              const status = statuses.find(s => s.document_id === documentId);
-              if (!status) {
-                return result;
-              }
-              
-              // Update with the latest status
-              return {
-                ...result,
-                status: status.status,
-                details: {
-                  ...result.details,
-                  message: status.message
-                }
-              };
-            });
-            
-            const successMsg = complete > 0 ? `${complete} successful` : "";
-            const errorMsg = error > 0 ? `${error} failed` : "";
-            const timeoutMsg = timedOut > 0 ? `${timedOut} timed out` : "";
-            
-            const statusParts = [successMsg, errorMsg, timeoutMsg].filter(Boolean);
-            const statusMessage = statusParts.join(', ');
-            
-            resolve({
-              ...response.data,
-              message: `Batch processing complete. ${statusMessage}.`,
-              results: updatedResults
-            });
-            return;
-          }
-          
-          // Check if we've reached the maximum number of attempts
-          if (currentAttempt >= maxAttempts) {
-            // We've waited long enough, let the user know it's still processing
-            if (onProgress) {
-              onProgress(95); // Set to 95% to indicate it's almost done
-            }
-            
-            resolve({
-              ...response.data,
-              message: `Batch upload completed, but ${processing} document(s) are still being processed. They will be available soon.`
-            });
-            return;
-          }
-          
-          // Increment attempt counter and poll again after interval
-          currentAttempt++;
-          setTimeout(pollStatus, pollInterval);
-        } catch (error) {
-          console.error('Error polling batch status:', error);
-          reject(error);
-        }
-      };
+    if (response.status === 202) {
+      // Documents accepted for processing
+      const results = response.data.results || [];
       
-      // Start polling
-      setTimeout(pollStatus, pollInterval);
-    });
+      // Start polling for status if we have results
+      if (results.length > 0) {
+        const pollStatus = async () => {
+          try {
+            let allProcessingComplete = false;
+            let retries = 10;
+            let delayMs = 2000;
+            let currentProgress = 70;
+            
+            // Get document IDs to poll
+            const documentIds = results
+              .filter((result: BatchUploadResultItem) => result.status === 'processing')
+              .map((result: BatchUploadResultItem) => result.id);
+            
+            while (!allProcessingComplete && retries > 0 && documentIds.length > 0) {
+              // Wait before checking status
+              await new Promise(resolve => setTimeout(resolve, delayMs));
+              
+              // Check each document status
+              let pendingCount = 0;
+              
+              for (const docId of documentIds) {
+                try {
+                  const statusResponse = await checkDocumentStatus(docId);
+                  
+                  // Update the status in results
+                  const resultIndex = results.findIndex((r: BatchUploadResultItem) => r.id === docId);
+                  if (resultIndex >= 0) {
+                    // Update status
+                    if (statusResponse.status === 'complete') {
+                      results[resultIndex].status = 'success';
+                      results[resultIndex].message = 'Document processed successfully';
+                    } else if (statusResponse.status === 'error') {
+                      results[resultIndex].status = 'error';
+                      results[resultIndex].message = statusResponse.message;
+                    } else {
+                      results[resultIndex].status = 'processing';
+                      pendingCount++;
+                    }
+                  }
+                } catch (error) {
+                  console.error(`Error checking status for document ${docId}:`, error);
+                  pendingCount++;
+                }
+              }
+              
+              // Update progress for processing (70-95%)
+              if (onProgress && pendingCount === 0) {
+                onProgress(100);
+                allProcessingComplete = true;
+              } else if (onProgress && currentProgress < 95) {
+                // Calculate progress based on remaining pending docs
+                const progressIncrement = (95 - currentProgress) / (retries + 1);
+                currentProgress += progressIncrement;
+                onProgress(Math.round(currentProgress));
+              }
+              
+              if (pendingCount === 0) {
+                allProcessingComplete = true;
+              } else {
+                // Increase delay for next check
+                delayMs = Math.min(delayMs * 1.5, 10000);
+                retries--;
+              }
+            }
+            
+            // Count success and failures
+            const successCount = results.filter((r: BatchUploadResultItem) => r.status === 'success').length;
+            const failCount = results.filter((r: BatchUploadResultItem) => r.status === 'error').length;
+            const stillProcessingCount = results.filter((r: BatchUploadResultItem) => r.status === 'processing').length;
+            
+            if (stillProcessingCount > 0) {
+              return {
+                message: `${successCount} documents processed successfully, ${failCount} failed, ${stillProcessingCount} still processing in the background.`,
+                successful_count: successCount,
+                failed_count: failCount,
+                results
+              };
+            }
+            
+            return {
+              message: `${successCount} documents processed successfully, ${failCount} failed.`,
+              successful_count: successCount,
+              failed_count: failCount,
+              results
+            };
+          } catch (error) {
+            console.error('Error during batch status polling:', error);
+            throw error;
+          }
+        };
+        
+        return await pollStatus();
+      }
+      
+      return response.data;
+    } else {
+      throw new Error(`Unexpected response status: ${response.status}`);
+    }
   } catch (error) {
     console.error('Error uploading multiple documents:', error);
+    if (onProgress) {
+      onProgress(0);
+    }
     throw error;
   }
 }
 
 /**
- * Check if the API is available
- * @returns Welcome message
+ * Function to check health of the backend API
  */
 async function checkHealth(): Promise<{ message: string }> {
   try {
-    // Use withRetry to automatically retry on network errors
-    return await withRetry(async () => {
-      console.log('Checking API health...');
-      const response = await api.get<{ message: string }>('/health');
-      console.log('API health check successful');
-      return response.data;
-    }, 2, 1000);
+    // Set a shorter timeout for health check
+    const response = await api.get('/health', { timeout: 5000 });
+    return response.data;
   } catch (error) {
-    console.error('Health check error:', error);
-    throw error;
+    console.error('Health check failed:', error);
+    return { message: 'API health check failed. Backend may be unavailable.' };
   }
 }
 
 /**
- * RAG API client
+ * Function to list all documents
  */
+async function listDocuments(): Promise<Array<{ id: string; name: string; status: string; metadata: Record<string, any> }>> {
+  try {
+    const response = await api.get('/api/documents');
+    return response.data;
+  } catch (error) {
+    console.error('Error listing documents:', error);
+    throw new Error('Unable to fetch documents');
+  }
+}
+
+/**
+ * Function to delete a document
+ */
+async function deleteDocument(documentId: string): Promise<{ status: string; message: string }> {
+  try {
+    const response = await api.delete(`/api/documents/${documentId}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error deleting document ${documentId}:`, error);
+    throw new Error('Unable to delete document');
+  }
+}
+
 export const ragApi = {
   /**
-   * Query the RAG system
-   * @param queryRequest - Query request
-   * @returns Query response
+   * Send a query to the RAG system
    */
   async query(queryRequest: QueryRequest): Promise<QueryResponse> {
     try {
-      // Use a longer timeout for queries since they require LLM processing
-      const response = await withRetry(async () => {
-        console.log('Sending query to backend:', queryRequest.query.substring(0, 50) + (queryRequest.query.length > 50 ? '...' : ''));
-        return api.post<QueryResponse>('/query', queryRequest, {
-          timeout: 120000, // 2 minutes timeout for LLM processing
-          headers: {
-            'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache'
-          }
-        });
-      }, 2, 2000); // Retry twice with 2s initial delay
+      // Use the new API endpoint
+      const response = await withRetry(() => api.post('/api/query', queryRequest));
       
-      console.log('Query response received successfully');
-      return response.data;
-    } catch (error) {
-      let errorMessage = 'Failed to get a response from the backend.';
-      
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError;
-        
-        if (!axiosError.response) {
-          // Network error or timeout
-          errorMessage = 'The query request timed out or failed to reach the server. This is often due to the LLM processing taking too long. Try a simpler query or check if the server is running.';
-        } else if (axiosError.response.status === 400) {
-          // Bad request
-          errorMessage = 'Invalid query format. Please check your input and try again.';
-        } else if (axiosError.response.status === 422) {
-          // Validation error
-          errorMessage = 'The server could not process your query. It may be too complex or contain invalid characters.';
-        } else if (axiosError.response.status >= 500) {
-          // Server error
-          errorMessage = 'The server encountered an error while processing your query. This might be due to heavy load or issues with the LLM.';
-        }
-        
-        // Add detailed error info for debugging
-        console.error('Detailed query error:', {
-          status: axiosError.response?.status,
-          statusText: axiosError.response?.statusText,
-          data: axiosError.response?.data,
-          message: axiosError.message,
-          url: axiosError.config?.url,
-          method: axiosError.config?.method
-        });
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        throw new Error(`Unexpected response status: ${response.status}`);
       }
-      
-      console.error('Query error:', errorMessage);
-      
-      // Create a custom error with our message
-      const customError = new Error(errorMessage);
-      Object.assign(customError, error); // Keep original error properties
-      throw customError;
+    } catch (error) {
+      console.error('Error querying:', error);
+      throw error;
     }
   },
-
+  
   /**
    * Upload a document to the RAG system
-   * @param file - Document file
-   * @param metadata - Document metadata
-   * @param onProgress - Optional callback for upload progress
-   * @returns Upload result
    */
   async uploadDocument(
     file: File,
     metadata?: { title?: string; author?: string; description?: string },
     onProgress?: (percentage: number) => void
-  ): Promise<{ message: string }> {
+  ): Promise<DocumentUploadResult> {
     return uploadDocument(file, metadata, onProgress);
   },
   
   /**
    * Upload multiple documents to the RAG system
-   * @param files - Array of document files
-   * @param metadata - Document metadata
-   * @param onProgress - Optional callback for upload progress
-   * @returns Upload result with batch statistics
    */
   async uploadMultipleDocuments(
     files: File[],
     metadata?: { titlePrefix?: string; author?: string; description?: string },
     onProgress?: (percentage: number) => void
-  ): Promise<{ message: string; successful_count: number; failed_count: number; results: DocumentUploadResult[] }> {
+  ): Promise<{ 
+    message: string; 
+    successful_count: number; 
+    failed_count: number; 
+    results: BatchUploadResultItem[] 
+  }> {
     return uploadMultipleDocuments(files, metadata, onProgress);
   },
-
+  
   /**
-   * Check if the API is available
-   * @returns Welcome message
+   * Check the health of the RAG system
    */
   async checkHealth(): Promise<{ message: string }> {
     return checkHealth();
   },
-
+  
   /**
-   * Check the processing status of a document
-   * @param documentId - Document ID to check
-   * @returns Document status information
+   * Check the status of a document
    */
   async checkDocumentStatus(documentId: string): Promise<{ status: string; message: string; document_id: string }> {
     return checkDocumentStatus(documentId);
   },
+  
+  /**
+   * List all documents
+   */
+  async listDocuments(): Promise<Array<{ id: string; name: string; status: string; metadata: Record<string, any> }>> {
+    return listDocuments();
+  },
+  
+  /**
+   * Delete a document
+   */
+  async deleteDocument(documentId: string): Promise<{ status: string; message: string }> {
+    return deleteDocument(documentId);
+  }
 }; 

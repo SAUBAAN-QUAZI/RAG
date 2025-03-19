@@ -47,34 +47,57 @@ elif OPENAI_API_KEY == "your_openai_api_key":
 key_preview = OPENAI_API_KEY[:4] + "..." + OPENAI_API_KEY[-4:] if OPENAI_API_KEY else ""
 print(f"Using OpenAI API key starting with: {key_preview}")
 
+# Ragie API settings
+USE_RAGIE = os.getenv("USE_RAGIE", "False").lower() == "true"
+RAGIE_API_KEY = os.getenv("RAGIE_API_KEY")
+RAGIE_WEBHOOK_SECRET = os.getenv("RAGIE_WEBHOOK_SECRET", "")
+
+# If Ragie is enabled, verify API key is available
+if USE_RAGIE:
+    if not RAGIE_API_KEY:
+        raise ValueError("Ragie is enabled, but RAGIE_API_KEY environment variable is not set")
+    elif RAGIE_API_KEY == "your_ragie_api_key_here":
+        raise ValueError("Please replace the placeholder 'your_ragie_api_key_here' with your actual Ragie API key in the .env file")
+    
+    # Print a debug message with a masked version of the API key
+    ragie_key_preview = RAGIE_API_KEY[:4] + "..." + RAGIE_API_KEY[-4:] if RAGIE_API_KEY else ""
+    print(f"Using Ragie API key starting with: {ragie_key_preview}")
+    print("Ragie integration is ENABLED")
+    
+    # Log webhook status
+    if RAGIE_WEBHOOK_SECRET:
+        print("Ragie webhooks are configured with a secret")
+    else:
+        print("Ragie webhooks are not configured (no secret provided)")
+else:
+    print("Ragie integration is DISABLED")
+
 # Document processing settings
 CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "900"))
-CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "150"))
-
-# Embedding settings
-EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-large")
+CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "200"))
 
 # Vector database settings
-VECTOR_DB_TYPE = os.getenv("VECTOR_DB_TYPE", "qdrant")  # Only Qdrant is supported
+VECTOR_DB_TYPE = os.getenv("VECTOR_DB_TYPE", "chroma").lower()
 VECTOR_DB_PATH = os.getenv("VECTOR_DB_PATH", str(VECTORS_DIR))
+VECTOR_DB_URL = os.getenv("VECTOR_DB_URL")
+VECTOR_DB_API_KEY = os.getenv("VECTOR_DB_API_KEY")
 
-# Cloud vector DB settings (for deployment)
-VECTOR_DB_URL = os.getenv("VECTOR_DB_URL", "")  # For cloud vector DBs
-VECTOR_DB_API_KEY = os.getenv("VECTOR_DB_API_KEY", "")  # For authenticated DBs
-
-# API settings
-API_HOST = os.getenv("API_HOST", "0.0.0.0")
-# For Render deployment, use the PORT environment variable they provide
-# Otherwise, use API_PORT from environment or default to 8000
-API_PORT = int(os.getenv("PORT", os.getenv("API_PORT", "8000")))
-DEBUG = os.getenv("DEBUG", "True").lower() in ("true", "1", "t")
-API_SECRET_KEY = os.getenv("API_SECRET_KEY", "development_secret_key")
+# Embedding model to use
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
 
 # Retrieval settings
 TOP_K_RESULTS = int(os.getenv("TOP_K_RESULTS", "4"))
 SIMILARITY_THRESHOLD = float(os.getenv("SIMILARITY_THRESHOLD", "0.5"))
+
+# LLM response settings
 MAX_RESPONSE_TOKENS = int(os.getenv("MAX_RESPONSE_TOKENS", "1500"))
 
-# Deployment settings
-ALLOW_CORS = os.getenv("ALLOW_CORS", "True").lower() in ("true", "1", "t")
-CORS_ORIGINS = os.getenv("CORS_ORIGINS", "*").split(",") 
+# API settings
+API_HOST = os.getenv("API_HOST", "0.0.0.0")
+API_PORT = int(os.getenv("API_PORT", "8000"))
+DEBUG = os.getenv("DEBUG", "True").lower() == "true"
+API_SECRET_KEY = os.getenv("API_SECRET_KEY", "development_secret_key")
+
+# CORS settings
+ALLOW_CORS = os.getenv("ALLOW_CORS", "True").lower() == "true"
+CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:3000,https://yourdomain.com").split(",") 

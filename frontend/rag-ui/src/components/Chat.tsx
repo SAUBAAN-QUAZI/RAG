@@ -1,186 +1,619 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { ragApi } from '../api/ragApi';
-import ErrorDisplay from './ErrorDisplay';
+import {
+  Box,
+  Input,
+  Button,
+  VStack,
+  HStack,
+  Text,
+  Flex,
+  IconButton,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Divider,
+  useToast,
+  Card,
+  CardBody,
+  Badge,
+  Spinner,
+  Textarea,
+  Select,
+  Switch,
+  FormControl,
+  FormLabel,
+  Tooltip,
+  Collapse,
+  useDisclosure,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+} from '@chakra-ui/react';
+import { FiSend, FiSettings, FiCopy, FiRefreshCw } from 'react-icons/fi';
+import ReactMarkdown from 'react-markdown';
+import { ragApi, QueryRequest, QueryResponse } from '../api/ragApi';
 
+// Define types for chat messages
 interface Message {
   id: string;
+  role: 'user' | 'assistant';
   content: string;
-  sender: 'user' | 'assistant';
+  sources?: Array<{
+    text: string;
+    score: number;
+    document_id: string;
+    document_name?: string;
+  }>;
+  error?: boolean;
   timestamp: Date;
+  loading?: boolean;
+  noResults?: boolean;
+}
+
+// Define type for document selection
+interface DocumentOption {
+  id: string;
+  name: string;
 }
 
 /**
- * Chat component for querying the RAG system
+ * Chat component for interacting with documents through RAG
  */
 const Chat: React.FC = () => {
+  // State for managing messages
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [failedQuery, setFailedQuery] = useState<string | null>(null);
-  const [retryCount, setRetryCount] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  // Auto-scroll to bottom when messages change
+  const toast = useToast();
+  
+  // State for query settings
+  const [rerank, setRerank] = useState(true);
+  const [topK, setTopK] = useState(3);
+  const [showTimings, setShowTimings] = useState(false);
+  const { isOpen: isSettingsOpen, onOpen: onSettingsOpen, onClose: onSettingsClose } = useDisclosure();
+  
+  // State for document selection
+  const [documents, setDocuments] = useState<DocumentOption[]>([]);
+  const [selectedDocuments, setSelectedDocuments] = useState<string[]>([]);
+  const [isLoadingDocuments, setIsLoadingDocuments] = useState(false);
+  
+  // Fetch available documents on component mount
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        setIsLoadingDocuments(true);
+        const docs = await ragApi.listDocuments();
+        const documentOptions = docs.map(doc => ({
+          id: doc.id,
+          name: doc.name || `Document ${doc.id}`
+        }));
+        setDocuments(documentOptions);
+      } catch (error) {
+        console.error('Error fetching documents:', error);
+        toast({
+          title: 'Failed to load documents',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      } finally {
+        setIsLoadingDocuments(false);
+      }
+    };
+    
+    fetchDocuments();
+  }, [toast]);
+  
+  // Scroll to bottom of messages when new message is added
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
-
-  // Send a message to the RAG system
-  const sendMessage = async (queryText = input, isRetry = false) => {
-    if ((!queryText.trim() && !isRetry) || isLoading) return;
-
-    const query = queryText.trim();
+  
+  // Handle sending a message
+  const handleSendMessage = async () => {
+    if (!inputValue.trim()) return;
     
-    // Don't add a new user message if we're retrying
-    if (!isRetry) {
-      // Create a new user message
-      const userMessage: Message = {
-        id: Date.now().toString(),
-        content: query,
-        sender: 'user',
-        timestamp: new Date(),
-      };
-
-      // Add the user message to the chat
-      setMessages((prev) => [...prev, userMessage]);
-      setInput('');
-    }
+    // Generate a unique ID for the message
+    const messageId = Date.now().toString();
     
-    setError(null);
+    // Add user message to chat
+    const userMessage: Message = {
+      id: messageId,
+      role: 'user',
+      content: inputValue,
+      timestamp: new Date(),
+    };
+    
+    // Add temporary loading message for assistant
+    const loadingMessage: Message = {
+      id: `${messageId}-response`,
+      role: 'assistant',
+      content: '',
+      loading: true,
+      timestamp: new Date(),
+    };
+    
+    setMessages(prev => [...prev, userMessage, loadingMessage]);
+    setInputValue('');
     setIsLoading(true);
-
+    
     try {
-      console.log(`${isRetry ? 'Retrying' : 'Sending'} query: ${query.substring(0, 30)}${query.length > 30 ? '...' : ''}`);
+      // Check if we have the document ID from Ragie in the metadata
+      const isDocQuery = documents.length > 0 && (selectedDocuments.length === 0);
+      let targetDocumentIds = selectedDocuments;
       
-      // Query the RAG system
-      const response = await ragApi.query({ query });
-
-      // Create a new assistant message
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: response.answer,
-        sender: 'assistant',
-        timestamp: new Date(),
-      };
-
-      // Add the assistant message to the chat
-      setMessages((prev) => [...prev, assistantMessage]);
-      
-      // Clear any failed query state
-      setFailedQuery(null);
-      setRetryCount(0);
-    } catch (error) {
-      console.error('Chat query error:', error);
-      
-      // Store the failed query for retry
-      setFailedQuery(query);
-      
-      // Increment retry count if this was a retry attempt
-      if (isRetry) {
-        setRetryCount(prev => prev + 1);
+      // If no documents are specifically selected but we have documents, 
+      // let's try using all available documents to increase chances of finding matches
+      if (isDocQuery) {
+        targetDocumentIds = documents.map(doc => doc.id);
       }
       
-      // Set error message with proper formatting
-      const errorMessage = error instanceof Error ? error.message : 'Failed to get response';
-      setError(errorMessage.replace(/\n/g, '<br>'));
+      // Prepare query request
+      const queryRequest: QueryRequest = {
+        query: inputValue,
+        rerank,
+        top_k: topK,
+        show_timings: showTimings,
+      };
+      
+      // Add document IDs if any are available
+      if (targetDocumentIds.length > 0) {
+        queryRequest.document_ids = targetDocumentIds;
+      }
+      
+      // Send query to API
+      const response = await ragApi.query(queryRequest);
+      
+      // Check if we got empty results
+      const hasResults = response.chunks && response.chunks.length > 0;
+      
+      // Create a better message when no results are found
+      let finalContent = response.response;
+      if (!hasResults && finalContent.includes("I don't have enough information")) {
+        if (targetDocumentIds.length > 0) {
+          const docNames = documents
+            .filter(doc => targetDocumentIds.includes(doc.id))
+            .map(doc => doc.name)
+            .join(", ");
+            
+          finalContent = `I couldn't find any relevant information about "${inputValue}" in the ${
+            targetDocumentIds.length === 1 ? 'document' : 'documents'
+          } ${docNames}. 
+          
+          This might be because:
+          1. The document doesn't contain information about this specific topic
+          2. The query terms don't match the document content closely enough
+          3. The document processing might not be complete yet
+          
+          You could try:
+          • Rephrasing your query using different terms
+          • Making your query more specific
+          • Checking if your document has finished processing
+          • Uploading additional documents that cover this topic`;
+        }
+      }
+      
+      // Update the loading message with the response
+      setMessages(prev => 
+        prev.map(msg => 
+          msg.id === loadingMessage.id
+            ? {
+                ...msg,
+                content: finalContent,
+                loading: false,
+                sources: response.chunks?.map(chunk => ({
+                  text: chunk.text,
+                  score: chunk.score,
+                  document_id: chunk.document_id,
+                  document_name: chunk.metadata?.document_name || `Document ${chunk.document_id}`,
+                })),
+                timings: response.timings,
+                noResults: !hasResults
+              }
+            : msg
+        )
+      );
+    } catch (error) {
+      console.error('Error querying documents:', error);
+      
+      // Update the loading message with error
+      setMessages(prev => 
+        prev.map(msg => 
+          msg.id === loadingMessage.id
+            ? {
+                ...msg,
+                content: 'Sorry, an error occurred while processing your query. Please try again.',
+                loading: false,
+                error: true,
+              }
+            : msg
+        )
+      );
+      
+      toast({
+        title: 'Query failed',
+        description: 'Failed to get an answer from the system',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     } finally {
       setIsLoading(false);
     }
   };
-
-  // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    sendMessage();
-  };
   
-  // Handle retry
-  const handleRetry = () => {
-    if (failedQuery) {
-      sendMessage(failedQuery, true);
+  // Handle retry for a failed message
+  const handleRetry = async (messageId: string) => {
+    // Find the user message that corresponds to this response
+    const responseMessage = messages.find(msg => msg.id === messageId);
+    if (!responseMessage) return;
+    
+    // Find the preceding user message
+    const userMessageIndex = messages.findIndex(msg => msg.id === messageId) - 1;
+    if (userMessageIndex < 0) return;
+    
+    const userMessage = messages[userMessageIndex];
+    
+    // Set this message to loading
+    setMessages(prev => 
+      prev.map(msg => 
+        msg.id === messageId
+          ? { ...msg, loading: true, error: false, content: '' }
+          : msg
+      )
+    );
+    
+    setIsLoading(true);
+    
+    try {
+      // Prepare query request
+      const queryRequest: QueryRequest = {
+        query: userMessage.content,
+        rerank,
+        top_k: topK,
+        show_timings: showTimings,
+      };
+      
+      // Add selected documents if any
+      if (selectedDocuments.length > 0) {
+        queryRequest.document_ids = selectedDocuments;
+      }
+      
+      // Send query to API
+      const response = await ragApi.query(queryRequest);
+      
+      // Update the message with the response
+      setMessages(prev => 
+        prev.map(msg => 
+          msg.id === messageId
+            ? {
+                ...msg,
+                content: response.response,
+                loading: false,
+                error: false,
+                sources: response.chunks?.map(chunk => ({
+                  text: chunk.text,
+                  score: chunk.score,
+                  document_id: chunk.document_id,
+                  document_name: chunk.metadata?.document_name || `Document ${chunk.document_id}`,
+                })),
+                timings: response.timings,
+              }
+            : msg
+        )
+      );
+    } catch (error) {
+      console.error('Error retrying query:', error);
+      
+      // Update the message with error
+      setMessages(prev => 
+        prev.map(msg => 
+          msg.id === messageId
+            ? {
+                ...msg,
+                content: 'Sorry, an error occurred while processing your query. Please try again.',
+                loading: false,
+                error: true,
+              }
+            : msg
+        )
+      );
+      
+      toast({
+        title: 'Retry failed',
+        description: 'Failed to get an answer from the system',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  // Format timestamp
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  
+  // Handle copying message content to clipboard
+  const handleCopyMessage = (content: string) => {
+    navigator.clipboard.writeText(content);
+    toast({
+      title: 'Copied to clipboard',
+      status: 'success',
+      duration: 1500,
+      isClosable: true,
+    });
   };
-
+  
+  // Handle key press in the input field
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+  
+  // Handle document selection change
+  const handleDocumentSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
+    setSelectedDocuments(selectedOptions);
+  };
+  
   return (
-    <div className="flex flex-col h-[calc(100vh-200px)] max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Chat with RAG</h1>
-
-      {/* Messages container */}
-      <div className="flex-grow overflow-y-auto border rounded-md mb-4 p-4 bg-gray-50">
-        {messages.length === 0 ? (
-          <div className="h-full flex items-center justify-center text-gray-500">
-            <p>Ask a question about your documents</p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-[80%] rounded-lg p-3 ${
-                    message.sender === 'user'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-white border text-gray-800'
-                  }`}
+    <Box>
+      <Flex mb={4} justify="space-between" align="center">
+        <Text fontSize="lg" fontWeight="bold">Chat with your documents</Text>
+        <Button leftIcon={<FiSettings />} onClick={onSettingsOpen} size="sm">
+          Settings
+        </Button>
+      </Flex>
+      
+      {/* Settings Drawer */}
+      <Drawer isOpen={isSettingsOpen} placement="right" onClose={onSettingsClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Chat Settings</DrawerHeader>
+          
+          <DrawerBody>
+            <VStack spacing={6} align="stretch">
+              <FormControl>
+                <FormLabel>Rerank Results</FormLabel>
+                <Tooltip label="Rerank results for better quality. May be slower.">
+                  <Switch
+                    isChecked={rerank}
+                    onChange={(e) => setRerank(e.target.checked)}
+                  />
+                </Tooltip>
+              </FormControl>
+              
+              <FormControl>
+                <FormLabel>Number of Results (Top K)</FormLabel>
+                <Select 
+                  value={topK} 
+                  onChange={(e) => setTopK(Number(e.target.value))}
                 >
-                  <div className="whitespace-pre-wrap">{message.content}</div>
-                  <div
-                    className={`text-xs mt-1 ${
-                      message.sender === 'user' ? 'text-blue-200' : 'text-gray-500'
-                    }`}
+                  {[1, 2, 3, 4, 5, 6, 8, 10].map(k => (
+                    <option key={k} value={k}>{k}</option>
+                  ))}
+                </Select>
+              </FormControl>
+              
+              <FormControl>
+                <FormLabel>Show Query Timings</FormLabel>
+                <Switch
+                  isChecked={showTimings}
+                  onChange={(e) => setShowTimings(e.target.checked)}
+                />
+              </FormControl>
+              
+              <FormControl>
+                <FormLabel>Filter by Documents</FormLabel>
+                {isLoadingDocuments ? (
+                  <Spinner size="sm" />
+                ) : (
+                  <Select
+                    multiple
+                    height="120px"
+                    value={selectedDocuments}
+                    onChange={handleDocumentSelectionChange}
                   >
-                    {formatTime(message.timestamp)}
-                  </div>
-                </div>
-              </div>
+                    {documents.map(doc => (
+                      <option key={doc.id} value={doc.id}>
+                        {doc.name}
+                      </option>
+                    ))}
+                  </Select>
+                )}
+                {selectedDocuments.length > 0 && (
+                  <Text fontSize="xs" mt={1}>
+                    {selectedDocuments.length} document{selectedDocuments.length > 1 ? 's' : ''} selected
+                  </Text>
+                )}
+              </FormControl>
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+      
+      {/* Chat Messages */}
+      <Box
+        height="60vh"
+        overflowY="auto"
+        borderWidth={1}
+        borderRadius="md"
+        p={4}
+        mb={4}
+        bg="white"
+      >
+        {messages.length === 0 ? (
+          <Flex 
+            height="100%" 
+            align="center" 
+            justify="center" 
+            direction="column"
+            color="gray.500"
+          >
+            <Text fontSize="lg" mb={2}>
+              No messages yet
+            </Text>
+            <Text fontSize="sm">
+              Start by asking a question about your documents
+            </Text>
+          </Flex>
+        ) : (
+          <VStack spacing={4} align="stretch">
+            {messages.map((message) => (
+              <Box 
+                key={message.id}
+                alignSelf={message.role === 'user' ? 'flex-end' : 'flex-start'}
+                maxWidth="80%"
+                width={message.role === 'assistant' ? '80%' : 'auto'}
+              >
+                <Card 
+                  bg={message.role === 'user' ? 'primary.500' : 'white'} 
+                  color={message.role === 'user' ? 'white' : 'black'}
+                  shadow="md"
+                  borderRadius="lg"
+                >
+                  <CardBody>
+                    {message.loading ? (
+                      <Flex justify="center" align="center" p={4}>
+                        <Spinner mr={3} />
+                        <Text>Thinking...</Text>
+                      </Flex>
+                    ) : (
+                      <>
+                        <Box mb={message.role === 'assistant' ? 2 : 0}>
+                          {message.role === 'assistant' ? (
+                            <Box className="markdown-content">
+                              <ReactMarkdown>{message.content}</ReactMarkdown>
+                            </Box>
+                          ) : (
+                            <Text>{message.content}</Text>
+                          )}
+                        </Box>
+                        
+                        {message.role === 'assistant' && !message.error && (
+                          <>
+                            {/* Display source information if available */}
+                            {message.sources && message.sources.length > 0 && (
+                              <Box mt={4}>
+                                <Accordion allowToggle>
+                                  <AccordionItem border="none">
+                                    <AccordionButton 
+                                      px={2} 
+                                      py={1} 
+                                      bg="gray.100" 
+                                      borderRadius="md"
+                                      _hover={{ bg: 'gray.200' }}
+                                    >
+                                      <Box flex="1" textAlign="left" fontSize="sm">
+                                        Source Documents ({message.sources.length})
+                                      </Box>
+                                      <AccordionIcon />
+                                    </AccordionButton>
+                                    <AccordionPanel pb={4}>
+                                      <VStack spacing={3} align="stretch">
+                                        {message.sources.map((source, index) => (
+                                          <Box 
+                                            key={index} 
+                                            p={2} 
+                                            borderWidth={1} 
+                                            borderRadius="md"
+                                            fontSize="sm"
+                                          >
+                                            <Flex justify="space-between" mb={1}>
+                                              <Badge colorScheme="blue">{source.document_name}</Badge>
+                                              <Badge colorScheme="green">
+                                                Score: {source.score.toFixed(2)}
+                                              </Badge>
+                                            </Flex>
+                                            <Text fontSize="xs" fontStyle="italic">
+                                              {source.text}
+                                            </Text>
+                                          </Box>
+                                        ))}
+                                      </VStack>
+                                    </AccordionPanel>
+                                  </AccordionItem>
+                                </Accordion>
+                              </Box>
+                            )}
+                            
+                            {/* Display query timings if enabled */}
+                            {showTimings && message.timings && (
+                              <Box mt={2} fontSize="xs" color="gray.500">
+                                <Text>
+                                  Retrieved in {(message.timings.retrieval * 1000).toFixed(0)}ms | 
+                                  Response in {(message.timings.response * 1000).toFixed(0)}ms | 
+                                  Total: {(message.timings.total * 1000).toFixed(0)}ms
+                                </Text>
+                              </Box>
+                            )}
+                          </>
+                        )}
+                      </>
+                    )}
+                  </CardBody>
+                </Card>
+                
+                {/* Message actions */}
+                {message.role === 'assistant' && !message.loading && (
+                  <Flex mt={1} justifyContent="flex-end">
+                    <IconButton
+                      aria-label="Copy message"
+                      icon={<FiCopy />}
+                      size="xs"
+                      variant="ghost"
+                      onClick={() => handleCopyMessage(message.content)}
+                    />
+                    {message.error && (
+                      <IconButton
+                        aria-label="Retry"
+                        icon={<FiRefreshCw />}
+                        size="xs"
+                        variant="ghost"
+                        onClick={() => handleRetry(message.id)}
+                        ml={1}
+                      />
+                    )}
+                  </Flex>
+                )}
+              </Box>
             ))}
             <div ref={messagesEndRef} />
-          </div>
+          </VStack>
         )}
-      </div>
-
-      {/* Error message */}
-      <ErrorDisplay 
-        error={error}
-        onRetry={failedQuery ? handleRetry : undefined}
-        retryCount={retryCount}
-        isRetrying={isLoading && !!failedQuery}
-        maxRetries={3}
-      />
-
-      {/* Input form */}
-      <form onSubmit={handleSubmit} className="flex space-x-2">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask a question..."
+      </Box>
+      
+      {/* Input Area */}
+      <Flex>
+        <Textarea
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyPress}
+          placeholder="Ask a question about your documents..."
+          mr={2}
+          resize="none"
+          rows={2}
           disabled={isLoading}
-          className="flex-grow px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button
-          type="submit"
-          disabled={!input.trim() || isLoading}
-          className={`px-4 py-2 rounded-md text-white font-medium ${
-            !input.trim() || isLoading
-              ? 'bg-gray-400 cursor-not-allowed'
-              : 'bg-blue-600 hover:bg-blue-700'
-          }`}
-        >
-          {isLoading ? 'Thinking...' : 'Send'}
-        </button>
-      </form>
-    </div>
+        <IconButton
+          aria-label="Send message"
+          icon={<FiSend />}
+          onClick={handleSendMessage}
+          isLoading={isLoading}
+          disabled={!inputValue.trim()}
+          colorScheme="primary"
+        />
+      </Flex>
+    </Box>
   );
 };
 

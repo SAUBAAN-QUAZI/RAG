@@ -1,397 +1,655 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { ragApi } from '../api/ragApi';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Text,
+  VStack,
+  HStack,
+  Progress,
+  useToast,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Badge,
+  Tooltip,
+  IconButton,
+  Flex,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Spinner,
+} from '@chakra-ui/react';
+import { ragApi, DocumentUploadResult, BatchUploadResultItem } from '../api/ragApi';
+import { FaUpload, FaTrash, FaFile, FaInfoCircle } from 'react-icons/fa';
+
+// Constants for upload limits
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB max file size
+const MAX_BATCH_SIZE = 5; // Maximum number of files in a batch
 
 /**
- * Document upload component that supports both single and multiple file uploads
+ * Interface for document metadata
+ */
+interface DocumentMetadata {
+  title?: string;
+  author?: string;
+  description?: string;
+}
+
+/**
+ * Interface for batch upload results
+ */
+interface BatchUploadResult {
+  id: string;
+  filename: string;
+  status: 'success' | 'error' | 'processing';
+  message?: string;
+  ragie_document_id?: string; // Added for Ragie integration
+  details?: any;
+}
+
+/**
+ * DocumentUpload component for handling document uploads to the RAG system
  */
 const DocumentUpload: React.FC = () => {
-  // Define file size constants
-  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-  const MAX_BATCH_SIZE = 20 * 1024 * 1024; // 20MB total
-  
-  const [files, setFiles] = useState<File[]>([]);
-  const [titlePrefix, setTitlePrefix] = useState('');
-  const [author, setAuthor] = useState('');
-  const [description, setDescription] = useState('');
+  // State for upload form
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [metadata, setMetadata] = useState<DocumentMetadata>({});
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' | 'warning' } | null>(null);
+  const [batchResults, setBatchResults] = useState<BatchUploadResult[]>([]);
+  const [showResult, setShowResult] = useState(false);
   
-  // Define a more specific type for batch results
-  interface BatchUploadResult {
-    id: string;
-    filename: string;
-    status: 'success' | 'error';
-    message?: string;
-    details?: {
-      chunk_count: number;
-      [key: string]: number | string | boolean | object | null | undefined;
-    };
-  }
+  // For document deletion
+  const [isDeletingDocument, setIsDeletingDocument] = useState(false);
+  const [documentToDelete, setDocumentToDelete] = useState<string | null>(null);
   
-  const [batchResults, setBatchResults] = useState<BatchUploadResult[] | null>(null);
-
-  // Handle file drop
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles.length > 0) {
-      // Filter to only PDFs
-      const pdfFiles = acceptedFiles.filter(file => file.type === 'application/pdf');
-      
-      if (pdfFiles.length === 0) {
-        setMessage({
-          text: 'Only PDF files are supported',
-          type: 'error',
-        });
-        return;
-      }
-      
-      if (pdfFiles.length > 10) {
-        setMessage({
-          text: 'Maximum 10 files can be uploaded at once',
-          type: 'error',
-        });
-        return;
-      }
-
-      // Check file size limits
-      const oversizedFiles = pdfFiles.filter(file => file.size > MAX_FILE_SIZE);
-      if (oversizedFiles.length > 0) {
-        setMessage({
-          text: `${oversizedFiles.length} files exceed the maximum size of ${(MAX_FILE_SIZE / (1024 * 1024)).toFixed(1)}MB: ${oversizedFiles.map(f => f.name).join(', ')}`,
-          type: 'error',
-        });
-        
-        // Filter out oversized files if there are any valid files
-        const validFiles = pdfFiles.filter(file => file.size <= MAX_FILE_SIZE);
-        if (validFiles.length > 0) {
-          setFiles(validFiles);
-          setMessage({
-            text: `${oversizedFiles.length} files were removed because they exceed the ${(MAX_FILE_SIZE / (1024 * 1024)).toFixed(1)}MB limit. Proceeding with ${validFiles.length} valid files.`,
-            type: 'warning',
-          });
-        }
-        return;
-      }
-      
-      // Check total batch size
-      const totalSize = pdfFiles.reduce((acc, file) => acc + file.size, 0);
-      if (totalSize > MAX_BATCH_SIZE) {
-        setMessage({
-          text: `Total upload size (${(totalSize / (1024 * 1024)).toFixed(2)}MB) exceeds the maximum of ${(MAX_BATCH_SIZE / (1024 * 1024))}MB.`,
-          type: 'error',
-        });
-        return;
-      }
-      
-      setFiles(pdfFiles);
-      setMessage(null);
-      
-      // Calculate total size
-      const totalSizeMB = totalSize / (1024 * 1024);
-      
-      // Show a warning for large uploads
-      if (totalSizeMB > 2) {
-        setMessage({
-          text: `This is a large upload (${totalSizeMB.toFixed(2)}MB total). Processing may take several minutes.`,
-          type: 'info',
-        });
-      }
+  // State for document list
+  const [documents, setDocuments] = useState<Array<{ id: string; name: string; status: string; metadata: Record<string, any> }>>([]);
+  const [isLoadingDocuments, setIsLoadingDocuments] = useState(false);
+  
+  // Access Chakra UI toast
+  const toast = useToast();
+  
+  // Modal control for document details
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedDocument, setSelectedDocument] = useState<any>(null);
+  
+  /**
+   * Function to fetch all documents
+   */
+  const fetchDocuments = useCallback(async () => {
+    setIsLoadingDocuments(true);
+    try {
+      const docs = await ragApi.listDocuments();
+      setDocuments(docs);
+    } catch (error) {
+      console.error('Error fetching documents:', error);
+      toast({
+        title: 'Error fetching documents',
+        description: error instanceof Error ? error.message : 'Failed to fetch documents',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setIsLoadingDocuments(false);
     }
-  }, [MAX_BATCH_SIZE, MAX_FILE_SIZE]);
-
-  // Configure dropzone
+  }, [toast]);
+  
+  // Fetch documents on component mount
+  React.useEffect(() => {
+    fetchDocuments();
+  }, [fetchDocuments]);
+  
+  /**
+   * Handle file drop using react-dropzone
+   */
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    // Filter for PDF files only
+    const pdfFiles = acceptedFiles.filter(
+      file => file.type === 'application/pdf' ||
+              file.name.toLowerCase().endsWith('.pdf')
+    );
+    
+    if (pdfFiles.length < acceptedFiles.length) {
+      toast({
+        title: 'Non-PDF files excluded',
+        description: 'Only PDF files are supported at this time.',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+    
+    // Apply size limit filter
+    const validFiles = pdfFiles.filter(file => {
+      if (file.size > MAX_FILE_SIZE) {
+        toast({
+          title: 'File too large',
+          description: `"${file.name}" exceeds the maximum file size of 50 MB.`,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+        return false;
+      }
+      return true;
+    });
+    
+    // Limit the number of files
+    if (validFiles.length > MAX_BATCH_SIZE) {
+      toast({
+        title: 'Too many files',
+        description: `Only ${MAX_BATCH_SIZE} files can be uploaded at once. The first ${MAX_BATCH_SIZE} valid files were selected.`,
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      });
+      setSelectedFiles(validFiles.slice(0, MAX_BATCH_SIZE));
+    } else {
+      setSelectedFiles(validFiles);
+    }
+  }, [toast]);
+  
+  /**
+   * Configure dropzone
+   */
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
       'application/pdf': ['.pdf'],
     },
-    maxFiles: 10,
-    multiple: true,
+    maxFiles: MAX_BATCH_SIZE,
+    maxSize: MAX_FILE_SIZE,
   });
-
-  // Track upload progress (for actual uploads, no longer simulated)
-  const updateUploadProgress = (progress: number) => {
-    setUploadProgress(progress);
+  
+  /**
+   * Handle input change for metadata fields
+   */
+  const handleMetadataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setMetadata(prev => ({
+      ...prev,
+      [name]: value,
+    }));
   };
-
-  // Remove a file from the list (currently unused but kept for future use)
-  // Commented out to satisfy ESLint while preserving for future functionality
-  /*
-  const removeFile = (indexToRemove: number) => {
-    setFiles(prevFiles => prevFiles.filter((_, index) => index !== indexToRemove));
-  };
-  */
-
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (files.length === 0) {
-      setMessage({
-        text: 'Please select at least one file to upload',
-        type: 'error',
+  
+  /**
+   * Handle upload submit
+   */
+  const handleUpload = async () => {
+    if (selectedFiles.length === 0) {
+      toast({
+        title: 'No files selected',
+        description: 'Please select one or more PDF files to upload.',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
       });
       return;
     }
-
+    
     setIsUploading(true);
     setUploadProgress(0);
-    setMessage(null);
-    setBatchResults(null);
-
+    setBatchResults([]);
+    setShowResult(false);
+    
     try {
-      if (files.length === 1) {
+      if (selectedFiles.length === 1) {
         // Single file upload
-        const file = files[0];
-        const metadata = {
-          title: titlePrefix ? `${titlePrefix} - ${file.name}` : file.name,
-          author,
-          description,
-        };
-
-        // Use the onProgress callback to update progress
-        await ragApi.uploadDocument(file, metadata, updateUploadProgress);
-
-        // Upload successful
-        setMessage({
-          text: 'Document uploaded successfully!',
-          type: 'success',
-        });
+        const result: DocumentUploadResult = await ragApi.uploadDocument(
+          selectedFiles[0],
+          metadata,
+          (progress) => setUploadProgress(progress)
+        );
+        
+        // Create a standardized result for UI
+        setBatchResults([{
+          id: result.document_id || 'unknown',
+          filename: selectedFiles[0].name,
+          status: 'success',
+          message: result.message,
+          ragie_document_id: result.ragie_document_id,
+        }]);
       } else {
-        // Multiple files upload
-        const metadata = {
-          titlePrefix,
-          author,
-          description,
+        // Batch upload
+        const batchMetadata = {
+          titlePrefix: metadata.title,
+          author: metadata.author,
+          description: metadata.description,
         };
-
-        // Use the onProgress callback to update progress
-        const result = await ragApi.uploadMultipleDocuments(files, metadata, updateUploadProgress);
-
-        // Show batch results
-        setMessage({
-          text: `Upload complete! Successfully processed ${result.successful_count} out of ${result.successful_count + result.failed_count} documents.`,
-          type: result.failed_count === 0 ? 'success' : 'warning',
-        });
-        setBatchResults(result.results);
+        
+        const batchResult = await ragApi.uploadMultipleDocuments(
+          selectedFiles,
+          batchMetadata,
+          (progress) => setUploadProgress(progress)
+        );
+        
+        setBatchResults(batchResult.results || []);
       }
+      
+      setShowResult(true);
+      toast({
+        title: 'Upload completed',
+        description: 'Documents have been submitted for processing.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      
+      // Refresh document list
+      fetchDocuments();
     } catch (error) {
-      // Handle upload errors
       console.error('Upload error:', error);
-      setMessage({
-        text: `Error uploading document(s): ${error instanceof Error ? error.message : 'Unknown error'}`,
-        type: 'error',
+      toast({
+        title: 'Upload failed',
+        description: error instanceof Error ? error.message : 'Failed to upload documents',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
       });
     } finally {
       setIsUploading(false);
+      setUploadProgress(0);
     }
   };
-
+  
+  /**
+   * Clear selected files
+   */
+  const handleClear = () => {
+    setSelectedFiles([]);
+    setBatchResults([]);
+    setShowResult(false);
+  };
+  
+  /**
+   * Handle document deletion
+   */
+  const handleDeleteDocument = async (documentId: string) => {
+    setDocumentToDelete(documentId);
+    setIsDeletingDocument(true);
+    
+    try {
+      await ragApi.deleteDocument(documentId);
+      toast({
+        title: 'Document deleted',
+        description: 'The document has been successfully deleted.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      
+      // Refresh the documents list
+      fetchDocuments();
+    } catch (error) {
+      console.error('Error deleting document:', error);
+      toast({
+        title: 'Deletion failed',
+        description: error instanceof Error ? error.message : 'Failed to delete document',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setIsDeletingDocument(false);
+      setDocumentToDelete(null);
+    }
+  };
+  
+  /**
+   * Show document details in modal
+   */
+  const handleShowDetails = (document: any) => {
+    setSelectedDocument(document);
+    onOpen();
+  };
+  
+  /**
+   * Get badge color based on document status
+   */
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'success':
+      case 'complete':
+      case 'indexed':
+        return 'green';
+      case 'processing':
+        return 'yellow';
+      case 'error':
+      case 'failed':
+        return 'red';
+      default:
+        return 'gray';
+    }
+  };
+  
   return (
-    <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Upload Document</h1>
-
-      {/* Message display */}
-      {message && (
-        <div
-          className={`p-4 mb-6 rounded-md ${
-            message.type === 'success' 
-              ? 'bg-green-100 text-green-700' 
-              : message.type === 'error'
-                ? 'bg-red-100 text-red-700'
-                : message.type === 'info'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'bg-yellow-100 text-yellow-700'
-          }`}
-        >
-          {message.text}
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* File dropzone */}
-        <div
-          {...getRootProps()}
-          className={`border-2 border-dashed rounded-md p-6 text-center cursor-pointer transition-colors ${
-            isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400'
-          } ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
-        >
-          <input {...getInputProps()} disabled={isUploading} />
-          {files.length > 0 ? (
-            <div>
-              <p className="font-medium">{files.map(file => file.name).join(', ')}</p>
-              <p className="text-sm text-gray-500">
-                {(files.reduce((acc, file) => acc + file.size, 0) / 1024 / 1024).toFixed(2)} MB
-              </p>
-              {!isUploading && (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setFiles([]);
-                  }}
-                  className="mt-2 text-red-600 hover:text-red-800 text-sm"
-                >
-                  Remove all files
-                </button>
-              )}
-            </div>
-          ) : (
-            <div>
-              <p className="text-gray-600">
-                Drag and drop PDF files here, or click to select files
-              </p>
-              <p className="text-sm text-gray-500 mt-1">Maximum 10 files, each up to 5 MB</p>
-            </div>
-          )}
-        </div>
-
-        {/* Show upload progress bar */}
-        {isUploading && (
-          <div className="mb-6">
-            <div className="w-full bg-gray-200 rounded-full h-4 mb-2">
-              <div
-                className="bg-blue-600 h-4 rounded-full transition-all duration-300"
-                style={{ width: `${uploadProgress}%` }}
-              ></div>
-            </div>
-            <div className="text-sm text-gray-600">
-              {uploadProgress < 50 ? (
-                <span>Uploading document... {uploadProgress}%</span>
-              ) : uploadProgress < 95 ? (
-                <span>Processing document... {uploadProgress}%</span>
-              ) : uploadProgress < 100 ? (
-                <span>Almost done... {uploadProgress}%</span>
-              ) : (
-                <span>Upload complete! 100%</span>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Metadata fields */}
-        <div className="space-y-4">
-          <div>
-            <label htmlFor="titlePrefix" className="block text-sm font-medium text-gray-700 mb-1">
-              Title prefix (optional)
-            </label>
-            <input
-              type="text"
-              id="titlePrefix"
-              value={titlePrefix}
-              onChange={(e) => setTitlePrefix(e.target.value)}
-              disabled={isUploading}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="author" className="block text-sm font-medium text-gray-700 mb-1">
-              Author (optional)
-            </label>
-            <input
-              type="text"
-              id="author"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
-              disabled={isUploading}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-              Description (optional)
-            </label>
-            <textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={3}
-              disabled={isUploading}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        </div>
-
-        {/* Submit button */}
-        <div>
-          <button
-            type="submit"
-            disabled={files.length === 0 || isUploading}
-            className={`w-full py-2 px-4 rounded-md text-white font-medium ${
-              files.length === 0 || isUploading
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-blue-600 hover:bg-blue-700'
-            }`}
+    <Box p={4} borderWidth="1px" borderRadius="lg" bg="white" shadow="md">
+      <VStack spacing={6} align="stretch">
+        <Flex justify="space-between" align="center">
+          <Text fontSize="2xl" fontWeight="bold">Document Upload</Text>
+          <Button 
+            leftIcon={<FaUpload />} 
+            colorScheme="blue" 
+            size="sm" 
+            onClick={fetchDocuments} 
+            isLoading={isLoadingDocuments}
           >
-            {isUploading ? 'Uploading...' : 'Upload Documents'}
-          </button>
-          {files.length > 0 && !isUploading && (
-            <p className="text-xs text-gray-500 mt-1 text-center">
-              Processing time depends on document size. Large documents may take several minutes.
-            </p>
+            Refresh
+          </Button>
+        </Flex>
+        
+        {/* Upload Form */}
+        <Box borderWidth="1px" borderRadius="md" p={4}>
+          <VStack spacing={4} align="stretch">
+            <Box
+              {...getRootProps()}
+              p={5}
+              borderWidth="2px"
+              borderRadius="md"
+              borderStyle="dashed"
+              borderColor={isDragActive ? "blue.400" : "gray.300"}
+              bg={isDragActive ? "blue.50" : "gray.50"}
+              cursor="pointer"
+              _hover={{ borderColor: "blue.300", bg: "blue.50" }}
+              transition="all 0.2s"
+            >
+              <input {...getInputProps()} />
+              <VStack spacing={2} justify="center">
+                <Text textAlign="center" fontSize="sm" color="gray.600">
+                  {isDragActive
+                    ? "Drop the PDF files here..."
+                    : "Drag and drop PDF files here, or click to select files"}
+                </Text>
+                <Text textAlign="center" fontSize="xs" color="gray.500">
+                  Maximum file size: 50 MB, up to 5 files at once
+                </Text>
+                <Box>
+                  <Button size="sm" leftIcon={<FaFile />} colorScheme="blue" variant="outline">
+                    Select Files
+                  </Button>
+                </Box>
+              </VStack>
+            </Box>
+            
+            {/* Selected Files List */}
+            {selectedFiles.length > 0 && (
+              <Box>
+                <Text fontSize="sm" fontWeight="medium" mb={2}>
+                  Selected Files ({selectedFiles.length}):
+                </Text>
+                <VStack spacing={1} align="stretch">
+                  {selectedFiles.map((file, index) => (
+                    <Flex 
+                      key={index} 
+                      p={1} 
+                      borderWidth="1px" 
+                      borderRadius="md"
+                      justify="space-between"
+                      align="center"
+                    >
+                      <HStack>
+                        <FaFile size="0.8em" />
+                        <Text fontSize="sm" isTruncated maxW="300px">
+                          {file.name}
+                        </Text>
+                      </HStack>
+                      <Text fontSize="xs" color="gray.500">
+                        {(file.size / 1024 / 1024).toFixed(2)} MB
+                      </Text>
+                    </Flex>
+                  ))}
+                </VStack>
+              </Box>
+            )}
+            
+            {/* Metadata Form */}
+            <FormControl>
+              <FormLabel fontSize="sm">Title or Title Prefix (for batch uploads)</FormLabel>
+              <Input
+                size="sm"
+                name="title"
+                value={metadata.title || ''}
+                onChange={handleMetadataChange}
+                placeholder="Enter a title for the document(s)"
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel fontSize="sm">Author (optional)</FormLabel>
+              <Input
+                size="sm"
+                name="author"
+                value={metadata.author || ''}
+                onChange={handleMetadataChange}
+                placeholder="Enter author name"
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel fontSize="sm">Description (optional)</FormLabel>
+              <Input
+                size="sm"
+                name="description"
+                value={metadata.description || ''}
+                onChange={handleMetadataChange}
+                placeholder="Enter a brief description"
+              />
+            </FormControl>
+            
+            {/* Upload Progress */}
+            {isUploading && (
+              <Box>
+                <Text fontSize="sm" mb={1}>
+                  Uploading and processing files... {uploadProgress}%
+                </Text>
+                <Progress 
+                  value={uploadProgress} 
+                  size="sm" 
+                  colorScheme="blue" 
+                  isAnimated
+                  hasStripe
+                />
+              </Box>
+            )}
+            
+            {/* Action Buttons */}
+            <HStack spacing={4} justify="flex-end">
+              <Button
+                size="sm"
+                onClick={handleClear}
+                isDisabled={selectedFiles.length === 0 || isUploading}
+              >
+                Clear
+              </Button>
+              <Button
+                size="sm"
+                colorScheme="blue"
+                onClick={handleUpload}
+                isLoading={isUploading}
+                loadingText="Uploading..."
+                leftIcon={<FaUpload />}
+                isDisabled={selectedFiles.length === 0 || isUploading}
+              >
+                Upload
+              </Button>
+            </HStack>
+          </VStack>
+        </Box>
+        
+        {/* Upload Results */}
+        {showResult && batchResults.length > 0 && (
+          <Box borderWidth="1px" borderRadius="md" p={4}>
+            <Text fontSize="md" fontWeight="bold" mb={2}>
+              Upload Results
+            </Text>
+            <Table size="sm" variant="simple">
+              <Thead>
+                <Tr>
+                  <Th>Filename</Th>
+                  <Th>Status</Th>
+                  <Th>Message</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {batchResults.map((result, index) => (
+                  <Tr key={index}>
+                    <Td>{result.filename}</Td>
+                    <Td>
+                      <Badge colorScheme={getStatusColor(result.status)}>
+                        {result.status}
+                      </Badge>
+                    </Td>
+                    <Td fontSize="xs">{result.message}</Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </Box>
+        )}
+        
+        {/* Documents List */}
+        <Box borderWidth="1px" borderRadius="md" p={4}>
+          <Text fontSize="md" fontWeight="bold" mb={2}>
+            Uploaded Documents
+          </Text>
+          
+          {isLoadingDocuments ? (
+            <Flex justify="center" p={4}>
+              <Spinner size="md" />
+            </Flex>
+          ) : documents.length > 0 ? (
+            <Table size="sm" variant="simple">
+              <Thead>
+                <Tr>
+                  <Th>Name</Th>
+                  <Th>Status</Th>
+                  <Th>Actions</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {documents.map((doc) => (
+                  <Tr key={doc.id}>
+                    <Td isTruncated maxW="200px">{doc.name}</Td>
+                    <Td>
+                      <Badge colorScheme={getStatusColor(doc.status)}>
+                        {doc.status}
+                      </Badge>
+                    </Td>
+                    <Td>
+                      <HStack spacing={2}>
+                        <Tooltip label="View Details">
+                          <IconButton
+                            aria-label="View document details"
+                            icon={<FaInfoCircle />}
+                            size="xs"
+                            onClick={() => handleShowDetails(doc)}
+                          />
+                        </Tooltip>
+                        <Tooltip label="Delete Document">
+                          <IconButton
+                            aria-label="Delete document"
+                            icon={<FaTrash />}
+                            size="xs"
+                            colorScheme="red"
+                            variant="ghost"
+                            isLoading={isDeletingDocument && documentToDelete === doc.id}
+                            onClick={() => handleDeleteDocument(doc.id)}
+                          />
+                        </Tooltip>
+                      </HStack>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          ) : (
+            <Text textAlign="center" fontSize="sm" color="gray.500" p={4}>
+              No documents found. Upload some documents to get started.
+            </Text>
           )}
-        </div>
-      </form>
-
-      {/* Display batch results if available */}
-      {batchResults && batchResults.length > 0 && (
-        <div className="mt-8">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Upload Results</h3>
-          <div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
-            <div className="px-4 py-4 sm:px-6 font-medium flex justify-between">
-              <div>Filename</div>
-              <div>Status</div>
-            </div>
-            <div className="divide-y divide-gray-200">
-              {batchResults.map((result, index) => (
-                <div key={index} className="px-4 py-4 sm:px-6 flex justify-between items-center">
-                  <div className="truncate max-w-xs">{result.filename}</div>
-                  <div>
-                    {result.status === 'success' ? (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        Success {result.details && `(${result.details.chunk_count} chunks)`}
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                        Failed
-                      </span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Instructions section */}
-      <div className="mt-8 bg-blue-50 p-4 rounded-md">
-        <h3 className="text-lg font-medium text-blue-900 mb-2">About Document Upload</h3>
-        <ul className="list-disc list-inside text-sm text-blue-800 space-y-1">
-          <li>Supported formats: PDF files only</li>
-          <li>Maximum file size: 50MB per file</li>
-          <li>You can upload up to 10 files at once</li>
-          <li>Processing may take several minutes for large documents</li>
-          <li>Documents will be chunked and embedded for retrieval</li>
-          <li>After uploading, you can query the documents in the Chat tab</li>
-        </ul>
-      </div>
-
-      {/* Add a note about processing time */}
-      <div className="text-sm text-gray-500 mt-6">
-        <p><strong>Note:</strong> The upload process consists of two phases:</p>
-        <ol className="list-decimal ml-5 mt-2">
-          <li>File transfer to the server (typically quick)</li>
-          <li>Document processing, embedding, and storage (may take several minutes for large documents)</li>
-        </ol>
-        <p className="mt-2">Please wait for the entire process to complete before querying your documents.</p>
-      </div>
-    </div>
+        </Box>
+      </VStack>
+      
+      {/* Document Details Modal */}
+      <Modal isOpen={isOpen} onClose={onClose} size="lg">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Document Details</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {selectedDocument && (
+              <VStack align="stretch" spacing={4}>
+                <Box>
+                  <Text fontWeight="bold">Name:</Text>
+                  <Text>{selectedDocument.name}</Text>
+                </Box>
+                <Box>
+                  <Text fontWeight="bold">ID:</Text>
+                  <Text fontSize="sm" fontFamily="monospace">{selectedDocument.id}</Text>
+                </Box>
+                <Box>
+                  <Text fontWeight="bold">Status:</Text>
+                  <Badge colorScheme={getStatusColor(selectedDocument.status)}>
+                    {selectedDocument.status}
+                  </Badge>
+                </Box>
+                
+                {/* Document Metadata */}
+                <Accordion allowToggle>
+                  <AccordionItem>
+                    <AccordionButton>
+                      <Box flex="1" textAlign="left">
+                        <Text fontWeight="semibold">Metadata</Text>
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <AccordionPanel pb={4}>
+                      <VStack align="stretch" spacing={2}>
+                        {selectedDocument.metadata && Object.entries(selectedDocument.metadata).map(([key, value]) => (
+                          <Box key={key}>
+                            <Text fontSize="sm" fontWeight="bold">{key}:</Text>
+                            <Text fontSize="sm" whiteSpace="pre-wrap" overflowWrap="break-word">
+                              {typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value)}
+                            </Text>
+                          </Box>
+                        ))}
+                        {(!selectedDocument.metadata || Object.keys(selectedDocument.metadata).length === 0) && (
+                          <Text fontSize="sm" color="gray.500">No metadata available</Text>
+                        )}
+                      </VStack>
+                    </AccordionPanel>
+                  </AccordionItem>
+                </Accordion>
+              </VStack>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </Box>
   );
 };
 

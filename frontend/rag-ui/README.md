@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RAG UI with Ragie Integration
+
+This is a modern frontend application for interacting with the Ragie RAG (Retrieval Augmented Generation) system. It provides a user-friendly interface for uploading documents, managing your document collection, and asking questions that leverage RAG capabilities.
+
+## Features
+
+- **Document Management**:
+  - Upload PDF documents (single or batch)
+  - View document status and metadata
+  - Delete documents when no longer needed
+
+- **RAG-powered Chat**:
+  - Ask questions about your documents
+  - View source chunks for transparency
+  - Configure retrieval settings (reranking, top-k, etc.)
+  - Filter queries by specific documents
+
+- **Advanced Features**:
+  - Document metadata support
+  - Query timing information
+  - Markdown rendering in responses
+  - Copy/regenerate responses
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js 18+ and npm/yarn
+- Ragie backend server running
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   cd frontend/rag-ui
+   npm install
+   # or
+   yarn install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Configure the environment:
+   Create a `.env.local` file in the project root with:
+   ```
+   NEXT_PUBLIC_API_URL=http://localhost:8000
+   ```
+   Replace the URL with your Ragie API endpoint.
 
-## Learn More
+4. Run the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Document Upload
 
-## Deploy on Vercel
+1. Navigate to the "Document Upload" page
+2. Drag and drop PDF files or click to select files
+3. Add optional metadata (title, author, description)
+4. Click "Upload" and wait for processing to complete
+5. View uploaded documents in the list below
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Chat with Documents
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Navigate to the "Chat" page
+2. Use the gear icon to configure retrieval settings
+3. Optionally select specific documents to query
+4. Type your question and press Enter or click Send
+5. View the AI's response with source information
+6. Click the dropdown to see source chunks that contributed to the answer
+
+## Integration with Ragie
+
+This frontend communicates with the Ragie backend through a REST API. The integration supports:
+
+- Document upload and processing
+- Document listing and management
+- RAG queries with configurable parameters
+- Source retrieval and reranking
+
+## Configuration Options
+
+### Environment Variables
+
+- `NEXT_PUBLIC_API_URL`: Backend API URL (required)
+- `NODE_ENV`: Set to 'production' for production deployment
+
+### Chat Options
+
+- **Reranking**: Enable or disable reranking of retrieved chunks
+- **Top-K**: Number of chunks to retrieve (1-10)
+- **Show Timings**: Display query processing time information
+- **Show Source Documents**: Display source chunks that contributed to the answer
+
+## Development
+
+The project structure follows Next.js conventions:
+
+- `src/components/`: UI components 
+- `src/api/`: API client and types
+- `src/config/`: Configuration settings
+- `src/pages/`: Next.js pages
+- `public/`: Static assets
+
+## Troubleshooting
+
+If you encounter issues:
+
+1. Check the Ragie backend server is running
+2. Verify API URL in `.env.local` is correct
+3. Look for errors in browser console
+4. Check network requests in browser developer tools
+5. Ensure all dependencies are installed
+6. Check backend logs for errors
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
