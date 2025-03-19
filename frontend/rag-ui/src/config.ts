@@ -5,9 +5,14 @@
 // Default API URL (fallback if not set in .env.local)
 const DEFAULT_API_URL = 'http://localhost:8000';
 
-// Environment variable parsing helper
+// Environment variable parsing helper with logging
 const getEnvVar = (key: string, defaultValue: string): string => {
-  const value = process.env[`NEXT_PUBLIC_${key}`];
+  const envKey = `NEXT_PUBLIC_${key}`;
+  const value = process.env[envKey];
+  
+  // Log the environment variable value being used
+  console.log(`Config: Reading ${envKey}=${value || '(not set, using default)'}`);
+  
   return value || defaultValue;
 };
 
@@ -29,12 +34,30 @@ const getEnvNumber = (key: string, defaultValue: number): number => {
   return defaultValue;
 };
 
+// Get the API URL with runtime verification
+const getApiUrl = (): string => {
+  // Try to get from runtime environment
+  const apiUrl = getEnvVar('API_URL', DEFAULT_API_URL);
+  
+  // Force override in production to prevent localhost
+  if (process.env.NODE_ENV === 'production' && apiUrl.includes('localhost')) {
+    console.warn('CONFIG WARNING: Using localhost in production! Forcing to use Render backend');
+    return 'https://rag-bpql.onrender.com';
+  }
+  
+  console.log(`Config: Using API URL: ${apiUrl}`);
+  return apiUrl;
+};
+
 /**
  * Application configuration
  */
 const config = {
   // API configuration
-  apiUrl: getEnvVar('API_URL', DEFAULT_API_URL),
+  apiUrl: getApiUrl(),
+  
+  // Version (for cache busting)
+  version: getEnvVar('VERSION', '1.0.0'),
   
   // Upload configuration
   maxFileSize: getEnvNumber('MAX_FILE_SIZE', 52428800), // 50MB default

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from './providers';
+import ConfigCheck from '../components/ConfigCheck';
 
 export const metadata: Metadata = {
   title: "RAG UI - Document Q&A System",
@@ -16,6 +17,8 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
+          {/* Runtime config check - will show warning if API URL is wrong */}
+          <ConfigCheck />
           {children}
         </Providers>
       </body>

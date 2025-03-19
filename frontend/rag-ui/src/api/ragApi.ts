@@ -16,6 +16,21 @@ const api = axios.create({
   validateStatus: status => status < 500, // Treat 500+ as errors
 });
 
+// Log the API configuration
+console.log('API Client Configuration:', {
+  baseURL: api.defaults.baseURL,
+  environment: process.env.NODE_ENV,
+  version: config.version
+});
+
+// Safety check - we should never use localhost in production
+if (process.env.NODE_ENV === 'production' && api.defaults.baseURL?.includes('localhost')) {
+  console.error('CRITICAL ERROR: Using localhost in production environment!');
+  // Force override to production URL
+  api.defaults.baseURL = 'https://rag-bpql.onrender.com';
+  console.log('Forced API URL to:', api.defaults.baseURL);
+}
+
 // Fix URL paths for API calls
 const resolveApiPath = (path: string) => {
   // Ensure path starts with a slash if not empty
