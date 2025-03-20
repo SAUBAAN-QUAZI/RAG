@@ -299,6 +299,7 @@ async function uploadDocument(
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+      timeout: config.baseTimeout || 300000, // Use configured timeout or 5 minutes default
       onUploadProgress: (progressEvent) => {
         if (progressEvent.total) {
           const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);

@@ -114,7 +114,7 @@ const config = {
   
   // Timeout configuration (milliseconds)
   baseTimeout: 30000, // 30 seconds base timeout
-  timeoutPerMb: 5000, // Add 5 seconds per MB of file size
+  timeoutPerMb: 180000, // Add 5 seconds per MB of file size
   maxTimeout: 300000, // Maximum timeout (5 minutes)
   
   // Chat configuration
