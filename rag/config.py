@@ -52,6 +52,14 @@ USE_RAGIE = os.getenv("USE_RAGIE", "False").lower() == "true"
 RAGIE_API_KEY = os.getenv("RAGIE_API_KEY")
 RAGIE_WEBHOOK_SECRET = os.getenv("RAGIE_WEBHOOK_SECRET", "")
 
+# Advanced Ragie configurations
+RAGIE_DEFAULT_PARTITION = os.getenv("RAGIE_DEFAULT_PARTITION", "default")
+RAGIE_PROCESS_MODE = os.getenv("RAGIE_PROCESS_MODE", "fast")  # Options: "fast" or "hi_res"
+RAGIE_WAIT_FOR_READY = os.getenv("RAGIE_WAIT_FOR_READY", "True").lower() == "true"
+RAGIE_ACCEPT_INDEXED = os.getenv("RAGIE_ACCEPT_INDEXED", "True").lower() == "true"
+RAGIE_TIMEOUT = int(os.getenv("RAGIE_TIMEOUT", "300"))  # Seconds to wait for document processing
+RAGIE_REQUEST_TIMEOUT = int(os.getenv("RAGIE_REQUEST_TIMEOUT", "30"))  # Seconds for API requests
+
 # If Ragie is enabled, verify API key is available
 if USE_RAGIE:
     if not RAGIE_API_KEY:
@@ -62,7 +70,8 @@ if USE_RAGIE:
     # Print a debug message with a masked version of the API key
     ragie_key_preview = RAGIE_API_KEY[:4] + "..." + RAGIE_API_KEY[-4:] if RAGIE_API_KEY else ""
     print(f"Using Ragie API key starting with: {ragie_key_preview}")
-    print("Ragie integration is ENABLED")
+    print(f"Ragie integration is ENABLED with mode: {RAGIE_PROCESS_MODE}")
+    print(f"Ragie default partition: {RAGIE_DEFAULT_PARTITION}")
     
     # Log webhook status
     if RAGIE_WEBHOOK_SECRET:
@@ -88,6 +97,7 @@ EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
 # Retrieval settings
 TOP_K_RESULTS = int(os.getenv("TOP_K_RESULTS", "4"))
 SIMILARITY_THRESHOLD = float(os.getenv("SIMILARITY_THRESHOLD", "0.5"))
+ENABLE_RERANKING = os.getenv("ENABLE_RERANKING", "True").lower() == "true"
 
 # LLM response settings
 MAX_RESPONSE_TOKENS = int(os.getenv("MAX_RESPONSE_TOKENS", "1500"))
@@ -100,4 +110,24 @@ API_SECRET_KEY = os.getenv("API_SECRET_KEY", "development_secret_key")
 
 # CORS settings
 ALLOW_CORS = os.getenv("ALLOW_CORS", "True").lower() == "true"
-CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:3000,https://rag-mocha.vercel.app").split(",") 
+CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:3000,https://rag-mocha.vercel.app").split(",")
+
+# Document type handling
+DOCUMENT_TYPE_HANDLERS = {
+    ".pdf": "pdf",
+    ".txt": "text",
+    ".md": "text",
+    ".html": "html",
+    ".htm": "html",
+    ".docx": "docx",
+    ".doc": "docx",
+    ".csv": "csv",
+    ".xlsx": "excel",
+    ".xls": "excel",
+    ".json": "json",
+    ".xml": "xml",
+}
+
+# Feature flags
+ENABLE_PDF_OCR = os.getenv("ENABLE_PDF_OCR", "False").lower() == "true"
+ENABLE_DOCUMENT_SUMMARIES = os.getenv("ENABLE_DOCUMENT_SUMMARIES", "True").lower() == "true" 

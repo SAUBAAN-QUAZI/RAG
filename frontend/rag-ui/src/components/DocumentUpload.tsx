@@ -213,9 +213,27 @@ const DocumentUpload: React.FC = () => {
     setBatchResults([]);
     setShowResult(false);
     
+    // Log upload attempt for debugging
+    console.log('Starting document upload:', {
+      fileCount: selectedFiles.length,
+      files: selectedFiles.map(f => ({
+        name: f.name,
+        size: `${(f.size / 1024 / 1024).toFixed(2)} MB`,
+        type: f.type
+      }))
+    });
+    
     try {
       if (selectedFiles.length === 1) {
         // Single file upload
+        toast({
+          title: 'Uploading document',
+          description: `Uploading ${selectedFiles[0].name} (${(selectedFiles[0].size / 1024 / 1024).toFixed(2)} MB)`,
+          status: 'info',
+          duration: 5000,
+          isClosable: true,
+        });
+        
         const result: DocumentUploadResult = await ragApi.uploadDocument(
           selectedFiles[0],
           metadata,
@@ -230,8 +248,24 @@ const DocumentUpload: React.FC = () => {
           message: result.message,
           ragie_document_id: result.ragie_document_id,
         }]);
+        
+        toast({
+          title: 'Upload successful',
+          description: `Document ${selectedFiles[0].name} was uploaded successfully.`,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
       } else {
         // Batch upload
+        toast({
+          title: 'Uploading multiple documents',
+          description: `Uploading ${selectedFiles.length} documents.`,
+          status: 'info',
+          duration: 5000,
+          isClosable: true,
+        });
+        
         const batchMetadata = {
           titlePrefix: metadata.title,
           author: metadata.author,
@@ -245,31 +279,85 @@ const DocumentUpload: React.FC = () => {
         );
         
         setBatchResults(batchResult.results || []);
+        
+        toast({
+          title: 'Batch upload completed',
+          description: `${batchResult.successful_count} documents processed successfully, ${batchResult.failed_count} failed.`,
+          status: batchResult.failed_count === 0 ? 'success' : 'warning',
+          duration: 5000,
+          isClosable: true,
+        });
       }
       
       setShowResult(true);
-      toast({
-        title: 'Upload completed',
-        description: 'Documents have been submitted for processing.',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
       
-      // Refresh document list
+      // Refresh document list after successful upload
       fetchDocuments();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Upload error:', error);
-      toast({
-        title: 'Upload failed',
-        description: error instanceof Error ? error.message : 'Failed to upload documents',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
+      
+      // Reset progress
+      setUploadProgress(0);
+      
+      // Handle specific error cases with user-friendly messages
+      if (error.message && error.message.includes('405 Method Not Allowed')) {
+        toast({
+          title: 'Upload API Error',
+          description: 'The server does not support document uploads at this endpoint. Please check server configuration.',
+          status: 'error',
+          duration: 10000,
+          isClosable: true,
+        });
+      } 
+      else if (error.message && error.message.includes('timeout')) {
+        toast({
+          title: 'Upload Timeout',
+          description: 'The upload took too long and timed out. Try a smaller document or check your connection.',
+          status: 'error',
+          duration: 10000,
+          isClosable: true,
+        });
+      }
+      else if (error.message && error.message.includes('Network error')) {
+        toast({
+          title: 'Network Error',
+          description: 'Cannot connect to the server. Please check your internet connection and try again.',
+          status: 'error',
+          duration: 10000,
+          isClosable: true,
+        });
+      }
+      else if (error.message && error.message.includes('413')) {
+        toast({
+          title: 'File Too Large',
+          description: 'The server rejected the file because it is too large. Please try a smaller file.',
+          status: 'error',
+          duration: 10000,
+          isClosable: true,
+        });
+      }
+      else {
+        toast({
+          title: 'Upload Failed',
+          description: error.message || 'An unexpected error occurred during upload.',
+          status: 'error',
+          duration: 10000,
+          isClosable: true,
+        });
+      }
+      
+      // Optionally, set an error result to display in the UI
+      if (selectedFiles.length === 1) {
+        setBatchResults([{
+          id: 'error',
+          filename: selectedFiles[0].name,
+          status: 'error',
+          message: error.message || 'Upload failed',
+        }]);
+        setShowResult(true);
+      }
     } finally {
       setIsUploading(false);
-      setUploadProgress(0);
     }
   };
   

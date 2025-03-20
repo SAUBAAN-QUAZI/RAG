@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from './providers';
-import ConfigCheck from '../components/ConfigCheck';
+import dynamic from 'next/dynamic';
+
+const ConfigCheck = dynamic(() => import('../components/ConfigCheck'), { ssr: false });
 
 export const metadata: Metadata = {
   title: "RAG UI - Document Q&A System",
