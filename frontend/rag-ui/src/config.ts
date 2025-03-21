@@ -113,8 +113,8 @@ const config = {
   maxBatchSize: getEnvNumber('MAX_BATCH_SIZE', 5),
   
   // Timeout configuration (milliseconds)
-  baseTimeout: 30000, // 30 seconds base timeout
-  timeoutPerMb: 180000, // Add 5 seconds per MB of file size
+  baseTimeout: 60000, // 60 seconds base timeout (increased from 30s)
+  timeoutPerMb: 30000, // 30 seconds per MB (more reasonable than 180s)
   maxTimeout: 300000, // Maximum timeout (5 minutes)
   
   // Chat configuration

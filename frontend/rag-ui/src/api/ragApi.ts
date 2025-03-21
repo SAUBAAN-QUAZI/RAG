@@ -278,12 +278,24 @@ async function uploadDocument(
   }
 
   // Log the upload attempt
+  const fileSizeMB = file.size / (1024 * 1024);
+  const formattedSize = fileSizeMB.toFixed(2);
+  
   console.log('Attempting document upload:', {
     filename: file.name,
-    fileSize: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
+    fileSize: `${formattedSize} MB`,
     fileType: file.type,
     hasMetadata: !!metadata
   });
+
+  // Calculate dynamic timeout based on file size
+  // Use a base timeout + additional time per MB, capped at maxTimeout
+  const dynamicTimeout = Math.min(
+    config.baseTimeout + (fileSizeMB * config.timeoutPerMb),
+    config.maxTimeout
+  );
+  
+  console.log(`Using dynamic timeout of ${Math.round(dynamicTimeout/1000)} seconds for ${formattedSize}MB file`);
 
   const formData = new FormData();
   formData.append('file', file);
@@ -299,13 +311,14 @@ async function uploadDocument(
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      timeout: config.baseTimeout || 300000, // Use configured timeout or 5 minutes default
+      timeout: dynamicTimeout, // Use the dynamic timeout based on file size
       onUploadProgress: (progressEvent) => {
         if (progressEvent.total) {
           const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
           console.log('Upload progress:', percentage + '%', { 
             loaded: progressEvent.loaded,
-            total: progressEvent.total
+            total: progressEvent.total,
+            remainingTimeout: Math.round((dynamicTimeout/1000) * (1 - progressEvent.loaded/progressEvent.total)) + ' seconds'
           });
           onProgress?.(percentage);
         }
@@ -313,6 +326,13 @@ async function uploadDocument(
     });
     
     if (response.status >= 200 && response.status < 300) {
+      console.log('Document upload successful:', response.data);
+      
+      // If there's a document_id, log it for easier tracking
+      if (response.data?.document_id || response.data?.ragie_document_id) {
+        console.log(`Uploaded document ID: ${response.data?.document_id || response.data?.ragie_document_id}`);
+      }
+      
       return response.data;
     } else {
       throw new Error(`Unexpected response status: ${response.status}`);
@@ -327,10 +347,19 @@ async function uploadDocument(
         console.error('Method Not Allowed: The server does not support file uploads at this endpoint');
         throw new Error('Upload API not available. Server does not accept document uploads.');
       } else if (!axiosError.response && axiosError.message.includes('timeout')) {
-        console.error('Upload timeout: The request took too long to complete');
-        throw new Error('Upload timed out. The file may be too large or the server is busy.');
+        // Detailed timeout error with file size context
+        console.error(`Upload timeout: The request took too long to complete (${formattedSize}MB file)`);
+        throw new Error(
+          `Upload timed out after ${Math.round(dynamicTimeout/1000)} seconds. ` +
+          `The file (${formattedSize}MB) may be too large or the server is busy. ` +
+          `The backend needs time to process large documents. Please try again or use a smaller file.`
+        );
       } else if (axiosError.response?.status === 413) {
-        throw new Error('The file is too large for the server to accept. Maximum size is 50MB.');
+        throw new Error(`The file (${formattedSize}MB) is too large for the server to accept. Maximum size is 50MB.`);
+      } else if (axiosError.response?.status === 429) {
+        throw new Error('Too many upload requests. Please wait a moment and try again.');
+      } else if (axiosError.response?.status >= 500) {
+        throw new Error('The server encountered an error processing the document. Please try again later.');
       }
     }
     
@@ -356,10 +385,14 @@ async function uploadMultipleDocuments(
     throw new Error('API client not available in this environment');
   }
 
+  // Calculate total size for timeout estimation
+  const totalSizeMB = files.reduce((acc, file) => acc + file.size, 0) / (1024 * 1024);
+  const formattedTotalSize = totalSizeMB.toFixed(2);
+
   // Log the batch upload attempt
   console.log('Attempting batch document upload:', {
     fileCount: files.length,
-    totalSize: `${(files.reduce((acc, f) => acc + f.size, 0) / 1024 / 1024).toFixed(2)} MB`,
+    totalSize: `${formattedTotalSize} MB`,
     fileTypes: [...new Set(files.map(f => f.type))],
     hasMetadata: !!metadata
   });
@@ -372,6 +405,19 @@ async function uploadMultipleDocuments(
       results: []
     };
   }
+
+  // Calculate dynamic timeout based on total batch size
+  // Use a base timeout + additional time per MB, capped at maxTimeout
+  // For batches, we add extra time since the server processes sequentially
+  const batchTimeoutBase = Math.min(
+    config.baseTimeout + (totalSizeMB * config.timeoutPerMb),
+    config.maxTimeout
+  );
+  
+  // Add 10% extra time for batch coordination overhead
+  const dynamicTimeout = Math.min(batchTimeoutBase * 1.1, config.maxTimeout);
+  
+  console.log(`Using dynamic timeout of ${Math.round(dynamicTimeout/1000)} seconds for ${formattedTotalSize}MB batch`);
 
   const formData = new FormData();
   
@@ -391,12 +437,14 @@ async function uploadMultipleDocuments(
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+      timeout: dynamicTimeout, // Use the dynamic timeout based on batch size
       onUploadProgress: (progressEvent) => {
         if (progressEvent.total) {
           const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
           console.log('Batch upload progress:', percentage + '%', { 
             loaded: progressEvent.loaded,
-            total: progressEvent.total
+            total: progressEvent.total,
+            remainingTimeout: Math.round((dynamicTimeout/1000) * (1 - progressEvent.loaded/progressEvent.total)) + ' seconds'
           });
           onProgress?.(percentage);
         }
@@ -404,6 +452,10 @@ async function uploadMultipleDocuments(
     });
     
     if (response.status >= 200 && response.status < 300) {
+      console.log('Batch upload successful:', {
+        successful: response.data.successful_count,
+        failed: response.data.failed_count
+      });
       return response.data;
     } else {
       throw new Error(`Unexpected response status: ${response.status}`);
@@ -418,10 +470,18 @@ async function uploadMultipleDocuments(
         console.error('Method Not Allowed: The server does not support batch file uploads');
         throw new Error('Batch upload API not available. Server does not accept multiple document uploads.');
       } else if (!axiosError.response && axiosError.message.includes('timeout')) {
-        console.error('Batch upload timeout: The request took too long to complete');
-        throw new Error('Batch upload timed out. The files may be too large or the server is busy.');
+        console.error(`Batch upload timeout: The request took too long to complete (${formattedTotalSize}MB total)`);
+        throw new Error(
+          `Batch upload timed out after ${Math.round(dynamicTimeout/1000)} seconds. ` +
+          `The batch size (${formattedTotalSize}MB) may be too large or the server is busy. ` +
+          `Try uploading fewer files or smaller files.`
+        );
       } else if (axiosError.response?.status === 413) {
-        throw new Error('The batch is too large for the server to accept. Try fewer or smaller files.');
+        throw new Error(`The batch (${formattedTotalSize}MB) is too large for the server to accept. Try fewer or smaller files.`);
+      } else if (axiosError.response?.status === 429) {
+        throw new Error('Too many upload requests. Please wait a moment and try again.');
+      } else if (axiosError.response?.status >= 500) {
+        throw new Error('The server encountered an error processing the batch. Please try again later.');
       }
     }
     

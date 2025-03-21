@@ -121,3 +121,41 @@ If you encounter issues:
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Handling Large Document Uploads
+
+The application has been configured to properly handle large document uploads (up to 50MB) with dynamic timeouts:
+
+- Base timeout: 60 seconds for all requests
+- Additional time: 30 seconds per MB of file size
+- Maximum timeout: 5 minutes (300 seconds)
+
+These values can be adjusted in `src/config.ts` if you experience timeout issues:
+
+```typescript
+// Timeout configuration (milliseconds)
+baseTimeout: 60000, // 60 seconds base timeout
+timeoutPerMb: 30000, // 30 seconds per MB 
+maxTimeout: 300000, // Maximum timeout (5 minutes)
+```
+
+### Tips for Large Document Uploads
+
+When uploading large documents (over 10MB):
+
+1. Be patient - the server needs time to process the document
+2. The UI will show progress and estimated remaining time
+3. If you encounter repeated timeouts:
+   - Try a smaller document (split large PDFs into smaller parts)
+   - Consider increasing the timeouts in `src/config.ts`
+   - Check server logs for memory or processing issues
+
+### Ragie Webhook Support
+
+The application supports Ragie webhooks for document processing status updates. To configure webhooks:
+
+1. Set up webhook endpoints in the Ragie dashboard
+2. Configure the webhook URL to point to your backend endpoint
+3. Implement proper signature validation using the provided utilities in `src/api/webhookUtils.ts`
+
+For development and testing of webhooks, consider using tools like ngrok to expose your local server to the internet.
